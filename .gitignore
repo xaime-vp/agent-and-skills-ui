@@ -1,0 +1,9 @@
+.env*
+!.env.example
+.mcp.json
+__pycache__/
+*.py[cod]
+.ruff_cache/
+.venv/
+.test-tmp/
+/constant-integration/

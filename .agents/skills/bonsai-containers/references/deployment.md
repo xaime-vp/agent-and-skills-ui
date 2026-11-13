@@ -1,6 +1,6 @@
 # Per-target container deployment
 
-Routine operations use [the lifecycle CLI](../../../../constant-integration/docs/CONTAINER_LIFECYCLE.md).
+Routine operations use [the lifecycle CLI](https://github.com/xaime-vp/constant-integration/blob/main/docs/CONTAINER_LIFECYCLE.md).
 This reference is for initial setup and exceptional recovery. The first adapter
 requires native Docker Engine through a local Unix socket. It explicitly rejects
 Podman wrappers, Compose-owned containers and remote engines. Do not bypass a
@@ -18,12 +18,12 @@ Start from the platform's `workers/bonsai/.env.example`, copied outside the
 checkout. These are example values, not discovery of a running installation:
 
 ```dotenv
-COMPOSE_PROJECT_NAME=bonsai-evals
-BONSAI_TARGET_REPOSITORY=xaime-vp/CI-testing-and-improvement
+COMPOSE_PROJECT_NAME=bonsai-ui
+BONSAI_TARGET_REPOSITORY=xaime-vp/constant-integration-ui
 BONSAI_IMAGE=bonsai-worker:local
-BONSAI_MAX_CONCURRENT_TASKS=2
-BONSAI_POLICY_PATH=/srv/bonsai/evals/intake-policy.json
-BONSAI_CHECKS_PATH=/srv/bonsai/evals/checks.json
+BONSAI_MAX_CONCURRENT_TASKS=3
+BONSAI_POLICY_PATH=/srv/bonsai/ui/intake-policy.json
+BONSAI_CHECKS_PATH=/srv/bonsai/ui/checks.json
 ```
 
 - Policy/check paths must be absolute, existing files as seen by the container
@@ -32,10 +32,9 @@ BONSAI_CHECKS_PATH=/srv/bonsai/evals/checks.json
   the actual Linux-visible path.
 - Policy contains the matching repository, trusted owner login/numeric ID and
   resource/approval limits. Preserve known policy; do not invent an owner ID.
-- For the eval repository, the documented offline workspace check is
-  `{"workspace":[{"cwd":".","command":["python",".agents/tools/check.py"]}]}`.
-  It covers unit tests and the identity guard, not Docker fixture oracles or
-  paid model evaluation. Confirm the current target README before using it.
+- For the UI repository, documented checks include Python unit tests, contract
+  fixtures and frontend tests/typecheck/build. Read its current development guide;
+  documented commands become protected checks only when matched to installation.
 - Supply `GH_TOKEN` and `OPENROUTER_API_KEY` through the selected private source.
   Never commit real env files, credentials, installed configuration or reports.
   Use redacted/selected fields for inspection, not a full env/config dump.
@@ -49,10 +48,10 @@ BONSAI_CHECKS_PATH=/srv/bonsai/evals/checks.json
 From the platform root, with a reviewed runtime image and private settings file:
 
 ```bash
-docker compose --env-file /srv/bonsai/evals.env -f workers/bonsai/compose.yaml run --rm worker prepare
-docker compose --env-file /srv/bonsai/evals.env -f workers/bonsai/compose.yaml run --rm worker install
-docker compose --env-file /srv/bonsai/evals.env -f workers/bonsai/compose.yaml run --rm worker once
-docker compose --env-file /srv/bonsai/evals.env -f workers/bonsai/compose.yaml up -d
+docker compose --env-file /srv/bonsai/ui.env -f workers/bonsai/compose.yaml run --rm worker prepare
+docker compose --env-file /srv/bonsai/ui.env -f workers/bonsai/compose.yaml run --rm worker install
+docker compose --env-file /srv/bonsai/ui.env -f workers/bonsai/compose.yaml run --rm worker once
+docker compose --env-file /srv/bonsai/ui.env -f workers/bonsai/compose.yaml up -d
 ```
 
 Stop on a failed step. `once` inspects GitHub eligibility; it never launches or
@@ -76,7 +75,7 @@ preserve the same image, target, volume, mounts, capabilities and credential
 boundaries. Do not add unrelated daemons or repeatedly retry the same failure.
 
 The current controller capability set is `CHOWN,FOWNER,SETUID,SETGID,DAC_OVERRIDE,KILL`
-after dropping all others; roles use distinct task-slot UIDs/GIDs (10001 and 10002 by default). Check current Compose code
+after dropping all others; roles use distinct task-slot UIDs/GIDs (10001/10002/10003 for three default slots). Check current Compose code
 before deployment. `FOWNER` is required to set modes after ownership transfers.
 Installed releases are root-owned readable/executable, while private state stays
 restricted. Image builds from Windows must preserve executable shell files and
@@ -88,21 +87,29 @@ Podman OCI builds ignore image healthchecks, so verify the listener lock and
 actual local relay socket rather than reporting a config-file healthcheck as
 runtime readiness. Relay ports stay inside each container, without host ports.
 
-Inspect the installed concurrency setting: preparation supports one or two task
-slots; legacy configs without the field keep one. A launch env edit alone does
+Inspect the installed concurrency setting: current source preparation supports
+1/2/3 shared task slots; legacy configs without the field keep one. A launch env edit alone does
 not replace the sealed release/configuration. For native Podman launches, preserve the 45-second stop grace with
 `--stop-timeout 45`. Task relays use separate ephemeral
 container-internal ports; the listener keeps its own idle readiness relay.
 
 Separate evidence for repository access, target binding, a held listener lock,
-error-free polling, a listening relay socket, model generation, generalist check outcomes,
-reviewer outcome, draft publication and exact-head target CI. Do not call a
+error-free polling, a listening relay socket, model generation, implementation check outcomes,
+applicable reviewer findings, draft publication and exact-head target CI. Do not call a
 fresh idle deployment a successful issue-to-PR run.
 
-The three-role runtime stages only generalist, reviewer and supervisor. Old
-sealed releases may still run retired phases even after source changes. Stop
+Current source stages test-specialist, documentation, reviewer and supervisor
+assets. Generalist/tests are retired implementation routes. Test-specialist
+work has an embedded read-only review; documentation does not. The separate
+automatic PR Reviewer defaults off and requires trusted opt-in. Preserve existing
+settings during upgrade; do not silently enable it. Old sealed releases may still
+run retired phases even after source changes. Stop
 and confirm existing execution, prepare/install the reviewed release into the
 same target-bound volume, and retain prior release/configuration and task history
-for rollback. Generalist protected checks run once in its workspace; do not
+for rollback. Implementation protected checks run once in that workspace; do not
 report these as independent or repeated verifier checks. Retired pending tasks
-need owner review and fresh generalist approval, not translated/replayed approvals.
+need owner review, reauthored supported-role requests and fresh revision-bound
+approval, not translated/replayed approvals. Preserve consumed approvals,
+deduplication, attempts and publication intents. Unknown work needs supported
+confirmed-stop reconciliation; terminal needs_attention review failures cannot
+be reset that way. See the platform's current compatibility and retry contracts.

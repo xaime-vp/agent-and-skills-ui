@@ -12,6 +12,33 @@ For every code change:
 4. **Delegate tests and documentation** through focused repository issues on the same PR, using the `.agents/skills/bonsai-ci/` skill.
 5. **Validate and report** combined results before marking the PR ready for review.
 
+## Worker roles
+
+Current platform source uses `agent:test-specialist` for tests, fixtures and test
+configuration, and `agent:documentation` for documentation. Application code stays
+with the root developer. Select exactly one matching issue label before free-form
+preparation seals a proposal; Generalist/tests are retired source routes, not
+aliases. Verify the UI-bound installation's sealed release and enabled profiles
+before selecting an executable route.
+
+For the client invocation, request template and owner/operator sequence, follow
+[calling an agent](.agents/docs/calling-agents.md). Use `$bonsai-ci` where the
+client supports it, or read its `SKILL.md`; the supervisor launches runtime roles
+only after issue admission.
+
+Test-specialist contributions receive embedded read-only review. Documentation
+contributions publish without a model reviewer. Both retain protected checks,
+exact scope and route-specific owner approval. Keep assignments to one parent PR
+sequential and verify their actual delivered commits. See the
+[handoff guide](.agents/docs/handoff.md) and
+[issue preparation](.agents/docs/free-form-issues.md).
+
+Source supports 1/2/3 shared slots; a missing configuration setting retains one.
+The separate trusted-opt-in automatic PR Reviewer shares that capacity and emits
+commit-bound advisory `COMMENT` reviews. It runs no checks and grants no task
+approval, repair or merge authority. Source support does not prove installation
+or complete export/UI capture of a capability.
+
 ## Boundaries
 
 - Read [`constant-integration-ui/AGENTS.md`](constant-integration-ui/AGENTS.md), [`constant-integration-ui/docs/ARCHITECTURE.md`](constant-integration-ui/docs/ARCHITECTURE.md) and [`constant-integration-ui/docs/DEVELOPMENT.md`](constant-integration-ui/docs/DEVELOPMENT.md) before editing.

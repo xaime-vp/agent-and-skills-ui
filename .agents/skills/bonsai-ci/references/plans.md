@@ -8,7 +8,7 @@ Do not require an author-written plan envelope for that route.
 Use this when the user wants multiple implementation subsections to form one
 reviewable change. A schema-3 issue is the approval record; its ordered steps
 run as fresh sessions in one worktree and branch. The supervisor checkpoints
-successful steps, runs combined checks and a whole-diff review, then opens or
+successful steps, runs combined checks and applicable whole-diff review, then opens or
 updates one draft PR. Do not create one issue/PR per subsection.
 
 For this workspace, application implementation remains with the root developer.
@@ -26,12 +26,13 @@ test/documentation issues that reserve the same PR branch.
    and submit a blocked proposal, not an executable task. Do not deploy as part
    of authoring a plan.
 2. Write a human-readable goal, concrete acceptance criteria and prerequisites,
-   followed by exactly one fenced `agent-task` JSON block. Use `agent:generalist`
-   and `provider: openrouter`; the installation selects the model.
+   followed by exactly one fenced `agent-task` JSON block. Use the selected
+   `agent:test-specialist` or `agent:documentation` route supported by the sealed
+   installation and `provider: openrouter`; the installation selects the model.
 3. Choose one or more ordered, independently checkable **steps of this same change**.
-   Each step should leave the approved check set passing. Combine an implementation
-   and its regression tests in one step rather than planning a failing-test step
-   whose fix appears later. Later steps may use completed checkpoint code.
+   Each step should leave the approved check set passing and stay within the
+   selected tests/fixtures or documentation scope. Report source defects to the
+   root developer instead of adding application-code paths to a worker plan.
 4. Set exact project-relative editable paths for each step and their union in
    parent `allowed_files` (up to the profile's 100-file limit). Use `workspace`
    for explicit repository-relative paths across components. Never use globs.
@@ -51,7 +52,7 @@ test/documentation issues that reserve the same PR branch.
    per-step budget multiplied by step count. Token fields are model ceilings,
    not a cumulative billed-token/dollar cap. Keep risk low/medium and complexity
    at most 3; splitting steps cannot evade the parent admission policy. The
-   entire brief still has the generalist profile's 4000-word limit.
+   entire brief still has the selected profile's 4000-word limit.
    For a deliberately longer run, propose a four-hour parent (14400 seconds)
    and one-hour steps (3600 seconds), after verifying the trusted installation's
    timeout policy allows them. Defaults remain 1800 seconds. Seven retries mean
@@ -68,7 +69,7 @@ test/documentation issues that reserve the same PR branch.
    That checks schema against the selected platform checkout; it does **not**
    establish installed compatibility, check configuration or approval.
 9. Create one issue in the target repository. For a proposal use `blocked` and
-   `agent:generalist`, without `ready`; state what must be verified/unblocked.
+   the selected matching implementation label, without `ready`; state what must be verified/unblocked.
    Only an executable plan gets `ready`, with `blocked` removed. For root
    developer handoffs, `pull_request` must select the existing parent PR.
    Omit it only for an explicitly requested independent new draft. Do not invent
@@ -81,36 +82,43 @@ test/documentation issues that reserve the same PR branch.
 ## Example envelope
 
 Replace every example with the actual scope and installed checks. This is not
-permission to dispatch a parser task or change trusted configuration.
+permission to dispatch an import-coverage task or change trusted configuration.
 
 ```agent-task
 {
   "schema_version": 3,
+  "pull_request": 123,
   "project": "workspace",
-  "role": "agent:generalist",
-  "capabilities": ["coding", "tests"],
+  "role": "agent:test-specialist",
+  "capabilities": ["tests"],
   "complexity": 2,
   "risk": "low",
-  "goal": "Handle empty input consistently and document the supported behavior.",
-  "allowed_files": ["src/parser.py", "tests/test_parser.py", "README.md"],
-  "acceptance_commands": [["python", "-m", "unittest", "discover", "-s", "tests", "-v"]],
-  "verification_plan": "The full protected suite passes and the documented example matches the final implementation. Inspect final-head target CI separately.",
+  "goal": "Extend UI import regression coverage for contract validation and replay behavior.",
+  "allowed_files": ["tests/test_contract_check.py", "tests/test_ingestion.py"],
+  "acceptance_commands": [
+    ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
+  ],
+  "verification_plan": "Run the protected suite after each coverage step and inspect final-head target CI separately.",
   "provider": "openrouter",
   "timeout_seconds": 1800,
   "steps": [
     {
-      "id": "empty-input",
-      "goal": "Implement empty-input handling and its regression test together.",
-      "allowed_files": ["src/parser.py", "tests/test_parser.py"],
-      "acceptance_commands": [["python", "-m", "unittest", "discover", "-s", "tests", "-v"]],
+      "id": "contract-validation",
+      "goal": "Cover accepted and rejected contract inputs using existing fixture conventions.",
+      "allowed_files": ["tests/test_contract_check.py"],
+      "acceptance_commands": [
+        ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
+      ],
       "timeout_seconds": 600,
       "retry_modes": ["continue", "restart"]
     },
     {
-      "id": "document-behavior",
-      "goal": "Document empty-input behavior with an example matching the code.",
-      "allowed_files": ["README.md"],
-      "acceptance_commands": [["python", "-m", "unittest", "discover", "-s", "tests", "-v"]],
+      "id": "import-replay",
+      "goal": "Cover replay and conflict handling using existing ingestion test fixtures.",
+      "allowed_files": ["tests/test_ingestion.py"],
+      "acceptance_commands": [
+        ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
+      ],
       "timeout_seconds": 600,
       "retry_modes": ["continue"]
     }
@@ -129,8 +137,10 @@ python /absolute/workspace/.agents/tools/validate_task.py \
 ## Monitor and recover
 
 Report parent task key, step ID, attempt number/mode, observed check failures,
-checkpoint commits and final PR/CI. A check pass is generalist workspace evidence,
+checkpoint commits and final PR/CI. A check pass is implementation workspace evidence,
 not independent verification or owner acceptance. Keep all failed attempts visible.
+Test-specialist plans have a final embedded read-only review; documentation plans
+publish without an embedded model verdict.
 
 Known stopped ordinary failures can consume approved automatic retries. Unknown
 process stops never auto-retry. With explicit recovery authorization, confirm all

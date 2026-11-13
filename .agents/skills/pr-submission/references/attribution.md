@@ -7,14 +7,15 @@ Names, paths and outcomes below are illustrative, not records of actual work.
 
 | Function or work unit | Contribution | Executor / identity | Evidence |
 | --- | --- | --- | --- |
-| `src/parser.py::parse_empty_input` and regression tests | Initial implementation | Bonsai generalist; configured model `<observed model ID>`, hosted identity unknown | Task/approval and worker commit links |
+| `src/parser.py::parse_empty_input` | Application implementation | Root developer; observed model identity or unknown | Implementation commit link |
+| `tests/test_parser.py::test_empty_input` and fixtures | Regression coverage | Bonsai test-specialist; configured model `<observed model ID>`, hosted identity unknown | Task/approval and worker commit links |
 | `src/parser.py::validate_options` | Integration repair after reviewing the delegated diff | Codex; model identity unknown | Integrator commit link |
 | Parser diff | Advisory review; no source edits or checks executed | Read-only worker reviewer; configured model `<observed model ID>` | Sanitized finding summary or published review |
 
 Validation separately records, for example:
 
 - Worker protected checks: command, observed exit/status and candidate revision;
-  executed in the generalist workspace, not independent verification.
+  executed in the selected implementation workspace, not independent verification.
 - Integrator checks: command, actual exit/status, tested revision and skips.
 - Target GitHub CI: exact PR head SHA, run link and observed conclusion.
 - Unrun checks or unresolved review findings and their practical impact.
@@ -29,6 +30,9 @@ Use a locator such as `docs/setup.md — Linux setup section` or
 `.github/workflows/check.yml — test job` instead of inventing a code symbol.
 An executor running a formatter, reviewer inspecting the result, and integrator
 publishing the PR are distinct contributions when those distinctions matter.
+For a Bonsai documentation contribution, record the writer and protected check
+evidence without inventing an embedded reviewer. A separately observed automatic
+PR review belongs to its exact commit and is advisory; it ran no checks.
 
 ## Revision updates
 

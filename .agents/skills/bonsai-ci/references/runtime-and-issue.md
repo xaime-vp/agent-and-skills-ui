@@ -4,6 +4,9 @@ Verify model, repository binding, protected checks and listener status when used
 This workspace does not assume a previously used target, engine or model is current.
 
 - Platform repository: `xaime-vp/constant-integration`.
+- UI issue and parent-PR repository: `xaime-vp/constant-integration-ui`.
+  Harness-only changes target the `pi-constant-integration-ui` branch of
+  `xaime-vp/agent-and-skills`; do not send runtime edits to the UI-bound worker.
 - In this workspace its source checkout is `constant-integration/`, and the
   offline validator is `.agents/tools/validate_task.py` at the workspace root. The root
   developer's currently selected target determines issue and PR destinations.
@@ -33,6 +36,17 @@ step in creating an application task.
 
 ## Choose the issue route
 
+Current source accepts `agent:test-specialist` for tests/fixtures/test
+configuration or `agent:documentation` for documentation. Select exactly one
+matching issue label before preparation; it binds the proposal's implementation
+profile. Test-specialist work gets an embedded read-only review after protected
+checks and freeze; documentation publishes without a model reviewer. Reviewer
+and supervisor are not implementation routes. Application code stays with the
+root developer. Generalist/tests are retired source routes, not aliases.
+If the sealed installation still uses a historical Generalist release, identify
+that release/parser explicitly; do not describe its route as current source or
+reinterpret its approvals. A source update does not upgrade the installation.
+
 An ordinary prose issue can use [free-form preparation](../../../docs/free-form-issues.md)
 on a compatible sealed installation. It needs no author-supplied envelope or
 guessed exact scope/checks. The operator selects bounded evidence and
@@ -50,7 +64,9 @@ issue, checkpointed steps and one PR. Do not split a coherent plan into separate
 PRs. Confirm the installed release supports the chosen schema/retry behavior;
 the local platform checkout and installed configuration version are insufficient.
 
-Copy this shape, replacing every example with the actual task. The acceptance
+Copy this shape, replacing every example with the actual task and parent PR.
+The paths below exist in the UI checkout; no example is an approved assignment.
+The acceptance
 command below is illustrative; use it only if it exactly matches the protected
 check configuration for that project. Do not dispatch an unadapted example.
 
@@ -58,15 +74,45 @@ check configuration for that project. Do not dispatch an unadapted example.
 ```agent-task
 {
   "schema_version": 2,
-  "project": "example-project",
-  "role": "agent:generalist",
-  "capabilities": ["coding", "tests"],
+  "pull_request": 123,
+  "project": "workspace",
+  "role": "agent:test-specialist",
+  "capabilities": ["tests"],
   "complexity": 1,
   "risk": "low",
-  "goal": "Fix the parser's empty-input error without changing other behavior.",
-  "allowed_files": ["src/parser.py", "tests/test_parser.py"],
-  "acceptance_commands": [["python", "-m", "unittest", "discover", "-s", "tests", "-v"]],
-  "verification_plan": "Run protected checks once in the generalist workspace and record actual exits; check target CI separately.",
+  "goal": "Add regression coverage for existing UI backend unavailable-data responses.",
+  "allowed_files": ["tests/test_backend.py"],
+  "acceptance_commands": [
+    ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
+  ],
+  "verification_plan": "Run protected checks once in the implementation workspace and record actual exits; check target CI separately.",
+  "provider": "openrouter",
+  "timeout_seconds": 600
+}
+```
+````
+
+For a documentation contribution, use a separate issue with matching label,
+documentation-only scope and the same actual parent PR. The illustrative
+check set below still needs to match installed protected checks; it does not
+prove links or commands were verified and grants no schema-4 repair pipeline.
+
+````markdown
+```agent-task
+{
+  "schema_version": 2,
+  "pull_request": 123,
+  "project": "workspace",
+  "role": "agent:documentation",
+  "capabilities": ["docs"],
+  "complexity": 1,
+  "risk": "low",
+  "goal": "Document the parent PR behavior and verification limits in the UI development guide.",
+  "allowed_files": ["docs/DEVELOPMENT.md"],
+  "acceptance_commands": [
+    ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
+  ],
+  "verification_plan": "Verify documented commands against committed source; record protected check exits and no embedded model review. Inspect final-head target CI separately.",
   "provider": "openrouter",
   "timeout_seconds": 600
 }
@@ -82,7 +128,7 @@ check configuration for that project. Do not dispatch an unadapted example.
 - `acceptance_commands` is a list of argv lists, not shell command strings. It
   must match the protected checks for the original project key (`workspace`
   remains the key even though the runtime uses `.` as its working directory).
-- The observed generalist profile accepts complexity up to 3 and rejects high
+- Current source implementation profiles accept complexity up to 3 and reject high
   risk. Timeout and any explicit token limits must fit installed policy. On a
   compatible release, omitted `input_tokens`/`output_tokens` use automatic model
   context and no per-task response cap; provider/model limits still apply. The
@@ -91,16 +137,16 @@ check configuration for that project. Do not dispatch an unadapted example.
   `pull_request` for the existing open same-repository parent PR. Omitting it
   starts from the default branch and creates an unwanted separate draft.
   Only omit it for an explicitly requested independent new task.
-- Generalist is the only implementation route, including documentation.
-  Retired docs-writer, Codex and verifier roles are not dispatchable. The only
-  platform roles are generalist, reviewer and supervisor.
+- Use the selected test-specialist or documentation route and matching scope;
+  examples must be adapted to the real parent PR and installed checks. Schema-4
+  documentation repair is rejected, and schema 4 cannot target an existing PR.
 - Required labels: `ready`, exactly one supported implementation profile.
-  Required separate legacy owner comment: `/approve-agent` for generalist. Approval
+  Required separate legacy owner comment: `/approve-agent`. Approval
   must be strictly after the issue's latest revision; same timestamps fail
   closed. A new issue revision or consumed approval may require a fresh comment.
   This standalone approval cannot approve a saved free-form proposal.
 
-New runtime preparations support `max_concurrent_tasks` of 1 or 2, with separate
+Current source supports `max_concurrent_tasks` of 1, 2 or 3, with separate
 UID/GID and loopback relay per task. Old installed configs missing the field keep
 one slot. Confirm actual installed state. Conflicting scopes/issues/PR branches
 wait; keep semantic dependencies and shared external resources blocked/unready.
@@ -108,7 +154,35 @@ wait; keep semantic dependencies and shared external resources blocked/unready.
 ## Completion evidence
 
 Record the issue, approval ID, installed release revision, task key, candidate
-identity, generalist check commands/exits, reviewer verdict, draft PR
+identity, implementation check commands/exits, applicable reviewer findings, draft PR
 link/head, and target CI result. Keep unavailable evidence explicitly unknown.
 If a reviewer report is malformed or contradicts itself, it remains inconclusive
-even when the implementation and generalist checks succeeded.
+even when implementation checks succeeded. For documentation, report no embedded
+model review rather than inventing a verdict.
+
+## Automatic commit reviews and telemetry
+
+The trusted `automatic_pr_reviews` opt-in defaults false. It schedules read-only
+reviews of open same-repository PR commits in shared slots and publishes advisory
+commit-bound `COMMENT` reviews. It runs no tests, implements no changes and grants
+no approval/repair/merge authority. New records allow three total attempts with
+30/60-second delays after eligible pre-launch failure, fresh attempt identities
+and one PR+commit publication marker. Already marked #203 fetch-recovery records
+retain their pinned 60-second/three-attempt contract; neither route resets a
+budget. Unknown stops, post-launch/results/stages/intents and unmarked historical
+failures never gain replay permission. Only unknown tasks can use supported
+confirmed-stop reconciliation; terminal `needs_attention` records cannot be reset
+that way. See the [review retry contract](https://github.com/xaime-vp/constant-integration/blob/main/workers/bonsai/references/concurrency.md#automatic-commit-reviews)
+and [recovery](https://github.com/xaime-vp/constant-integration/blob/main/workers/bonsai/references/plans-recovery.md#automatic-review-retries-and-reconciliation).
+
+[Local history export](https://github.com/xaime-vp/constant-integration/blob/main/docs/HISTORY_EXPORT.md)
+reads a SQLite backup without listener startup. Structured evidence is the
+default; explicit `--include-verbose` adds sanitized logs/diffs and tool events.
+Limits are 5000 events, 500 artifacts and 8 MiB per artifact. Captured provider
+usage/cost is observed, not estimated; absent/malformed values stay unknown.
+Capability flags do not guarantee complete accounting. Specialist task/attempt
+capture gaps and capacity-3 representation limits remain explicit. Inspect
+private bundles before sharing; redaction is not publication permission, and an
+export heartbeat does not prove listener liveness. Telemetry tables are additive;
+preserve state/history, consumed approvals, deduplication and intents through
+stopped upgrades/rollback. No source edit authorizes installation changes.

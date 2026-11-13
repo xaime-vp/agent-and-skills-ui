@@ -3,12 +3,12 @@ name: pr-submission
 description: Prepare, submit or update a GitHub pull request with concise change and validation evidence, including function-level attribution for delegated implementation, review and checks. Use for PR delivery; this skill does not dispatch workers or authorize merging or deployment.
 ---
 
-Keep `references/` alongside `SKILL.md` (see `README.md` for skill installation; this skill guides PR prep and grants no GitHub credentials, approval, or merge authority).
+Keep `references/` alongside `SKILL.md` (see the workspace `README.md`; this skill guides PR prep and grants no GitHub credentials, approval, or merge authority).
 
 # PR submission
 
 Support the [root Git developer](../../../AGENTS.md). Source changes live in
-`constant-integration/`; GitHub MCP owns remote branch, commit, PR and issue
+`constant-integration-ui/`; GitHub MCP owns remote branch, commit, PR and issue
 operations. Open the parent draft before application implementation, then
 maintain that PR throughout the task. Use workspace `bonsai-ci` for required
 test/documentation handoffs to its existing branch. This submission skill
@@ -20,14 +20,12 @@ and standalone approval. Follow `bonsai-ci` for the selected route; issue creati
 does not require a hand-written envelope in the free-form workflow. Record the
 actual sealed proposal/approval and delivery evidence when used.
 
-Sparse-checkout rules hide the checkout's original user-facing skills and agent
-file; adapted copies live in this workspace. Preserve those exclusions during
-ordinary branch changes. Select exact task paths and review the remote diff.
-Developer setup is maintained in `xaime-vp/agent-and-skills`. The extraction
-cleanup removes all external `.agents/skills/` bundles and moved developer
-guides from Constant Integration; its short target contract and runtime assets
-remain upstream. Keep each repository's changes in its own PR and link the
-extraction dependency so the setup is preserved before the source cleanup merges.
+The UI harness lives on the `pi-constant-integration-ui` branch of
+`xaime-vp/agent-and-skills`, with skills, tools and guides under `.agents/`.
+UI application changes belong in `xaime-vp/constant-integration-ui`. Keep
+harness and application changes in separate scoped PRs against their
+respective bases. Runtime changes belong in `xaime-vp/constant-integration`.
+Select exact task paths and preserve unrelated local work.
 
 Produce a reviewable PR against the intended repository and base, with an honest
 account of behavior, validation and delegated contributions. Follow the target
@@ -53,6 +51,11 @@ to delegate, publish, approve worker execution, merge or deploy.
    models, installations or external mutations as incidental validation.
 
 ## Attribute delegated functions
+
+On current Bonsai source, test-specialist work has embedded read-only review;
+documentation publishes without a model reviewer. Preserve that distinction
+instead of fabricating a verdict. Separate opt-in automatic PR reviews are
+advisory commit-bound `COMMENT` reviews and execute no checks.
 
 Use [the attribution examples](references/attribution.md) when work was delegated
 or contribution provenance is unclear. Maintain a small record while integrating

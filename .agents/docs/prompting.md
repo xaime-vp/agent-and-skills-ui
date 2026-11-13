@@ -9,8 +9,15 @@ selects it with operator `--target-pr NUMBER`; legacy envelopes use numeric
 preparation prompts below apply when explicitly preparing a task or ordered
 plan; they do not replace that branch/PR workflow.
 
+Current source worker scope is tests/fixtures/test configuration under
+`agent:test-specialist` or documentation under `agent:documentation`. Select one
+matching label before preparation and verify sealed installed support. Do not
+ask either profile to implement application-code changes. Generalist/tests are
+retired source routes. The separate automatic PR Reviewer is trusted-opt-in and
+read-only, not an implementation request.
+
 Use this guide to turn a request into a clear issue for the
-[supervised worker](../../constant-integration/docs/SUBMITTING_TASKS.md). It is written for compatible coding
+[supervised worker](https://github.com/xaime-vp/constant-integration/blob/main/docs/SUBMITTING_TASKS.md). It is written for compatible coding
 agents, but skill-discovery and invocation syntax differs by product; follow the
 instructions for the agent you actually use. The repository's
 [reusable skills](../../README.md) can provide more specific
@@ -109,8 +116,9 @@ Dependencies / evidence:
 
 Inspect the target instructions, current implementation and protected checks.
 Propose one or more ordered, time-bounded steps within the brief-size limit. Each step must include its exact verified
-file scope and leave the protected checks passing; combine implementation and
-its regression tests. Use the same protected command set at each step and for
+file scope within the selected test or documentation profile and leave the
+protected checks passing. Application fixes stay with the root developer.
+Use the same protected command set at each step and for
 the final candidate. Do not claim local/documented commands are protected until
 matched to the installed configuration.
 
@@ -141,7 +149,7 @@ into separate issues unless explicitly requested.
   target CI. Do not report a pass when a check is missing, pending, failed, or
   observed on an older head.
 
-See [single-task submission](../../constant-integration/docs/SUBMITTING_TASKS.md),
-[plan guidance](../../constant-integration/docs/submitting-tasks/plans.md),
-[the task envelope](../../constant-integration/docs/submitting-tasks/envelope.md), and the
-[role and evidence contract](../../constant-integration/docs/AGENT_ROLES.md).
+See [single-task submission](https://github.com/xaime-vp/constant-integration/blob/main/docs/SUBMITTING_TASKS.md),
+[plan guidance](https://github.com/xaime-vp/constant-integration/blob/main/docs/submitting-tasks/plans.md),
+[the task envelope](https://github.com/xaime-vp/constant-integration/blob/main/docs/submitting-tasks/envelope.md), and the
+[role and evidence contract](https://github.com/xaime-vp/constant-integration/blob/main/docs/AGENT_ROLES.md).

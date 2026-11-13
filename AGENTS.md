@@ -19,6 +19,7 @@ This is the sole root `AGENTS.md`. Supporting guides describe assignments and re
 | [Bonsai CI skill](.agents/skills/bonsai-ci/SKILL.md) | Prepare executable test/documentation handoffs targeting the existing parent PR |
 | [Container skill](.agents/skills/bonsai-containers/SKILL.md) | Inspect or manage a worker installation when the user requests it |
 | [PR submission skill](.agents/skills/pr-submission/SKILL.md) | Maintain and deliver the parent PR with accurate validation evidence |
+| [Codex CLI MCP skill](.agents/skills/codex-cli-mcp/SKILL.md) | Run Codex locally, connect approved GitHub MCP servers from existing local config, and perform authorized issue/PR work |
 | [Prompt preparation](docs/agent-setup/prompting.md) and [manual handoff](docs/agent-setup/handoff.md) | Developer-side request templates and evidence summaries |
 | `tools/` | Workspace launchers and offline issue validation; run from this workspace root |
 | `constant-integration/` | Dedicated source checkout, component documentation, runtime profiles and sealed Pi skills |

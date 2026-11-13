@@ -109,7 +109,7 @@ review output without publishing themselves. Preserve mandatory draft findings.
 After publication, inspect GitHub checks at the exact PR head. Record success,
 failure, pending or unavailable status without treating old-head results as
 current. Follow explicit requests to watch CI through completion; otherwise
-report the observed status without implying a pass. In Codex, attach the PR to
-the chat when the artifact tool is available. Return the PR link, brief scope,
-validation limits and any action needed from the owner. Owner acceptance, merge
-and deployment remain separate decisions.
+report the observed status without implying a pass. If the active client
+provides a PR artifact tool, attach the PR to the chat; otherwise return the PR
+link, brief scope, validation limits and any action needed from the owner. Owner
+acceptance, merge and deployment remain separate decisions.

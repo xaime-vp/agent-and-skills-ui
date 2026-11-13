@@ -5,12 +5,12 @@ description: "Inspect, verify, restart or upgrade a Bonsai container installatio
 
 Support the [root developer](../../../AGENTS.md) for requested installation work.
 Keep `references/` alongside `SKILL.md`. The source checkout is
-`constant-integration/`; the workspace `tools/containers.py` launcher delegates
+`constant-integration/`; the workspace `.agents/tools/containers.py` launcher delegates
 to its original CLI. Reading this skill does not start or install a worker.
 
 # Bonsai container lifecycle
 
-Use `python tools/containers.py --json --installation NAME ...` from Linux or
+Use `python .agents/tools/containers.py --json --installation NAME ...` from Linux or
 WSL, with a private registry on the Linux filesystem. See
 [CLI operations](../../../constant-integration/docs/CONTAINER_LIFECYCLE.md) for registration,
 supported engines, outputs and recovery.

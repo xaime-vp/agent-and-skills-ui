@@ -19,7 +19,7 @@ Windows host. Prefix commands with:
 wsl -d podman-machine-default -e sh -c 'export PODMAN_IGNORE_CGROUPSV1_WARNING=1; ...'
 ```
 
-The lifecycle CLI (`tools/containers.py`) rejects Podman hosts, so it cannot
+The lifecycle CLI (`.agents/tools/containers.py`) rejects Podman hosts, so it cannot
 be used here — everything below is manual inspection via `podman`.
 
 ## 1. Container health
@@ -51,7 +51,7 @@ podman exec bonsai-worker sh -c \
 Interpretation:
 - `task_process ... --task issue-N-approval-...` = one live task, one slot.
 - A bare `pi` process = the agent is actively working.
-- `python tools/check.py` = a check run inside the current task, not a second
+- `python .agents/tools/check.py` = a check run inside the current task, not a second
   task.
 - No matches = worker is idle between polls.
 
@@ -73,12 +73,12 @@ current install: 2 each).
 
 ## 3. Cheap host-level count (optional)
 
-`tools/bonsai_process_count.py` in the workspace root counts launcher processes on any
+`.agents/tools/bonsai_process_count.py` in the workspace root counts launcher processes on any
 host (psutil, PowerShell or pgrep fallback). Run it inside the distro from the workspace root:
 
 ```bash
 wsl -d podman-machine-default -e sh -c \
-  'python3 tools/bonsai_process_count.py --verbose'
+  'python3 .agents/tools/bonsai_process_count.py --verbose'
 ```
 
 Expected on this stack: 3 "worker" launchers (one per container) plus one

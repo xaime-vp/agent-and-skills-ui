@@ -5,7 +5,7 @@ import runpy
 import sys
 
 if __name__ == "__main__":
-    checkout = Path(__file__).resolve().parents[1] / "constant-integration"
+    checkout = Path(__file__).resolve().parents[2] / "constant-integration"
     target = checkout / "tools" / "check.py"
     if not target.is_file():
         raise SystemExit(f"Missing platform runner: {target}")

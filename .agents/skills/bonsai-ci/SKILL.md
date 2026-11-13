@@ -9,14 +9,14 @@ Support the [root Git developer](../../../AGENTS.md). The developer owns applica
 
 ## Prepare a concrete handoff
 
-1. Read the target's applicable instructions and the relevant [test](../../../agents/testing/AGENTS.md) or [documentation](../../../agents/documentation/AGENTS.md) guide. Identify the existing parent PR, exact working branch and current implementation commit.
+1. Read the target's applicable instructions and the relevant [test](../../docs/handoff.md) or [documentation](../../docs/handoff.md) guide. Identify the existing parent PR, exact working branch and current implementation commit.
 2. Verify the worker's bound repository, sealed release and supported route. Source defaults are not installed state. On Windows with Podman-in-WSL (`podman-machine-default`), inspect the running container's image tag/revision (`wsl -d podman-machine-default -e podman inspect bonsai-worker --format '{{.ImageName}}'`) and never assume `constant-integration/` HEAD equals the running container. Choose free-form preparation when research should establish the exact scope/checks, or retain a complete legacy envelope when those are already known. Both routes use the existing `agent:generalist` implementation profile. Keep unverified/dependent requests blocked and without `ready`.
 3. Search for an existing issue for this PR/category before creating another. Use the root assignment context, goal, observable acceptance criteria and boundaries. Free-form issues need no executable JSON or guessed paths/checks/budgets; preparation must resolve gaps before producing an executable proposal.
-4. **Select the existing parent PR through the chosen route:** free-form preparation requires the operator's `--target-pr NUMBER`; legacy schema 2/3 requires numeric `pull_request`. A PR link or branch instruction in prose supplies context only. Read [free-form issue guidance](../../../docs/agent-setup/free-form-issues.md) for selected evidence, exclusive preparation, sealed proposal review and digest-bound owner approval. Use [runtime and schema details](references/runtime-and-issue.md) for legacy single tasks or [plan guidance](references/plans.md) for ordered legacy steps. Schema 4 cannot select an existing PR.
+4. **Select the existing parent PR through the chosen route:** free-form preparation requires the operator's `--target-pr NUMBER`; legacy schema 2/3 requires numeric `pull_request`. A PR link or branch instruction in prose supplies context only. Read [free-form issue guidance](../../docs/free-form-issues.md) for selected evidence, exclusive preparation, sealed proposal review and digest-bound owner approval. Use [runtime and schema details](references/runtime-and-issue.md) for legacy single tasks or [plan guidance](references/plans.md) for ordered legacy steps. Schema 4 cannot select an existing PR.
 5. For a legacy envelope, validate the finalized body from the workspace root (works in both PowerShell and Git Bash on Windows):
 
    ```sh
-   py -3 tools/validate_task.py --repository xaime-vp/constant-integration --body-file path/to/issue.md
+   py -3 .agents/tools/validate_task.py --repository xaime-vp/constant-integration --body-file path/to/issue.md
    ```
 
    Substitute the actual target repository and select `--platform-root` when the default checkout is stale. Parsing is offline source-schema evidence, not approval, protected-check verification or installed compatibility. This tool parses legacy envelopes only; free-form proposals are validated and sealed by preparation.

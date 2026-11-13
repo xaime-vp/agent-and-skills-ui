@@ -8,7 +8,7 @@ import sys
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--platform-root', type=Path,
-                        default=Path(__file__).resolve().parents[1] / 'constant-integration',
+                        default=Path(__file__).resolve().parents[2] / 'constant-integration',
                         help='Platform source checkout (default: workspace/constant-integration)')
     parser.add_argument('--repository', required=True)
     parser.add_argument('--body-file', type=Path, required=True)

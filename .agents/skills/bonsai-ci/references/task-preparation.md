@@ -4,13 +4,13 @@ Use the target repository's own issue template and instructions. These links
 provide the authoritative Constant Integration formats:
 
 For workspace handoffs, follow the root developer contract. Free-form issues
-need no executable envelope: use [preparation and digest approval](../../../../docs/agent-setup/free-form-issues.md)
+need no executable envelope: use [preparation and digest approval](../../../docs/free-form-issues.md)
 with operator-selected `--target-pr NUMBER`. For legacy envelopes, set numeric
-`pull_request` to the existing parent PR and validate with `tools/validate_task.py`
+`pull_request` to the existing parent PR and validate with `.agents/tools/validate_task.py`
 from the workspace root. Test and documentation issues remain separate,
 sequential assignments delivered to that PR.
 
-- [Prompt cookbook](../../../../docs/agent-setup/prompting.md)
+- [Prompt cookbook](../../../docs/prompting.md)
 - [Free-form operator contract](https://github.com/xaime-vp/constant-integration/blob/main/docs/submitting-tasks/free-form.md)
 - [Task submission](https://github.com/xaime-vp/constant-integration/blob/main/docs/SUBMITTING_TASKS.md)
 - [Single-task envelope](https://github.com/xaime-vp/constant-integration/blob/main/docs/submitting-tasks/envelope.md)

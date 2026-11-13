@@ -33,7 +33,7 @@ BONSAI_CHECKS_PATH=/srv/bonsai/evals/checks.json
 - Policy contains the matching repository, trusted owner login/numeric ID and
   resource/approval limits. Preserve known policy; do not invent an owner ID.
 - For the eval repository, the documented offline workspace check is
-  `{"workspace":[{"cwd":".","command":["python","tools/check.py"]}]}`.
+  `{"workspace":[{"cwd":".","command":["python",".agents/tools/check.py"]}]}`.
   It covers unit tests and the identity guard, not Docker fixture oracles or
   paid model evaluation. Confirm the current target README before using it.
 - Supply `GH_TOKEN` and `OPENROUTER_API_KEY` through the selected private source.

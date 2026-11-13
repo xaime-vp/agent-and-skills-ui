@@ -55,7 +55,7 @@ Workspace handoffs support free-form preparation as well as legacy envelopes.
 Prepared issues select the existing parent with operator `--target-pr` and need
 digest-bound owner approval. A repaired PR head can invalidate a sealed proposal;
 refresh its context and prepare/approve a replacement before execution. See
-[free-form guidance](../../../docs/agent-setup/free-form-issues.md).
+[free-form guidance](../../docs/free-form-issues.md).
 
 ## Resolve conflicts without losing behavior
 

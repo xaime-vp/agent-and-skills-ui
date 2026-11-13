@@ -5,7 +5,7 @@ This workspace does not assume a previously used target, engine or model is curr
 
 - Platform repository: `xaime-vp/constant-integration`.
 - In this workspace its source checkout is `constant-integration/`, and the
-  offline validator is `tools/validate_task.py` at the workspace root. The root
+  offline validator is `.agents/tools/validate_task.py` at the workspace root. The root
   developer's currently selected target determines issue and PR destinations.
 - Locate the platform checkout from the current workspace or configured project.
   Its checked-out branch may be older than the sealed runtime. Read current
@@ -33,7 +33,7 @@ step in creating an application task.
 
 ## Choose the issue route
 
-An ordinary prose issue can use [free-form preparation](../../../../docs/agent-setup/free-form-issues.md)
+An ordinary prose issue can use [free-form preparation](../../../docs/free-form-issues.md)
 on a compatible sealed installation. It needs no author-supplied envelope or
 guessed exact scope/checks. The operator selects bounded evidence and
 `--target-pr NUMBER` for the existing parent PR. The owner requests research

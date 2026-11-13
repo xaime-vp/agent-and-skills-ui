@@ -1,5 +1,10 @@
 # Submit one approved plan for one PR
 
+This is the legacy schema-3 route. A multi-step request can also start as prose
+through [free-form preparation](../../../../docs/agent-setup/free-form-issues.md);
+the resulting proposal must pass preparation validation before digest approval.
+Do not require an author-written plan envelope for that route.
+
 Use this when the user wants multiple implementation subsections to form one
 reviewable change. A schema-3 issue is the approval record; its ordered steps
 run as fresh sessions in one worktree and branch. The supervisor checkpoints
@@ -35,8 +40,13 @@ test/documentation issues that reserve the same PR branch.
    set after each step and at the final candidate. Repository-documented commands
    are a **proposed** check set until matched to installation; disclose this and
    keep the proposal blocked if not verified.
-6. Bound parent context/output and total timeout by installed policy. Step input,
-   output and timeout limits cannot exceed parent fields. The parent deadline
+6. Bound total timeout and any explicit token limits by installed policy. On
+   compatible releases, omit parent/step `input_tokens` and `output_tokens` for
+   automatic model context and no per-task response cap; provider/model limits
+   still apply. Omitted or null step token values inherit the parent, so they
+   cannot erase an explicit parent cap. Positive step limits cannot exceed an
+   explicit parent limit; step timeouts cannot exceed the parent timeout. Older
+   installed parsers may require explicit token fields. The parent deadline
    includes all attempts, checks, review and downtime before resume; it is not a
    per-step budget multiplied by step count. Token fields are model ceilings,
    not a cumulative billed-token/dollar cap. Keep risk low/medium and complexity
@@ -86,8 +96,6 @@ permission to dispatch a parser task or change trusted configuration.
   "acceptance_commands": [["python", "-m", "unittest", "discover", "-s", "tests", "-v"]],
   "verification_plan": "The full protected suite passes and the documented example matches the final implementation. Inspect final-head target CI separately.",
   "provider": "openrouter",
-  "input_tokens": 6000,
-  "output_tokens": 2000,
   "timeout_seconds": 1800,
   "steps": [
     {
@@ -95,8 +103,6 @@ permission to dispatch a parser task or change trusted configuration.
       "goal": "Implement empty-input handling and its regression test together.",
       "allowed_files": ["src/parser.py", "tests/test_parser.py"],
       "acceptance_commands": [["python", "-m", "unittest", "discover", "-s", "tests", "-v"]],
-      "input_tokens": 6000,
-      "output_tokens": 2000,
       "timeout_seconds": 600,
       "retry_modes": ["continue", "restart"]
     },
@@ -105,8 +111,6 @@ permission to dispatch a parser task or change trusted configuration.
       "goal": "Document empty-input behavior with an example matching the code.",
       "allowed_files": ["README.md"],
       "acceptance_commands": [["python", "-m", "unittest", "discover", "-s", "tests", "-v"]],
-      "input_tokens": 6000,
-      "output_tokens": 2000,
       "timeout_seconds": 600,
       "retry_modes": ["continue"]
     }

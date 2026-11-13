@@ -16,6 +16,7 @@ pasting transcripts or unexplained logs.
 - **Scope / privileges:** readable context, exact writable files and prohibited actions.
 - **Instructions / checks:** applicable AGENTS.md paths and existing acceptance commands.
 - **Candidate identity:** platform revision, target branch/commit, source hash and PR.
+- **Issue route / authorization:** free-form preparation key, selected `--target-pr`, sealed proposal digest and owner approval evidence, or legacy envelope `pull_request` and standalone approval evidence. Record unresolved preparation gaps/questions. A prose issue needs no hand-written envelope; both routes need validated exact scope/checks before execution. See [route guidance](free-form-issues.md).
 - **Implementation:** concrete changes and remaining work.
 - **Generalist check evidence:** exact commands, exit/status and protected
   report/log paths. These ran once in the generalist workspace, not independently.

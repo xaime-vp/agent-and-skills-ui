@@ -14,6 +14,12 @@ maintain that PR throughout the task. Use workspace `bonsai-ci` for required
 test/documentation handoffs to its existing branch. This submission skill
 does not independently create another worker task or another PR.
 
+Handoffs can use free-form preparation with operator-selected `--target-pr` and
+digest-bound proposal approval, or legacy envelopes with numeric `pull_request`
+and standalone approval. Follow `bonsai-ci` for the selected route; issue creation
+does not require a hand-written envelope in the free-form workflow. Record the
+actual sealed proposal/approval and delivery evidence when used.
+
 Sparse-checkout rules hide the checkout's original user-facing skills and agent
 file; adapted copies live in this workspace. Preserve those exclusions during
 ordinary branch changes. Select exact task paths and review the remote diff.

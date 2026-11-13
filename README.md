@@ -4,6 +4,13 @@ Developer-agent setup for working on external GitHub repositories through GitHub
 
 The root [AGENTS.md](AGENTS.md) defines the workflow: open a branch and draft PR, implement application code, delegate tests and documentation through scoped issues targeting that same PR, then review the combined result. The external Bonsai supervisor owns execution and publication for its workers.
 
+Issue handoffs support [free-form preparation](docs/agent-setup/free-form-issues.md)
+as well as legacy executable envelopes. Prose issues need no hand-written JSON:
+an operator selects evidence and the parent PR, then the owner approves the sealed
+proposal digest. Legacy envelopes retain their own schema and standalone approval.
+Verify installed support before execution; issue creation alone does not dispatch
+approved work.
+
 ## Workspace layout
 
 | Path | Purpose |

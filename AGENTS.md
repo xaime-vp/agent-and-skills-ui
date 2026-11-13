@@ -21,6 +21,11 @@ preparation seals a proposal; Generalist/tests are retired source routes, not
 aliases. Verify the UI-bound installation's sealed release and enabled profiles
 before selecting an executable route.
 
+For the client invocation, request template and owner/operator sequence, follow
+[calling an agent](.agents/docs/calling-agents.md). Use `$bonsai-ci` where the
+client supports it, or read its `SKILL.md`; the supervisor launches runtime roles
+only after issue admission.
+
 Test-specialist contributions receive embedded read-only review. Documentation
 contributions publish without a model reviewer. Both retain protected checks,
 exact scope and route-specific owner approval. Keep assignments to one parent PR

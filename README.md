@@ -44,6 +44,9 @@ npm run build
 
 See [`AGENTS.md`](AGENTS.md).
 
+Start with [calling an agent](.agents/docs/calling-agents.md) for the skill
+invocation, a copyable test/documentation request and the execution sequence.
+
 Use `agent:test-specialist` for tests/fixtures/test configuration and
 `agent:documentation` for documentation after verifying the UI-bound sealed
 installation supports them. The developer owns application code. Test-specialist

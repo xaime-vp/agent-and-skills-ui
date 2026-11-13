@@ -9,6 +9,11 @@ Support the [root Git developer](../../../AGENTS.md). The developer owns applica
 
 ## Prepare a concrete handoff
 
+For a client invocation and copyable UI contribution request, use
+[calling an agent](../../docs/calling-agents.md). Skill invocation selects this
+guidance; runtime execution still requires supervisor admission of the approved
+issue. Automatic PR reviews use a separate trusted opt-in, not an issue role.
+
 1. Read the target's applicable instructions and the relevant [test or documentation handoff guide](../../docs/handoff.md). Identify the existing parent PR, exact working branch and current implementation commit.
 2. Verify the worker's bound repository, sealed release and supported route. Source defaults are not installed state. Current source uses `agent:test-specialist` for tests/fixtures/test configuration and `agent:documentation` for documentation; retired Generalist/tests are not aliases. Test-specialist work includes embedded read-only review; documentation does not. On Windows with Podman-in-WSL, inspect the selected container's image/revision using the container skill and verify the sealed `release_root`/`enabled_profiles`; image identity alone is insufficient. Choose free-form preparation when research should establish scope/checks, or a complete legacy envelope when those are known. Keep unverified/dependent requests blocked without `ready`; a legacy installed route must be identified explicitly, never inferred from old examples.
 3. Search for an existing issue for this PR/category before creating another. Use the root assignment context, goal, observable acceptance criteria and boundaries. Free-form issues need no executable JSON or guessed paths/checks/budgets; preparation must resolve gaps before producing an executable proposal.

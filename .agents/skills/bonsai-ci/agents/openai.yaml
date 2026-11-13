@@ -1,0 +1,3 @@
+interface:
+  display_name: "Bonsai CI handoffs"
+  short_description: "Route test and documentation issues to the parent PR"

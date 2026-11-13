@@ -1,0 +1,3 @@
+interface:
+  display_name: "Bonsai Containers"
+  short_description: "Inspect, restart and upgrade installed workers"

@@ -18,9 +18,9 @@ The user's existing `mcp.json` may look like the following *example* (not a file
 
 Some MCP clients use a `servers` object and `type` keys. Identify the actual client schema; do not pretend all formats are accepted by Codex. The example is conceptual and requires an authenticated, locally available GitHub MCP image. Use an existing trusted connection rather than installing a new server automatically.
 
-- Config input may be `./mcp.json`, `~/mcp.json`, or a path the user specifies; the file is not guaranteed to exist.
+- Config input may be `./mcp.json`, `./.pi/mcp.json` (Pi workspace MCP config, often `type: "http"` with `url` and `headers`), `~/mcp.json`, or a path the user specifies; the file is not guaranteed to exist.
 - Codex CLI uses its own MCP settings, shared with its IDE extension, under `~/.codex/config.toml` (subject to Codex home override).
-- **There is no automatic general-purpose `mcp.json` → Codex CLI attachment**. Map and register each approved server; do not commit the config file or embedded secrets.
+- **There is no automatic general-purpose `mcp.json` → Codex CLI attachment**. Map and register each approved server; do not commit the config file or embedded secrets. (In Pi, `.pi/mcp.json` is loaded directly by Pi and exposed through `codemode`.)
 
 ### Streamable HTTP
 
@@ -31,7 +31,7 @@ codex mcp add github --url https://github-mcp.example.invalid/mcp
 codex mcp list
 ```
 
-The domain above is intentionally nonworking. Replace it only with the actual approved endpoint. For OAuth-enabled endpoints, inspect the installed CLI's login support (`codex mcp --help`) and complete interactive authorization if required.
+The domain above is intentionally nonworking. Replace it only with the actual approved endpoint. Never copy inline `headers` bearer tokens from `.pi/mcp.json` or `mcp.json` into `codex mcp add` or tracked TOML; use OAuth (`codex mcp login`) or an environment-variable reference (`bearer_token_env_var` / `env_http_headers`) in local `config.toml`. For OAuth-enabled endpoints, inspect the installed CLI's login support (`codex mcp --help`) and complete interactive authorization if required.
 
 ### stdio
 
@@ -41,6 +41,8 @@ For a local executable server, inspect `codex mcp add --help` for the installed 
 codex mcp add github -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.io/github/github-mcp-server
 codex mcp list
 ```
+
+On Windows with Podman in WSL (`podman-machine-default`), `wsl -d podman-machine-default -e podman run -i --rm ...` is the equivalent when `docker` is not installed.
 
 Use the inherited `GITHUB_PERSONAL_ACCESS_TOKEN` environment variable only if it is already configured securely on the local machine. Do not paste its value into any `codex mcp add --env NAME=VALUE` command; shell history, process arguments or config files may expose it. A documented `env_vars` passthrough entry in local `config.toml`, if supported by the installed Codex version, can be reviewed with the operator. Never store inline secrets in this repository.
 

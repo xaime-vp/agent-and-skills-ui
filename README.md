@@ -21,6 +21,7 @@ approved work.
 | [tools/](tools/README.md) | Offline task validation and platform CLI launchers |
 | [docs/agent-setup/](docs/agent-setup/prompting.md) | Relocated prompting and manual handoff templates |
 | `constant-integration/` | Separately cloned product source; ignored by this repository |
+| `constant-integration-ui/` | Optional UI operations console checkout; ignored by this repository |
 
 ## Codex CLI and existing GitHub MCP
 
@@ -34,6 +35,12 @@ Clone this repository, then clone the current platform target into its dedicated
 git clone https://github.com/xaime-vp/agent-and-skills.git
 cd agent-and-skills
 git clone https://github.com/xaime-vp/constant-integration.git constant-integration
+```
+
+The UI operations console, [constant-integration-ui](https://github.com/xaime-vp/constant-integration-ui), can be checked out the same way when you are working on it:
+
+```sh
+git clone https://github.com/xaime-vp/constant-integration-ui.git constant-integration-ui
 ```
 
 Python 3.12+ is required for the workspace tools. On Windows, use `py -3`; on Linux use a configured Python interpreter. For example:

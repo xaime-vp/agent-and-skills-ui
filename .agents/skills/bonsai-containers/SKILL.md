@@ -20,6 +20,9 @@ On Windows with Podman running inside WSL (`podman-machine-default`), use
 
 ```sh
 py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py inspect
+py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py issue-status 204 --container bonsai-worker
+py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py events --container bonsai-worker --tail 30 --filter 204
+py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py logs --container bonsai-worker --tail 80
 py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py build --check
 py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py relaunch bonsai-worker
 py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py action bonsai-worker inspect-preparation KEY

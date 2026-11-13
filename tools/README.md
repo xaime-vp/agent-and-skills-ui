@@ -7,7 +7,10 @@ py -3 tools/check.py --component orchestrator
 py -3 tools/check.py --component worker
 py -3 tools/containers.py --help
 py -3 tools/validate_task.py --repository xaime-vp/constant-integration --body-file path/to/issue.md
+py -3 tools/bonsai_process_count.py --verbose
 ```
+
+`bonsai_process_count.py` counts host-level `bonsai` and `bonsai-ui` launcher processes without inspecting inside containers; see the `bonsai-status` skill for live container/slot inspection.
 
 `check.py` and `containers.py` launch the dedicated checkout's originals with their expected imports and working directory. Keep the checkout's `tools/` intact: container packaging, platform imports and isolated E2E fixtures depend on those paths. E2E probes remain there and should be selected deliberately using the platform CI guide.
 

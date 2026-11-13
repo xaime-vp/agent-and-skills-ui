@@ -297,6 +297,237 @@ def cmd_action(args: argparse.Namespace) -> int:
     return res.returncode
 
 
+_ISSUE_STATUS_PY = r"""
+import json
+import sqlite3
+import sys
+from pathlib import Path
+
+issue_num = int(sys.argv[1])
+events_limit = int(sys.argv[2])
+private = Path("/var/lib/bonsaiworker/private")
+db_path = private / "state.db"
+
+tasks_out = []
+keys = []
+if db_path.is_file():
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    rows = conn.execute(
+        "SELECT key, issue, approval, status, updated_at, data FROM tasks WHERE issue = ? ORDER BY updated_at DESC",
+        (issue_num,),
+    ).fetchall()
+    for row in rows:
+        key = row["key"]
+        keys.append(key)
+        data = {}
+        try:
+            data = json.loads(row["data"] or "{}")
+        except json.JSONDecodeError:
+            pass
+        events = [
+            dict(ev)
+            for ev in conn.execute(
+                "SELECT id, status, reason, recorded_at FROM task_events WHERE key = ? ORDER BY id ASC",
+                (key,),
+            ).fetchall()
+        ]
+        res_dir = private / "results" / key
+        checks = None
+        checks_path = res_dir / "checks.json"
+        if checks_path.is_file():
+            try:
+                checks = json.loads(checks_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                pass
+        result_summary = None
+        result_path = res_dir / "result.json"
+        if result_path.is_file():
+            try:
+                r = json.loads(result_path.read_text(encoding="utf-8"))
+                agent = r.get("agent") or {}
+                review = r.get("review") or {}
+                rev_proc = review.get("process") or {}
+                report = review.get("report") or {}
+                result_summary = {
+                    "profile": r.get("profile"),
+                    "finished_at": r.get("finished_at"),
+                    "checks_origin": r.get("checks_origin"),
+                    "publication_policy": r.get("publication_policy"),
+                    "agent": {
+                        "status": agent.get("status"),
+                        "exit_code": agent.get("exit_code"),
+                        "seconds": agent.get("seconds"),
+                    },
+                    "review_process": {
+                        "status": rev_proc.get("status"),
+                        "exit_code": rev_proc.get("exit_code"),
+                        "seconds": rev_proc.get("seconds"),
+                    },
+                    "review_report": {
+                        "verdict": report.get("verdict"),
+                        "summary": report.get("summary"),
+                        "reason": report.get("reason"),
+                        "findings_count": len(report.get("findings") or []),
+                    },
+                }
+            except (OSError, json.JSONDecodeError):
+                pass
+        sup_events = []
+        sup_path = res_dir / "supervisor-events.jsonl"
+        if sup_path.is_file():
+            for line in sup_path.read_text(encoding="utf-8", errors="replace").splitlines():
+                if line.strip():
+                    try:
+                        sup_events.append(json.loads(line))
+                    except json.JSONDecodeError:
+                        pass
+        tasks_out.append(
+            {
+                "key": key,
+                "issue": row["issue"],
+                "approval": row["approval"],
+                "status": row["status"],
+                "updated_at": row["updated_at"],
+                "profile": data.get("profile"),
+                "slot": data.get("slot"),
+                "stage": data.get("stage"),
+                "execution_outcome": data.get("execution_outcome"),
+                "trusted_completion": data.get("trusted_completion"),
+                "pull_request": data.get("pull_request"),
+                "publish_branch": data.get("publish_branch"),
+                "publish_attempts": data.get("publish_attempts"),
+                "task_events": events,
+                "supervisor_events": sup_events,
+                "checks": checks,
+                "result": result_summary,
+                "artifacts": sorted(p.name for p in res_dir.iterdir()) if res_dir.is_dir() else [],
+            }
+        )
+
+matched_events = []
+events_path = private / "events.jsonl"
+if events_path.is_file():
+    issue_str = str(issue_num)
+    key_prefix = f"issue-{issue_num}-"
+    key_set = set(keys)
+    for line in events_path.read_text(encoding="utf-8", errors="replace").splitlines():
+        if not line.strip():
+            continue
+        try:
+            ev = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        task_val = ev.get("task")
+        if task_val == issue_str or (isinstance(task_val, str) and (task_val in key_set or task_val.startswith(key_prefix))):
+            matched_events.append(ev)
+
+print(
+    json.dumps(
+        {
+            "issue": issue_num,
+            "tasks": tasks_out,
+            "events": matched_events[-events_limit:] if events_limit > 0 else matched_events,
+        },
+        indent=2,
+    )
+)
+"""
+
+
+def cmd_issue_status(args: argparse.Namespace) -> int:
+    container = validate_name(args.container, "container")
+    if args.issue <= 0:
+        raise SystemExit(f"Invalid issue number: {args.issue}")
+    info = podman_inspect(args.machine, [container])[0]
+    status = info.get("State", {}).get("Status", "unknown")
+    if status != "running":
+        raise SystemExit(f"Container {container} is {status}; must be running to exec inspection.")
+    active = active_worker_processes(args.machine, container)
+    res = run_wsl(
+        args.machine,
+        [
+            "podman",
+            "exec",
+            container,
+            "python3",
+            "-c",
+            _ISSUE_STATUS_PY,
+            str(args.issue),
+            str(args.events_limit),
+        ],
+        capture=True,
+    )
+    if res.returncode != 0:
+        raise SystemExit(res.stderr.strip() or "Failed to inspect issue status in container")
+    payload = json.loads(res.stdout)
+    payload["container"] = container
+    payload["container_status"] = status
+    payload["active_processes"] = active
+    print(json.dumps(payload, indent=2))
+    return 0
+
+
+_EVENTS_PY = r"""
+import json
+import sys
+from pathlib import Path
+
+tail_n = int(sys.argv[1])
+needle = sys.argv[2]
+events_path = Path("/var/lib/bonsaiworker/private/events.jsonl")
+if not events_path.is_file():
+    print("[]")
+    raise SystemExit(0)
+
+out = []
+for line in events_path.read_text(encoding="utf-8", errors="replace").splitlines():
+    if not line.strip():
+        continue
+    if needle and needle not in line:
+        continue
+    try:
+        out.append(json.loads(line))
+    except json.JSONDecodeError:
+        out.append({"raw": line})
+
+if tail_n > 0:
+    out = out[-tail_n:]
+print(json.dumps(out, indent=2))
+"""
+
+
+def cmd_events(args: argparse.Namespace) -> int:
+    container = validate_name(args.container, "container")
+    res = run_wsl(
+        args.machine,
+        [
+            "podman",
+            "exec",
+            container,
+            "python3",
+            "-c",
+            _EVENTS_PY,
+            str(args.tail),
+            args.filter or "",
+        ],
+        capture=True,
+    )
+    if res.returncode != 0:
+        raise SystemExit(res.stderr.strip() or "Failed to read events.jsonl")
+    print(res.stdout.rstrip())
+    return 0
+
+
+def cmd_logs(args: argparse.Namespace) -> int:
+    container = validate_name(args.container, "container")
+    res = run_wsl(
+        args.machine,
+        ["podman", "logs", "--tail", str(args.tail), container],
+    )
+    return res.returncode
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Manage Bonsai Podman worker containers in WSL (podman-machine-default)."
@@ -334,6 +565,26 @@ def build_parser() -> argparse.ArgumentParser:
     p_action.add_argument("--image", help="Override image (default: container's current image)")
     p_action.add_argument("action_args", nargs=argparse.REMAINDER)
     p_action.set_defaults(func=cmd_action)
+
+    p_issue = sub.add_parser(
+        "issue-status",
+        help="Inspect a GitHub issue's worker task state, timeline, checks, and review summary",
+    )
+    p_issue.add_argument("issue", type=int, help="GitHub issue number")
+    p_issue.add_argument("--container", default="bonsai-worker", help="Container name")
+    p_issue.add_argument("--events-limit", type=int, default=20, help="Max matching events.jsonl entries")
+    p_issue.set_defaults(func=cmd_issue_status)
+
+    p_events = sub.add_parser("events", help="Read or filter /var/lib/bonsaiworker/private/events.jsonl")
+    p_events.add_argument("--container", default="bonsai-worker", help="Container name")
+    p_events.add_argument("--tail", type=int, default=30, help="Show last N matching events")
+    p_events.add_argument("--filter", help="Substring filter")
+    p_events.set_defaults(func=cmd_events)
+
+    p_logs = sub.add_parser("logs", help="Show container stdout/stderr logs")
+    p_logs.add_argument("--container", default="bonsai-worker", help="Container name")
+    p_logs.add_argument("--tail", type=int, default=80, help="Number of log lines")
+    p_logs.set_defaults(func=cmd_logs)
     return parser
 
 

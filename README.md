@@ -17,10 +17,14 @@ approved work.
 | --- | --- |
 | [AGENTS.md](AGENTS.md) | Primary Git developer contract |
 | [agents/](agents/) | Platform, testing, documentation and review assignment guides |
-| [.agents/skills/](.agents/skills/) | `bonsai-ci`, `bonsai-containers` and `pr-submission` skills |
+| [.agents/skills/](.agents/skills/) | `bonsai-ci`, `bonsai-containers`, `pr-submission` and `codex-cli-mcp` skills |
 | [tools/](tools/README.md) | Offline task validation and platform CLI launchers |
 | [docs/agent-setup/](docs/agent-setup/prompting.md) | Relocated prompting and manual handoff templates |
 | `constant-integration/` | Separately cloned product source; ignored by this repository |
+
+## Codex CLI and existing GitHub MCP
+
+The [Codex CLI MCP skill](.agents/skills/codex-cli-mcp/SKILL.md) explains how to run Codex with a local checkout, connect approved GitHub MCP servers from an existing local `mcp.json` into Codex's own MCP configuration, and create or update issues and draft PRs under the root workflow. A workspace `mcp.json` is not automatically loaded by Codex CLI. Never commit local MCP credentials.
 
 ## Start a workspace
 

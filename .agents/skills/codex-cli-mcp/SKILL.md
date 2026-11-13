@@ -25,17 +25,23 @@ codex mcp list
 
 For a human using ChatGPT subscription benefits, select **Sign in with ChatGPT** during interactive login. For unattended tasks, first confirm that an existing supported authenticated session is available. Never copy token material or Codex authentication cache into an issue, PR, skill, trace or repo.
 
-Start interactive mode in the intended checkout:
+Start interactive mode in the MCP-connected `./codex` folder (which holds `./codex/.mcp.json` for GitHub PR/issue write access) using [scripts/run_codex.py](scripts/run_codex.py):
 
 ```sh
-cd constant-integration
-codex
+py -3 .agents/skills/codex-cli-mcp/scripts/run_codex.py check
+py -3 .agents/skills/codex-cli-mcp/scripts/run_codex.py interactive
 ```
 
-For a bounded non-interactive code task:
+Or launch directly from `codex/`:
 
 ```sh
-codex exec --full-auto "Read the applicable AGENTS.md, make only the requested scoped implementation changes, run existing relevant checks, and report changed files and test results. Do not merge or deploy."
+codex -C codex
+```
+
+For a bounded non-interactive code task targeting a checkout while keeping `./codex`'s MCP connection:
+
+```sh
+py -3 .agents/skills/codex-cli-mcp/scripts/run_codex.py exec --repo constant-integration --full-auto "Read the applicable AGENTS.md, make only the requested scoped implementation changes, run existing relevant checks, and report changed files and test results. Do not merge or deploy."
 ```
 
 `--full-auto` permits workspace writes under Codex's sandbox; it is **not** a blanket grant to change unrelated paths or publish to GitHub. Use a controlled working directory/worktree, inspect the diff, and keep commit/push/PR operations in the responsible publisher's workflow. Avoid `--dangerously-bypass-approvals-and-sandbox`. If `codex exec` cannot access a tool because of a sandbox or approval boundary, surface the blocker rather than silently loosening permissions.
@@ -46,7 +52,7 @@ For instruction reuse in a fresh Codex session, ask for `$codex-cli-mcp` by name
 
 A user's root `mcp.json` is **input configuration**, not a credential to commit and not automatically ingested by ordinary Codex CLI sessions. Refer to [MCP connection details](references/mcp-and-github.md) before changing configuration.
 
-1. Identify the intended file explicitly: workspace-root `./mcp.json`, `./.pi/mcp.json` (Pi's workspace MCP config), user-home `~/mcp.json`, or a user-specified absolute path. Check `.mcp.json` only when the user identifies it. Do not search unrelated locations for credentials.
+1. Identify the intended file explicitly: workspace-root `./mcp.json`, `./codex/.mcp.json` (Codex's MCP-connected folder), `./.pi/mcp.json` (Pi's workspace MCP config), user-home `~/mcp.json`, or a user-specified absolute path. Check `.mcp.json` only when the user identifies it. Do not search unrelated locations for credentials.
 2. Inspect server **names and nonsecret connection fields** under `mcpServers` (some clients use `servers`); do not print actual tokens, keys, raw authorization headers or resolved environment values. If you are already running inside Pi with `.pi/mcp.json` loaded, `mcp__github` is already available via `codemode` and needs no `codex mcp` registration unless you also run `codex` CLI separately.
 3. Detect the GitHub MCP entry and confirm the local CLI and server are available. For streamable HTTP use `codex mcp add github --url https://<approved-server>/mcp`; substitute the **real user-approved endpoint**, not this placeholder, and never copy inline `headers` tokens (such as `Authorization: Bearer ...`) from `mcp.json` into `codex mcp add` or TOML. For stdio use the CLI's current `codex mcp add --help` to map its command/args and environment names. Do not blindly copy client-specific schemas into TOML.
 4. The Codex CLI/IDE shared MCP configuration lives at `~/.codex/config.toml` (or the active Codex home, if configured). Before any configuration write, check for a pre-existing `github` server and ask/stop on conflicting definitions rather than overwrite. A separate plugin package's root `mcp.json` may be interpreted by the plugin packaging system; that does not make a raw workspace `mcp.json` an automatic Codex CLI config.

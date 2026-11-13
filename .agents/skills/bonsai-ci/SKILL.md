@@ -1,6 +1,6 @@
 ---
 name: bonsai-ci
-description: Prepare and track issue-driven test or documentation contributions to the root developer's existing PR through the Bonsai worker. Use for scoped task handoffs and offline envelope validation; owner approval and installed compatibility remain required.
+description: Prepare and track Bonsai test or documentation contributions to an existing parent PR, using free-form issue preparation or legacy executable envelopes. Verify installed compatibility, delivery and route-specific owner approval.
 ---
 
 # Bonsai contributions to the parent PR
@@ -10,23 +10,23 @@ Support the [root Git developer](../../../AGENTS.md). The developer owns applica
 ## Prepare a concrete handoff
 
 1. Read the target's applicable instructions and the relevant [test](../../../agents/testing/AGENTS.md) or [documentation](../../../agents/documentation/AGENTS.md) guide. Identify the existing parent PR, exact working branch and current implementation commit.
-2. Verify the worker's bound repository, sealed release, supported envelope schemas, protected checks and limits. Source defaults are not installed state. Read [runtime and schema details](references/runtime-and-issue.md) only when needed. If required facts are unavailable, create or retain a clearly blocked proposal without `ready` and report what is missing.
-3. Search for an existing issue for this PR/category before creating another. Use the root issue template plus exactly one fenced `agent-task` JSON block. Select `agent:generalist`, exact editable test/documentation paths, observed acceptance-command argv arrays, goal, verification plan and installed resource bounds.
-4. **Set numeric `pull_request` to the parent PR number** in the envelope. A PR link or branch instruction in prose cannot route publication. Use schema 2 for a single assignment, or a verified schema-3 plan when ordered steps are appropriate. The current schema-4 parser disallows `pull_request`; do not select it for this existing-PR workflow. Read [plan guidance](references/plans.md) when needed.
-5. Validate the finalized body from the workspace root:
+2. Verify the worker's bound repository, sealed release and supported route. Source defaults are not installed state. Choose free-form preparation when research should establish the exact scope/checks, or retain a complete legacy envelope when those are already known. Both routes use the existing `agent:generalist` implementation profile. Keep unverified/dependent requests blocked and without `ready`.
+3. Search for an existing issue for this PR/category before creating another. Use the root assignment context, goal, observable acceptance criteria and boundaries. Free-form issues need no executable JSON or guessed paths/checks/budgets; preparation must resolve gaps before producing an executable proposal.
+4. **Select the existing parent PR through the chosen route:** free-form preparation requires the operator's `--target-pr NUMBER`; legacy schema 2/3 requires numeric `pull_request`. A PR link or branch instruction in prose supplies context only. Read [free-form issue guidance](../../../docs/agent-setup/free-form-issues.md) for selected evidence, exclusive preparation, sealed proposal review and digest-bound owner approval. Use [runtime and schema details](references/runtime-and-issue.md) for legacy single tasks or [plan guidance](references/plans.md) for ordered legacy steps. Schema 4 cannot select an existing PR.
+5. For a legacy envelope, validate the finalized body from the workspace root:
 
    ```powershell
    py -3 tools/validate_task.py --repository xaime-vp/constant-integration --body-file path/to/issue.md
    ```
 
-   Substitute the actual target repository. Parsing is offline source-schema evidence, not approval, protected-check verification or installed compatibility.
+   Substitute the actual target repository and select `--platform-root` when the default checkout is stale. Parsing is offline source-schema evidence, not approval, protected-check verification or installed compatibility. This tool parses legacy envelopes only; free-form proposals are validated and sealed by preparation.
 6. The user's code-task authorization includes its required test/documentation issues under the root contract. Use GitHub MCP to create or update those scoped issues without routine reconfirmation. Use verified routing labels; for Bonsai these are `agent:generalist` plus `ready` only when prerequisites are satisfied. Keep proposals `blocked` and unready otherwise.
 
 ## Execution and follow-through
 
-The installed runtime requires a standalone `/approve-agent` comment from the configured owner after the final issue edit. Never post it on the owner's behalf, treat a label as approval, or claim ordinary chat authorization satisfies that runtime check. Report a missing runtime approval as the concrete next owner action after preparing the complete issue. Do not edit an approved issue body without accounting for approval invalidation.
+Free-form preparation requires the configured owner's `/prepare-agent` request and, once a validated proposal is sealed, the exact returned `/approve-agent <full-digest>` command. Legacy envelopes require standalone `/approve-agent` after the final issue edit. Standalone legacy approval cannot approve a saved proposal. Never post owner request/approval commands on their behalf, treat labels as approval, or claim chat authorization satisfies runtime checks. Prepare the concrete issue/proposal before reporting a missing owner action. Issue edits invalidate the approved assignment; prepared source/PR/policy changes require fresh preparation and approval.
 
-Test and documentation assignments targeting one PR must run sequentially because its branch is reserved. Start the second once the first has delivered or stopped and reservations are clear. If the first contribution changes the head, revalidate the second issue's starting context before approval. Workers publish through their supervisor to the selected existing PR; do not spawn duplicate local agents or create a second PR for the same assignment.
+Test and documentation assignments targeting one PR must run sequentially because its branch is reserved. Start the second once the first has delivered or stopped and reservations are clear. Preparation itself requires a stopped listener, confirmed-stopped role processes and no active/unknown tasks or publication reservations; it does not stop a service. If the first contribution changes the head, refresh the second issue's context and reprepare any sealed proposal before approval. Workers publish through their supervisor to the selected existing PR; do not spawn duplicate local agents or create a second PR for the same assignment.
 
 Track issue comments, branch commits and checks in this chat. Review the actual changes and delivered SHA; confirm they reached the parent branch. Record failed/unrun checks, advisory reviewer findings and exact-head target CI separately. Unknown process outcomes require supported confirmed-stop reconciliation, never erased state or replayed approval. Keep credentials and private logs out of issues.
 

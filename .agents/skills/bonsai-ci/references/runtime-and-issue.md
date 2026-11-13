@@ -31,7 +31,18 @@ sealed and must be updated through the documented procedure. Runtime permission
 or capability changes are a separate authorized operation, not an incidental
 step in creating an application task.
 
-## Issue envelope
+## Choose the issue route
+
+An ordinary prose issue can use [free-form preparation](../../../../docs/agent-setup/free-form-issues.md)
+on a compatible sealed installation. It needs no author-supplied envelope or
+guessed exact scope/checks. The operator selects bounded evidence and
+`--target-pr NUMBER` for the existing parent PR. The owner requests research
+with `/prepare-agent` and approves a sealed executable proposal with the exact
+returned `/approve-agent <full-digest>`. Preparation is exclusive and requires
+the listener and role processes stopped; it cannot bypass active/unknown task
+or publication reservations. Assessment-only preparation cannot implement.
+
+## Legacy issue envelope
 
 This section describes single-run schema-2 tasks. For multiple subsections of
 one approved change, use [schema-3 plan submission](plans.md) instead: one parent
@@ -57,15 +68,14 @@ check configuration for that project. Do not dispatch an unadapted example.
   "acceptance_commands": [["python", "-m", "unittest", "discover", "-s", "tests", "-v"]],
   "verification_plan": "Run protected checks once in the generalist workspace and record actual exits; check target CI separately.",
   "provider": "openrouter",
-  "input_tokens": 6000,
-  "output_tokens": 2000,
   "timeout_seconds": 600
 }
 ```
 ````
 
-- Exactly one fenced `agent-task` JSON block; no credentials, repository or issue
-  identity fields inside it. Identity comes from GitHub and trusted policy.
+- Legacy bodies require exactly one fenced `agent-task` JSON block; no credentials,
+  repository or issue identity fields inside it. Identity comes from GitHub and
+  trusted policy.
 - `project` is a top-level component directory. `workspace` means repository-root
   scope. `allowed_files` are exact paths relative to that component, or to the
   repository for `workspace`. Do not use globs or traversal.
@@ -73,8 +83,10 @@ check configuration for that project. Do not dispatch an unadapted example.
   must match the protected checks for the original project key (`workspace`
   remains the key even though the runtime uses `.` as its working directory).
 - The observed generalist profile accepts complexity up to 3 and rejects high
-  risk. Token totals, output limit and timeout must fit installed policy. Choose
-  bounds for the task rather than copying a sample's numbers blindly.
+  risk. Timeout and any explicit token limits must fit installed policy. On a
+  compatible release, omitted `input_tokens`/`output_tokens` use automatic model
+  context and no per-task response cap; provider/model limits still apply. The
+  example assumes that support. Older releases may require explicit fields.
 - For the root developer's test/documentation handoffs, include numeric
   `pull_request` for the existing open same-repository parent PR. Omitting it
   starts from the default branch and creates an unwanted separate draft.
@@ -83,9 +95,10 @@ check configuration for that project. Do not dispatch an unadapted example.
   Retired docs-writer, Codex and verifier roles are not dispatchable. The only
   platform roles are generalist, reviewer and supervisor.
 - Required labels: `ready`, exactly one supported implementation profile.
-  Required separate owner comment: `/approve-agent` for generalist. Approval
+  Required separate legacy owner comment: `/approve-agent` for generalist. Approval
   must be strictly after the issue's latest revision; same timestamps fail
   closed. A new issue revision or consumed approval may require a fresh comment.
+  This standalone approval cannot approve a saved free-form proposal.
 
 New runtime preparations support `max_concurrent_tasks` of 1 or 2, with separate
 UID/GID and loopback relay per task. Old installed configs missing the field keep

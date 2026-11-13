@@ -13,4 +13,11 @@ py -3 tools/validate_task.py --repository xaime-vp/constant-integration --body-f
 
 `validate_task.py` was relocated from the retired `delegate-to-deepseek` bundle. It defaults to the sibling `constant-integration/` checkout and accepts `--platform-root` to validate against another source revision. It only parses an issue offline; success proves neither installed compatibility nor approval, readiness or protected-check configuration. Set the installed timeout ceiling with `--max-timeout-seconds` when applicable.
 
+This validator accepts legacy executable envelopes only. A free-form prose issue
+is valid input to the separate [preparation workflow](../docs/agent-setup/free-form-issues.md),
+which validates and privately seals a proposal; do not add JSON merely to satisfy
+this tool. Optional token fields depend on the selected parser revision. A stale
+checkout can reject fields omitted legitimately under a newer installation;
+select compatible source with `--platform-root` and verify installation separately.
+
 Keep private env files and worker state outside Git. A lifecycle action that starts or upgrades an installation is an operational change; loading these tools does not authorize it.

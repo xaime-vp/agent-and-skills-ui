@@ -3,10 +3,11 @@
 This developer-side guide is maintained in `xaime-vp/agent-and-skills`.
 Follow the [root developer contract](../../AGENTS.md) for the active workflow:
 the root agent implements application code and uses scoped issues for test and
-documentation contributions to its existing parent PR. Set the executable
-envelope's numeric `pull_request` to that PR number. The general preparation
-prompts below apply when explicitly preparing a task or ordered plan; they do
-not replace that branch/PR workflow.
+documentation contributions to its existing parent PR. Free-form preparation
+selects it with operator `--target-pr NUMBER`; legacy envelopes use numeric
+`pull_request`. A PR mention alone does not select the destination. The general
+preparation prompts below apply when explicitly preparing a task or ordered
+plan; they do not replace that branch/PR workflow.
 
 Use this guide to turn a request into a clear issue for the
 [supervised worker](../../constant-integration/docs/SUBMITTING_TASKS.md). It is written for compatible coding
@@ -17,10 +18,41 @@ guidance where supported.
 
 A prompt prepares a request; it does not approve or dispatch work. A skill,
 issue label, generated task envelope, successful local test, or passing platform
-CI cannot substitute for the configured owner's approval or target-repository
-CI at the exact final PR head.
+CI cannot substitute for the configured owner's route-specific approval or
+target-repository CI at the exact final PR head.
 
-## Prompt for one bounded task
+## Prompt for a free-form issue
+
+Use this when an issue should start with the desired outcome and leave exact
+scope/check selection to bounded preparation. The author need not supply an
+envelope or token budgets. Follow [free-form issue guidance](free-form-issues.md)
+for the operator workflow; preparation is explicit, not automatic on issue creation.
+
+```text
+Prepare a prose Bonsai issue for [owner/repository], contributing [tests or
+documentation] to existing parent PR [URL], branch [exact branch], at
+implementation commit [SHA].
+
+Desired outcome and evidence:
+[observable behavior, examples/reproduction and relevant source/PR links]
+
+Acceptance criteria and boundaries:
+[what must be verified/documented, non-goals and known dependencies]
+
+Return a clear issue body and any questions. Do not invent exact writable files,
+protected checks or resource limits; identify what bounded preparation must
+resolve. Do not require agent-task JSON. Do not submit or approve the issue as
+part of this preparation-only request.
+
+Identify the operator's required parent destination (--target-pr NUMBER) and
+candidate committed research files, distinguishing suggestions from verified
+evidence. The configured owner must request research with /prepare-agent, then
+review the sealed proposal and post its exact /approve-agent <full-digest>.
+Assessment-only research cannot authorize implementation. Do not post owner
+request/approval commands or assume a merged capability is installed.
+```
+
+## Prompt for one legacy bounded task
 
 Adapt this template, replacing every bracketed item. Ask the agent to inspect
 the target repository's own instructions and CI configuration; do not assume
@@ -46,8 +78,10 @@ Return:
   as unverified rather than presenting them as protected checks;
 - dependencies, non-goals, risks, and evidence still needed;
 - whether the request is one task or needs an ordered plan;
-- the human-readable issue sections and one schema-2 agent-task envelope,
-  only if exact paths, checks, and budgets are verified.
+- the human-readable issue sections and one complete schema-2 agent-task envelope,
+  only if exact paths, checks and installed limits/support are verified. Set
+  numeric pull_request for an existing parent PR. On a compatible release, omit
+  input_tokens/output_tokens; retain all other required fields.
 
 If installed schema/capability, target binding, file scope, or protected checks
 cannot be verified, leave the proposal blocked and unready. Do not invent
@@ -55,7 +89,7 @@ checks, permissions, approvals, resource limits, or runtime capabilities. Do not
 include credentials, private logs, or real .env contents.
 ```
 
-## Prompt for one ordered plan
+## Prompt for one legacy ordered plan
 
 Use a plan only when several dependent implementation steps should form **one
 coherent change and one PR**. Aim for the smallest number of steps that each
@@ -81,23 +115,28 @@ the final candidate. Do not claim local/documented commands are protected until
 matched to the installed configuration.
 
 Return the human-readable issue sections and one schema-3 agent-task envelope
-only if schema-3 support, exact paths, checks, budgets and dependencies are
-verified. Otherwise return a blocked/unready proposal listing the missing facts.
+only if schema-3 support, exact paths, checks, limits and dependencies are
+verified. On a compatible release, token fields may be omitted in the parent and
+steps; other required fields remain required. Otherwise return a blocked/unready
+proposal listing the missing facts.
 Do not approve, dispatch, add retries, update an existing PR, or split the plan
 into separate issues unless explicitly requested.
 ```
 
 ## Final checks before submitting
 
-- Paste the verified human-readable sections and `agent-task` JSON fence into
-  the target repository's Agent task or Bonsai plan issue template, following
-  its submission guide. Do not copy an example envelope unchanged.
+- Choose the route explicitly. Free-form issues use clear prose, selected
+  research and a sealed proposal; legacy requests use verified human-readable
+  sections plus one complete `agent-task` fence. Follow the target's submission
+  guide and adapt examples to the actual task.
 - Verify the target binding, installed sealed release, exact editable paths,
   protected check argv, limits, and any prerequisite PR merge before setting a
   task ready. A PR link in issue prose does not enforce dependency order.
-- Keep unknown or dependent proposals `blocked` and without `ready`. The
-  configured owner must approve the finalized issue using the documented
-  approval procedure; the agent must not post approval on the owner's behalf.
+- Keep unknown or dependent proposals `blocked` and without `ready`. Free-form
+  research may resolve unknown details; gaps/questions block an executable
+  proposal. The owner uses `/prepare-agent` then the exact returned
+  `/approve-agent <full-digest>` for preparation, or standalone `/approve-agent`
+  for a finalized legacy envelope. Never post these owner commands for them.
 - After a draft PR exists, distinguish worker checks/review from exact-head
   target CI. Do not report a pass when a check is missing, pending, failed, or
   observed on an older head.

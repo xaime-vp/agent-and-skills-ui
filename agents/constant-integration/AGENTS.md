@@ -6,7 +6,7 @@ Supporting instructions for the [root Git developer](../../AGENTS.md). The sourc
 
 - [Repository README](../../constant-integration/README.md) and [use cases](../../constant-integration/USE_CASES.md): current behavior and priorities.
 - [Worker README](../../constant-integration/workers/bonsai/README.md): listener/controller, execution, GitHub publication and recovery.
-- [Orchestrator README](../../constant-integration/orchestrator/README.md): task envelopes, exact file scope and verified approvals.
+- [Orchestrator README](../../constant-integration/orchestrator/README.md): task intake, exact file scope and verified approvals. Workspace [free-form guidance](../../docs/agent-setup/free-form-issues.md) distinguishes prose preparation/digest approval from legacy envelopes.
 - [Role contract](../../constant-integration/docs/AGENT_ROLES.md) and [delivery contract](../../constant-integration/docs/GITHUB_DELIVERY.md): external worker responsibilities and evidence.
 - [Submission guide](../../constant-integration/docs/SUBMITTING_TASKS.md): executable issue formats and owner approval.
 - [CI guide](../../constant-integration/docs/CI.md): offline suites and isolated container fixtures.

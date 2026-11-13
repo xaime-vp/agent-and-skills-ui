@@ -39,7 +39,7 @@ For every new code change, follow this order:
 4. **Create repository issues for documentation work.**
 5. **Track the issue workers, review their contributions on the same branch, and validate the combined result.**
 
-Tests and documentation are delegated through issues. Creating an issue in the target repository triggers its existing automation to spawn a subagent that contributes to our working branch. Issue creation is an execution handoff, not a passive backlog entry.
+Tests and documentation are delegated through issues. Executable, approved issues enter the target repository's existing automation and contribute to our working branch. Free-form issues can first undergo explicit preparation. Issue creation is a handoff request; it does not bypass preparation, readiness or owner approval.
 
 ## 1. Establish the branch and pull request first
 
@@ -62,7 +62,7 @@ Tests and documentation are delegated through issues. Creating an issue in the t
 ## 3. Delegate tests through repository issues
 
 - After the application implementation is available on the working branch, create a focused test issue in the same repository.
-- Specify the behavior to verify, relevant implementation paths, edge cases, expected assertions, and acceptance criteria.
+- Specify the behavior to verify, relevant implementation paths, edge cases, expected assertions, and acceptance criteria. Free-form preparation may resolve the exact editable test paths and protected checks before execution.
 - Require the worker to start from the current working branch and commit its test changes back to that exact branch.
 - Test workers must not create an independent feature branch or PR, or target the repository's default branch, unless the repository's established automation requires an intermediate branch. In that case, its contribution must target our working branch and be integrated there before completion.
 - If test results reveal an application bug, fix the application code yourself and coordinate any required test updates through the issue.
@@ -70,7 +70,7 @@ Tests and documentation are delegated through issues. Creating an issue in the t
 ## 4. Delegate documentation through repository issues
 
 - Create a separate documentation issue in the same repository after the implementation is available.
-- Specify the changed behavior, affected users or APIs, documentation locations, examples to update, and acceptance criteria.
+- Specify the changed behavior, affected users or APIs, known documentation locations, examples to update, and acceptance criteria. Free-form preparation may resolve the exact editable documentation scope before execution.
 - Require the worker to start from and contribute back to the same working branch used by the parent PR.
 - Use the same branch restrictions as for test workers. Documentation belongs in the parent PR's branch.
 - If no test or documentation changes are warranted, record a concrete reason in the parent PR for the category that does not apply. Do not create empty work merely to satisfy a checklist.
@@ -79,9 +79,14 @@ Tests and documentation are delegated through issues. Creating an issue in the t
 
 Search for an existing issue for the same task, category, and branch before creating a new one. Reuse it when appropriate to avoid triggering duplicate workers. Use only known repository automation labels, assignees, and routing fields; do not invent a trigger label or assume issue prose overrides worker configuration. If routing is unclear, inspect the repository's automation configuration before dispatching work.
 
-Every delegated issue must be actionable at creation time. Include the following, replacing all placeholders with actual values:
+Every delegated issue must be actionable as a preparation request or executable assignment. Use the following as a context template; equivalent clear prose is valid. Replace placeholders with actual values and identify any details that preparation must resolve:
 
-For the Bonsai worker, these human-readable fields must accompany a valid fenced `agent-task` envelope. Set its numeric `pull_request` to the existing parent PR number; a branch name or PR link in prose does not select the delivery branch. Use schema 2 or a verified compatible schema-3 plan for existing-PR contributions. Schema 4 cannot select an existing PR in the current parser. Read the workspace `bonsai-ci` skill for exact paths, protected checks, labels and installed compatibility. Serialize test and documentation issues targeting the same PR because the supervisor reserves that PR branch. The current runtime also requires the configured owner's revision-bound `/approve-agent` comment; never impersonate that approval or claim that issue creation alone bypasses it. Reuse a valid existing approval when the runtime accepts it and report an actually missing approval as a concrete blocker.
+For the Bonsai worker, choose either supported route after checking the installed release. Read the workspace `bonsai-ci` skill for preparation, protected checks, labels and compatibility:
+
+- **Free-form preparation:** the issue can contain ordinary prose without an `agent-task` envelope, exact editable paths or token budgets. Include the assignment context below, observable acceptance criteria and boundaries; mark unknown implementation details as questions. After the final issue edit, the configured owner requests preparation with `/prepare-agent`. An operator runs bounded read-only preparation with selected committed evidence and **`--target-pr <parent PR number>`**; a PR link in prose does not select delivery. Review the privately sealed proposal's exact scope, protected checks and pinned destination. Execution requires the owner's exact returned **`/approve-agent <full-digest>`** command after sealing and the final issue edit. Assessment-only preparation (`/prepare-agent review` plus `--assessment-only`) cannot authorize implementation. See [free-form issue guidance](docs/agent-setup/free-form-issues.md).
+- **Legacy executable envelope:** include exactly one complete fenced `agent-task` JSON block and set numeric **`pull_request`** to the existing parent PR number. Use schema 2 or a verified compatible schema-3 plan; schema 4 cannot select an existing PR. Validate against the intended source revision. On a compatible release, `input_tokens` and `output_tokens` may be omitted; other required fields remain required. The owner approves the finalized issue with standalone **`/approve-agent`**. This approval cannot approve a saved free-form proposal.
+
+Both routes retain exact writable scope, protected checks, reservations and revision-bound owner approval at execution. Serialize test and documentation work targeting the same PR. Issue creation or labels alone do not authorize execution. Never post owner request/approval commands on their behalf. Reuse a valid existing approval only when the runtime accepts it; prepare the complete issue/proposal first and report an actually missing owner action as a concrete blocker. Missing preparation details may be resolved through research; unresolved gaps prevent an executable proposal and must remain blocked/unready.
 
 ```markdown
 ## Assignment

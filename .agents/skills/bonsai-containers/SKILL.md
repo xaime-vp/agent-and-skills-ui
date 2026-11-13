@@ -12,7 +12,7 @@ to its original CLI. Reading this skill does not start or install a worker.
 
 Use `python .agents/tools/containers.py --json --installation NAME ...` from Linux or
 WSL, with a private registry on the Linux filesystem. See
-[CLI operations](../../../constant-integration/docs/CONTAINER_LIFECYCLE.md) for registration,
+[CLI operations](https://github.com/xaime-vp/constant-integration/blob/main/docs/CONTAINER_LIFECYCLE.md) for registration,
 supported engines, outputs and recovery.
 
 On Windows with Podman running inside WSL (`podman-machine-default`), use
@@ -29,6 +29,15 @@ py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py action bonsai-worke
 ```
 
 `podman_wsl.py` checks `/proc` for active `task_process`/`pi`/`check.py` work before stopping, backs up the previous container as `<container>-before-<suffix>`, preserves `/var/lib/bonsaiworker` volume mounts and `BONSAI_*` settings without exposing secrets, and refuses `prepare-issue` while the target worker is still running.
+
+For UI handoffs, verify the selected container is bound to
+`xaime-vp/constant-integration-ui`. Read only the needed sealed configuration
+fields (`release_root`, `enabled_profiles`, `max_concurrent_tasks` and
+`automatic_pr_reviews`) without exposing credentials. Current source supports
+test-specialist/documentation routes and 1/2/3 shared slots; old installations can
+differ. An environment edit does not install a new profile. Preserve the automatic
+PR Reviewer setting during lifecycle work; it is off by default. Role preparation
+does not authorize an upgrade, stop, restart or enabling reviews.
 
 1. Identify **restart** (same image/release, no migration), **recreation** (new
    container, preserved settings/volume), or **upgrade** (pinned source build,

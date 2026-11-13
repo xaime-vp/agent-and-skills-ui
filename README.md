@@ -44,4 +44,20 @@ npm run build
 
 See [`AGENTS.md`](AGENTS.md).
 
+Use `agent:test-specialist` for tests/fixtures/test configuration and
+`agent:documentation` for documentation after verifying the UI-bound sealed
+installation supports them. The developer owns application code. Test-specialist
+work has embedded read-only review; documentation does not. Select the matching
+label before preparation and keep contributions to the same PR sequential.
+
+The [handoff guide](.agents/docs/handoff.md),
+[preparation workflow](.agents/docs/free-form-issues.md) and
+[runtime reference](.agents/skills/bonsai-ci/references/runtime-and-issue.md)
+cover parent-PR selection, approval and evidence. New source supports 1/2/3 shared
+slots and a separate opt-in automatic PR Reviewer. Check installed settings;
+neither source support nor exported capability metadata grants UI controls.
+History exports still have specialist-capture and capacity-3 representation gaps;
+missing evidence stays unknown. See the platform's
+[export limits](https://github.com/xaime-vp/constant-integration/blob/main/docs/HISTORY_EXPORT.md).
+
 Local MCP credentials and worker state are kept out of commits. The root `.gitignore` already excludes `constant-integration-ui/` because it is its own repository.

@@ -10,6 +10,13 @@ with operator-selected `--target-pr NUMBER`. For legacy envelopes, set numeric
 from the workspace root. Test and documentation issues remain separate,
 sequential assignments delivered to that PR.
 
+Select `agent:test-specialist` for tests/fixtures/test configuration or
+`agent:documentation` for documentation, with the matching issue label and
+verified sealed support. Generalist/tests are retired source routes. Application
+code stays with the root developer; Reviewer is not an issue implementation
+route. Documentation has no embedded model review and cannot opt into schema-4
+post-publication repair.
+
 - [Prompt cookbook](../../../docs/prompting.md)
 - [Free-form operator contract](https://github.com/xaime-vp/constant-integration/blob/main/docs/submitting-tasks/free-form.md)
 - [Task submission](https://github.com/xaime-vp/constant-integration/blob/main/docs/SUBMITTING_TASKS.md)

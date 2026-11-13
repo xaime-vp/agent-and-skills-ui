@@ -17,31 +17,31 @@ A PR mention supplies context only. Omitting `--target-pr` or legacy `pull_reque
 
 ## Prepare and review a prose issue
 
-1. Finalize the issue and keep it blocked/unready. The configured owner posts standalone `/prepare-agent` after the final title/body edit; record the numeric comment ID. Assessment-only work instead requires `/prepare-agent review` and `--assessment-only`; it produces no executable proposal.
-2. An operator selects committed research files, the parent PR and explicit low/medium execution risk. Use the installed entrypoint with its normal target/environment arguments.
+1. Finalize the issue and keep it blocked/unready. Select exactly one matching label before preparation: `agent:test-specialist` for tests/fixtures/test configuration or `agent:documentation` for documentation, after verifying sealed support. Source preparation binds that selected role; Generalist/tests are retired source routes. The configured owner posts standalone `/prepare-agent` after the final title/body edit; record the numeric comment ID. Assessment-only work instead requires `/prepare-agent review` and `--assessment-only`; it produces no executable proposal.
+2. Verify the selected installation is UI-bound; container names below are examples, not discovery. An operator selects committed research files, the parent PR and explicit low/medium execution risk. Use the installed entrypoint with its normal target/environment arguments.
 
    On a Docker Compose host, from the platform checkout:
 
    ```sh
    docker compose -f workers/bonsai/compose.yaml run --rm worker prepare-issue 17 \
      --request-comment 70 --target-pr 42 \
-     --research-file app/src/parser.py --research-file app/tests/test_parser.py \
+     --research-file backend/ingest.py --research-file tests/test_ingestion.py \
      --execution-risk medium
    ```
 
-   On Windows with Podman in WSL (`podman-machine-default`, where `podman` is not on the Windows `PATH`), first inspect the installed image (`wsl -d podman-machine-default -e podman inspect bonsai-worker --format '{{.ImageName}}'`), safely stop the worker in place using `bonsai_stop_worker(container="bonsai-worker")` (without `backupSuffix`) or `.pi/skills/bonsai-podman-ops/scripts/stop_worker.sh bonsai-worker`, and then run against the existing container's state volume:
+   On Windows with Podman in WSL (`podman-machine-default`, where `podman` is not on the Windows `PATH`), follow the current [container skill](../skills/bonsai-containers/SKILL.md) for separately authorized inspection and stopped-state preparation. Verify the selected container's sealed release/configuration, confirm role processes stopped, then run against its existing state volume:
 
    ```sh
-   wsl -d podman-machine-default -e podman run --rm --volumes-from bonsai-worker \
+   wsl -d podman-machine-default -e podman run --rm --volumes-from bonsai-ui-worker \
      -e PODMAN_IGNORE_CGROUPSV1_WARNING=1 \
-     -e BONSAI_TARGET_REPOSITORY=xaime-vp/constant-integration \
+     -e BONSAI_TARGET_REPOSITORY=xaime-vp/constant-integration-ui \
      localhost/bonsai-worker:<tag> prepare-issue 17 \
      --request-comment 70 --target-pr 42 \
-     --research-file app/src/parser.py --research-file app/tests/test_parser.py \
+     --research-file backend/ingest.py --research-file tests/test_ingestion.py \
      --execution-risk medium
    ```
 
-   Only run preparation after the listener is stopped and all role processes are confirmed stopped. Preparation takes the listener lock, refuses active/unknown tasks or publication reservations and does not stop the service itself. It is exclusive even on a two-slot installation. Lifecycle changes follow the separately authorized container workflow.
+   Only run preparation after the listener is stopped and all role processes are confirmed stopped. Preparation takes the listener lock, refuses active/unknown tasks or publication reservations and does not stop the service itself. It is exclusive regardless of configured 1/2/3 capacity. Lifecycle changes follow the separately authorized container workflow.
 3. Inspect the returned preparation record using `inspect-preparation KEY`:
 
    ```sh
@@ -49,14 +49,14 @@ A PR mention supplies context only. Omitting `--target-pr` or legacy `pull_reque
    docker compose -f workers/bonsai/compose.yaml run --rm worker inspect-preparation KEY
 
    # Podman in WSL (podman-machine-default)
-   wsl -d podman-machine-default -e podman run --rm --volumes-from bonsai-worker \
+   wsl -d podman-machine-default -e podman run --rm --volumes-from bonsai-ui-worker \
      -e PODMAN_IGNORE_CGROUPSV1_WARNING=1 \
-     -e BONSAI_TARGET_REPOSITORY=xaime-vp/constant-integration \
+     -e BONSAI_TARGET_REPOSITORY=xaime-vp/constant-integration-ui \
      localhost/bonsai-worker:<tag> inspect-preparation KEY
    ```
 
    Review original requirements, assessment, questions/gaps, exact files, protected checks, limits and pinned source/PR destination. Research reads an operator-selected committed corpus and saved same-repository PR evidence; it does not run repository commands or browse arbitrary URLs. Missing evidence must become a gap/question. Any gap/question prevents an executable proposal; request another pass with appropriate evidence.
-4. Only a validated non-null proposal has an approval command. Present the exact returned full lowercase SHA-256 command to the owner. Approval must be strictly later than sealing and the final issue edit; equal timestamps require reposting. Set `ready` and exactly `agent:generalist` among role labels, remove `blocked` and use the normal listener for execution once prerequisites are satisfied (for Podman in WSL when authorized to resume: `wsl -d podman-machine-default -e podman start bonsai-worker`). Research requests, assessments and chat authorization do not authorize implementation.
+4. Only a validated non-null proposal has an approval command. Present the exact returned full lowercase SHA-256 command to the owner. Approval must be strictly later than sealing and the final issue edit; equal timestamps require reposting. Set `ready`, retain exactly the proposal's matching implementation label and remove `blocked`; use the normal listener once prerequisites and startup authorization are satisfied. Test-specialist work includes embedded read-only review; documentation does not. Research requests, assessments and chat authorization do not authorize worker implementation.
 5. Track the delivered commit and actual parent-branch diff, then inspect exact-head target CI. Serialize tests and documentation for one PR. Prepare the second contribution after the first releases reservations; a head change requires fresh preparation of any stale proposal.
 
 Preparation does not publish or implement. Requests are single-use even after failure; another bounded pass needs a new owner request. The supervisor saves immutable context/proposal evidence. Issue edits, changed source, captured PR head/base or bound check/resource policy require fresh preparation and digest approval. Ordinary status comments do not rewrite the assignment; changing requirements requires an issue edit and replacement preparation/approval, with revocation to stop active work. Preserve unknown-stop evidence and use supported reconciliation rather than retrying or deleting state.

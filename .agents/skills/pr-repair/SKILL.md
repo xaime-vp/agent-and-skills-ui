@@ -51,6 +51,14 @@ on the owner's behalf. Do not open duplicate issues or spawn duplicate local
 workers for the same assignment. These workspace details are conditional; use
 another repository's own workflow when working elsewhere.
 
+Current source handoffs use `agent:test-specialist` for tests/fixtures/test
+configuration and `agent:documentation` for documentation; verify sealed support
+and matching labels before preparation. Application repairs stay with the root
+developer. Test-specialist work has embedded read-only review; documentation does
+not. A separate automatic PR Reviewer emits advisory `COMMENT` reviews and cannot
+repair code or grant execution approval. Do not reset its attempts, publication
+markers or unknown-state reservations to obtain another review.
+
 Workspace handoffs support free-form preparation as well as legacy envelopes.
 Prepared issues select the existing parent with operator `--target-pr` and need
 digest-bound owner approval. A repaired PR head can invalidate a sealed proposal;

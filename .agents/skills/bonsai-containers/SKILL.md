@@ -15,6 +15,18 @@ WSL, with a private registry on the Linux filesystem. See
 [CLI operations](../../../constant-integration/docs/CONTAINER_LIFECYCLE.md) for registration,
 supported engines, outputs and recovery.
 
+On Windows with Podman running inside WSL (`podman-machine-default`), use
+[scripts/podman_wsl.py](scripts/podman_wsl.py) from the workspace root:
+
+```sh
+py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py inspect
+py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py build --check
+py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py relaunch bonsai-worker
+py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py action bonsai-worker inspect-preparation KEY
+```
+
+`podman_wsl.py` checks `/proc` for active `task_process`/`pi`/`check.py` work before stopping, backs up the previous container as `<container>-before-<suffix>`, preserves `/var/lib/bonsaiworker` volume mounts and `BONSAI_*` settings without exposing secrets, and refuses `prepare-issue` while the target worker is still running.
+
 1. Identify **restart** (same image/release, no migration), **recreation** (new
    container, preserved settings/volume), or **upgrade** (pinned source build,
    checks, backup, install/migration and recreation).

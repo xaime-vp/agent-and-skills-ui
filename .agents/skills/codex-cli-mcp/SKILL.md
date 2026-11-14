@@ -63,7 +63,7 @@ Do **not** modify a user's `mcp.json` just to satisfy Codex. Treat it as an exis
 
 ## GitHub issue and PR workflow
 
-1. Identify `owner/repo`, base, existing task branch/PR, scope and applicable target instructions. The current default external target is `xaime-vp/constant-integration` unless the user selects another. Use the target repo's checkout, not the `agent-and-skills` root, for product code.
+1. Identify `owner/repo`, base, existing task branch/PR, scope and applicable target instructions. The current default external target is `xaime-vp/constant-integration-ui` unless the user selects another. Use the target repo's checkout, not the `agent-and-skills-ui` root, for product code.
 2. Read the relevant issue/PR, inspect related work and labels, and establish permission for the requested mutation. Do not infer that an MCP token's capabilities imply user authorization.
 3. For a new code change, create a branch, then a **draft PR before implementation**, per root `AGENTS.md`. If GitHub requires a diff, use an acceptable minimal planning file; never silently implement before opening the draft. For ongoing work, reuse the existing branch/PR.
 4. Implement in scope, commit to the **explicit working branch**, verify the actual final diff, then run targeted checks. Codex may author code locally, while connected GitHub MCP or an authorized publisher performs remote actions.

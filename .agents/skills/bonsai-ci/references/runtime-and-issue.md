@@ -5,8 +5,8 @@ This workspace does not assume a previously used target, engine or model is curr
 
 - Platform repository: `xaime-vp/constant-integration`.
 - UI issue and parent-PR repository: `xaime-vp/constant-integration-ui`.
-  Harness-only changes target the `pi-constant-integration-ui` branch of
-  `xaime-vp/agent-and-skills`; do not send runtime edits to the UI-bound worker.
+  Harness-only changes target the `main` branch of
+  `xaime-vp/agent-and-skills-ui`; do not send runtime edits to the UI-bound worker.
 - In this workspace its source checkout is `constant-integration/`, and the
   offline validator is `.agents/tools/validate_task.py` at the workspace root. The root
   developer's currently selected target determines issue and PR destinations.

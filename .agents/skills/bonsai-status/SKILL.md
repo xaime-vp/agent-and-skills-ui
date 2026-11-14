@@ -20,7 +20,8 @@ wsl -d podman-machine-default -e sh -c 'export PODMAN_IGNORE_CGROUPSV1_WARNING=1
 ```
 
 The lifecycle CLI (`.agents/tools/containers.py`) rejects Podman hosts, so it cannot
-be used here — everything below is manual inspection via `podman`.
+be used here — use `py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py task-status <container> --issue <N>`
+and `logs <container> --controller` or manual inspection via `podman`.
 
 ## 1. Container health
 
@@ -102,13 +103,16 @@ gh issue list -R xaime-vp/constant-integration-ui --state open --json number,tit
 gh issue view <N> -R xaime-vp/constant-integration-ui --json comments,labels
 ```
 
-- `ready` plus exactly one supported matching implementation label
-  (`agent:test-specialist` or `agent:documentation` on current source) expresses
-  readiness only. With no owner approval it is not executable. Generalist/tests
-  are retired source routes; verify sealed compatibility.
-- Legacy envelopes need current standalone owner `/approve-agent`; prepared prose
-  issues need the exact `/approve-agent <full-digest>` after sealing and the final
-  edit. `/prepare-agent` authorizes research only. Check revision, revocation,
+- `ready` plus no `blocked` and exactly one supported matching implementation
+  label (`agent:test-specialist` or `agent:documentation` on current source)
+  admits work on current source (`admission_mode: ready`); standalone and digest
+  `/approve-agent` comments are ignored. Generalist/tests are retired source
+  routes; verify sealed compatibility.
+- On older sealed releases, `ready` expresses readiness only and still requires
+  owner approval: legacy envelopes need current standalone owner
+  `/approve-agent`, and prepared prose issues need the exact
+  `/approve-agent <full-digest>` after sealing and the final edit.
+  `/prepare-agent` authorizes research only. Check revision, revocation,
   consumption, source, scope, parent-PR and stop/reservation evidence; labels or
   a comment alone do not prove admission. See [preparation](../../docs/free-form-issues.md).
 - Issues without `ready` (or with `blocked`) are proposals — do not dispatch

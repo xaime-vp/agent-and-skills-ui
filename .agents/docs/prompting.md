@@ -1,6 +1,6 @@
 # Prompting a coding agent for a Bonsai task
 
-This developer-side guide is maintained in `xaime-vp/agent-and-skills`.
+This developer-side guide is maintained in `xaime-vp/agent-and-skills-ui`.
 Follow the [root developer contract](../../AGENTS.md) for the active workflow:
 the root agent implements application code and uses scoped issues for test and
 documentation contributions to its existing parent PR. Free-form preparation
@@ -51,10 +51,14 @@ protected checks or resource limits; identify what bounded preparation must
 resolve. Do not require agent-task JSON. Do not submit or approve the issue as
 part of this preparation-only request.
 
-Identify the operator's required parent destination (--target-pr NUMBER) and
+Identify the operator's required parent destination (--target-pr NUMBER),
+matching role label (agent:test-specialist or agent:documentation), and
 candidate committed research files, distinguishing suggestions from verified
-evidence. The configured owner must request research with /prepare-agent, then
-review the sealed proposal and post its exact /approve-agent <full-digest>.
+evidence. Keep the issue blocked without ready. The configured owner must
+request research with /prepare-agent, then inspect the sealed proposal
+(inspect-preparation). On current source (admission_mode: ready), admit by
+removing blocked and adding ready with the single matching agent:* label
+(older installed releases require /approve-agent <full-digest>).
 Assessment-only research cannot authorize implementation. Do not post owner
 request/approval commands or assume a merged capability is installed.
 ```
@@ -142,9 +146,12 @@ into separate issues unless explicitly requested.
   task ready. A PR link in issue prose does not enforce dependency order.
 - Keep unknown or dependent proposals `blocked` and without `ready`. Free-form
   research may resolve unknown details; gaps/questions block an executable
-  proposal. The owner uses `/prepare-agent` then the exact returned
-  `/approve-agent <full-digest>` for preparation, or standalone `/approve-agent`
-  for a finalized legacy envelope. Never post these owner commands for them.
+  proposal. On current source (`admission_mode: ready`), admit a verified
+  sealed proposal or finalized legacy envelope by removing `blocked`, adding
+  `ready`, and retaining the single matching `agent:*` label (no
+  `/approve-agent` comment is required; older installed releases still require
+  `/approve-agent <full-digest>` or standalone `/approve-agent`). Never post
+  owner commands for them.
 - After a draft PR exists, distinguish worker checks/review from exact-head
   target CI. Do not report a pass when a check is missing, pending, failed, or
   observed on an older head.

@@ -24,7 +24,35 @@ before selecting an executable route.
 For the client invocation, request template and owner/operator sequence, follow
 [calling an agent](.agents/docs/calling-agents.md). Use `$bonsai-ci` where the
 client supports it, or read its `SKILL.md`; the supervisor launches runtime roles
-only after issue admission.
+only after issue admission. When writing an executable issue, include **one** fenced `agent-task` JSON block in the issue body and validate it offline with `py -3 .agents/tools/validate_task.py --repository <owner/repo> --body-file <file>`:
+
+````markdown
+```agent-task
+{
+  "schema_version": 2,
+  "project": "workspace",
+  "role": "agent:test-specialist | agent:documentation",
+  "capabilities": ["coding", "tests"],
+  "complexity": 2,
+  "risk": "low | medium | high",
+  "goal": "<Concise objective for the worker>",
+  "allowed_files": ["<exact writable test or doc path>"],
+  "acceptance_commands": [["python", "tools/check.py"]],
+  "verification_plan": "<Checks to run and evidence to report>",
+  "provider": "openrouter",
+  "timeout_seconds": 1800,
+  "pull_request": 123
+}
+```
+````
+
+Use `"capabilities": ["coding"]` for `agent:documentation`, set numeric `pull_request` to the existing parent PR number, and keep `timeout_seconds` within controller policy (e.g. `1800`).
+
+On current source (`admission_mode: ready`), verified proposals and legacy
+envelopes are admitted by removing `blocked`, adding `ready`, and retaining the
+single matching `agent:*` label (older sealed releases still require
+`/approve-agent`). For safe workspace updates and release-specific compatibility
+checks, follow [compatibility](.agents/docs/compatibility.md).
 
 Test-specialist contributions receive embedded read-only review. Documentation
 contributions publish without a model reviewer. Both retain protected checks,
@@ -53,7 +81,7 @@ or complete export/UI capture of a capability.
 | Path | Purpose |
 | --- | --- |
 | `AGENTS.md` | This operating contract |
-| `.agents/skills/` | Agent skills for CI delegation, containers, status, Codex CLI, PR repair and PR submission |
+| `.agents/skills/` | Agent skills for CI delegation, containers, status, Codex CLI, PR repair, PR submission and UI verification |
 | `.agents/tools/` | Offline validators and process counters |
 | `.agents/docs/` | Prompting, handoff and free-form issue guidance |
 | `constant-integration-ui/` | Application checkout (separate repository, ignored here) |

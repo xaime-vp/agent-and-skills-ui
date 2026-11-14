@@ -20,8 +20,8 @@ and standalone approval. Follow `bonsai-ci` for the selected route; issue creati
 does not require a hand-written envelope in the free-form workflow. Record the
 actual sealed proposal/approval and delivery evidence when used.
 
-The UI harness lives on the `pi-constant-integration-ui` branch of
-`xaime-vp/agent-and-skills`, with skills, tools and guides under `.agents/`.
+The UI harness lives on the `main` branch of
+`xaime-vp/agent-and-skills-ui`, with skills, tools and guides under `.agents/`.
 UI application changes belong in `xaime-vp/constant-integration-ui`. Keep
 harness and application changes in separate scoped PRs against their
 respective bases. Runtime changes belong in `xaime-vp/constant-integration`.

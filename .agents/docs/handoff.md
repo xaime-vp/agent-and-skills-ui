@@ -1,6 +1,6 @@
 # Developer and worker handoff template
 
-Maintained in `xaime-vp/agent-and-skills`. Use this with the
+Maintained in `xaime-vp/agent-and-skills-ui`. Use this with the
 [root developer contract](../../AGENTS.md) to summarize issue-driven test or
 documentation contributions and manual recovery handoffs. It describes evidence
 to gather; it does not grant the developer access to protected supervisor state
@@ -41,7 +41,7 @@ pasting transcripts or unexplained logs.
 - **Scope / privileges:** readable context, exact writable files and prohibited actions.
 - **Instructions / checks:** applicable AGENTS.md paths and existing acceptance commands.
 - **Candidate identity:** platform revision, target branch/commit, source hash and PR.
-- **Issue route / authorization:** free-form preparation key, selected `--target-pr`, sealed proposal digest and owner approval evidence, or legacy envelope `pull_request` and standalone approval evidence. Record unresolved preparation gaps/questions. A prose issue needs no hand-written envelope; both routes need validated exact scope/checks before execution. See [route guidance](free-form-issues.md).
+- **Issue route / authorization:** free-form preparation key, selected `--target-pr`, sealed proposal digest, and installed admission/approval evidence (`admission_mode: ready` on current source, or digest/standalone `/approve-agent` on older sealed releases), or legacy envelope `pull_request` and readiness/approval evidence. Record unresolved preparation gaps/questions. A prose issue needs no hand-written envelope; both routes need validated exact scope/checks before execution. See [route guidance](free-form-issues.md).
 - **Implementation:** concrete changes and remaining work.
 - **Implementation check evidence:** selected profile, exact commands, exit/status and protected
   report/log paths. These ran once in that implementation workspace, not independently.

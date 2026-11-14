@@ -43,7 +43,7 @@ fixtures or documentation. Delegate new test/documentation content when required
 do not weaken assertions to obtain a green check. Even mechanical test integration
 must respect stricter repository rules.
 
-In the agent-and-skills workspace, use its `bonsai-ci` skill for required worker
+In the agent-and-skills-ui workspace, use its `bonsai-ci` skill for required worker
 handoffs and `pr-submission` for delivery evidence. Reuse the parent PR and its
 exact branch, serialize assignments targeting it, and verify delivered commits.
 An actually missing revision-bound owner approval is a blocker; never post it

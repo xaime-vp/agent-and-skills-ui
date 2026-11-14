@@ -11,7 +11,7 @@ For the [root developer workflow](../../AGENTS.md), both routes contribute tests
 | Executable scope/checks | Supervisor validates and seals the proposal using selected evidence and installed protected checks | Author supplies exact paths and protected acceptance-command argv arrays |
 | Owner action to request research | `/prepare-agent`; assessment-only uses `/prepare-agent review` | None |
 | Admission / owner approval | Current source (`admission_mode: ready`): remove `blocked`, add `ready`, keep single `agent:*` label; older releases: `/approve-agent <full-digest>` | Current source (`admission_mode: ready`): remove `blocked`, add `ready`, keep single `agent:*` label; older releases: standalone `/approve-agent` |
-| Validation | Preparation validates/seals the internal envelope and entire context | Workspace `.agents/tools/validate_task.py` parses the body against selected source |
+| Validation | Preparation validates/seals the internal envelope and entire context | Workspace `.pi/tools/validate_task.py` parses the body against selected source |
 
 A PR mention supplies context only. Omitting `--target-pr` or legacy `pull_request` selects a new draft instead of the required parent PR. Schema 4 cannot target an existing PR. Standalone legacy approval cannot approve a saved proposal. Do not post owner request/approval commands on their behalf.
 

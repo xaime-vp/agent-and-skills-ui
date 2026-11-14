@@ -6,7 +6,7 @@ provide the authoritative Constant Integration formats:
 For workspace handoffs, follow the root developer contract. Free-form issues
 need no executable envelope: use [preparation and digest approval](../../../docs/free-form-issues.md)
 with operator-selected `--target-pr NUMBER`. For legacy envelopes, set numeric
-`pull_request` to the existing parent PR and validate with `.agents/tools/validate_task.py`
+`pull_request` to the existing parent PR and validate with `.pi/tools/validate_task.py`
 from the workspace root. Test and documentation issues remain separate,
 sequential assignments delivered to that PR.
 

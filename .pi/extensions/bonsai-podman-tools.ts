@@ -1,5 +1,5 @@
 /**
- * Bonsai Podman Tools - Pi extension wrapping .agents/skills/bonsai-containers/scripts/podman_wsl.py
+ * Bonsai Podman Tools - Pi extension wrapping .pi/skills/bonsai-containers/scripts/podman_wsl.py
  * for read-only inspection/status/logs and safe build/stop operations in podman-machine-default.
  */
 
@@ -9,7 +9,7 @@ import { defineTool, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 const SAFE_NAME = /^[A-Za-z0-9][A-Za-z0-9_.:/-]*$/;
 const SAFE_SUFFIX = /^[A-Za-z0-9._-]+$/;
-const PODMAN_WSL_SCRIPT = path.join(".agents", "skills", "bonsai-containers", "scripts", "podman_wsl.py");
+const PODMAN_WSL_SCRIPT = path.join(".pi", "skills", "bonsai-containers", "scripts", "podman_wsl.py");
 
 type ExecFn = (
 	command: string,

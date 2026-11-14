@@ -66,3 +66,10 @@ unknown. See the platform's
 [export limits](https://github.com/xaime-vp/constant-integration/blob/main/docs/HISTORY_EXPORT.md).
 
 Local MCP credentials and worker state are kept out of commits. The root `.gitignore` already excludes `constant-integration-ui/` because it is its own repository.
+
+## Maintaining this harness
+
+Use [skill-maintenance](.pi/skills/skill-maintenance/SKILL.md) for requested skill
+changes. This repository is the ui harness; preserve its root role and
+client discovery paths. Harness instruction updates are direct development work;
+product test/documentation ownership still follows the root contract.

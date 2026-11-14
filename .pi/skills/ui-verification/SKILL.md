@@ -40,3 +40,9 @@ npm run build
 - Record the exact commands run, working directory, exit status, and `git -C constant-integration-ui rev-parse --short HEAD`.
 - Keep failed, skipped, and unrun checks visible; never report a pass from a partial subset or an older commit.
 - Distinguish local verification from worker check records and exact-head GitHub Actions CI.
+
+## Browser evidence
+
+For changed visible behavior or layout, use
+[ui-browser-verification](../ui-browser-verification/SKILL.md) with sanitized
+fixtures. Report actual interaction coverage and unavailable browser checks.

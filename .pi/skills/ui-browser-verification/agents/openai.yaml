@@ -1,0 +1,3 @@
+interface:
+  display_name: "UI browser verification"
+  short_description: "Verify UI flows with sanitized browser evidence"

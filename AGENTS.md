@@ -35,6 +35,9 @@ Load supporting skills only when their condition applies:
 
 | Condition | Skill |
 | --- | --- |
+| Visible frontend behavior, accessibility or responsive layout | [ui-browser-verification](.pi/skills/ui-browser-verification/SKILL.md) |
+| Finish an existing PR or assess final readiness | [pr-completion](.pi/skills/pr-completion/SKILL.md) |
+| Create or adapt harness skills and instruction routing | [skill-maintenance](.pi/skills/skill-maintenance/SKILL.md) |
 | User names multiple PRs; preserve independent worktrees and evidence | [multi-pr-review](.pi/skills/multi-pr-review/SKILL.md) |
 | Every substantive PR review; compare promised behavior with actual implementation | [implementation-completeness](.pi/skills/implementation-completeness/SKILL.md) |
 | A potential bug is found; verify it with a minimal isolated scenario | [bug-reproduction](.pi/skills/bug-reproduction/SKILL.md) |

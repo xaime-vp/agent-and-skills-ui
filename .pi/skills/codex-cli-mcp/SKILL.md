@@ -46,7 +46,7 @@ py -3 .pi/skills/codex-cli-mcp/scripts/run_codex.py exec --repo constant-integra
 
 `--full-auto` permits workspace writes under Codex's sandbox; it is **not** a blanket grant to change unrelated paths or publish to GitHub. Use a controlled working directory/worktree, inspect the diff, and keep commit/push/PR operations in the responsible publisher's workflow. Avoid `--dangerously-bypass-approvals-and-sandbox`. If `codex exec` cannot access a tool because of a sandbox or approval boundary, surface the blocker rather than silently loosening permissions.
 
-For instruction reuse in a fresh Codex session, ask for `$codex-cli-mcp` by name or describe a task matching its description. Codex discovers project skills in `.pi/skills/`; start from the workspace root when using this workspace skill, and explicitly point Codex to the external checkout.
+For instruction reuse in a fresh session, ask for `$codex-cli-mcp` by name or describe a task matching its description. Pi discovers project skills in `.pi/skills/` (while standalone Codex CLI looks in `.agents/skills/`); start from the workspace root when using this workspace skill, and explicitly point the client to the external checkout.
 
 ## Connect existing `mcp.json`
 

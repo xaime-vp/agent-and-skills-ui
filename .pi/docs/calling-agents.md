@@ -16,6 +16,8 @@ authorize GitHub writes, installation changes, merging or deployment.
 
 | Skill | Use it for | Example request |
 | --- | --- | --- |
+| [pr-completion](../skills/pr-completion/SKILL.md) | Finish under this harness delivery rules | `Use $pr-completion to finish PR <URL>.` |
+| [skill-maintenance](../skills/skill-maintenance/SKILL.md) | Maintain this harness without changing its role | `Use $skill-maintenance to adapt this skill for the current client.` |
 | [bonsai-ci](../skills/bonsai-ci/SKILL.md) | Prepare and track test/documentation contributions to a parent PR | `Use $bonsai-ci to prepare regression coverage for PR <URL> in xaime-vp/constant-integration-ui.` |
 | [bonsai-containers](../skills/bonsai-containers/SKILL.md) | Inspect or perform requested worker lifecycle operations | `Use $bonsai-containers to inspect the installation bound to xaime-vp/constant-integration-ui and report its sealed revision and enabled profiles.` |
 | [bonsai-status](../skills/bonsai-status/SKILL.md) | Read-only worker health, slot occupancy and GitHub dispatch state | `Use $bonsai-status to inspect the UI-bound worker stack.` |
@@ -127,3 +129,7 @@ report its advisory findings. A request to fix findings becomes developer work
 or a separately scoped test/documentation assignment. Do not delete review
 records or reset attempts to retrigger a commit; preserve the
 [retry and reconciliation rules](../skills/bonsai-ci/references/runtime-and-issue.md#automatic-commit-reviews-and-telemetry).
+
+For visible frontend changes, use
+[ui-browser-verification](../skills/ui-browser-verification/SKILL.md) alongside
+the existing backend, contract and frontend checks.

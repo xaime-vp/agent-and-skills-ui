@@ -1,0 +1,4 @@
+interface:
+  display_name: "Multi-PR Review"
+  short_description: "Review several PRs with separate evidence"
+  default_prompt: "Use $multi-pr-review to review the requested PRs independently."

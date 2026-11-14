@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bug Reproduction"
+  short_description: "Reproduce suspected bugs with isolated evidence"
+  default_prompt: "Use $bug-reproduction to verify this suspected defect in isolation."

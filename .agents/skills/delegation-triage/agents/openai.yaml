@@ -1,0 +1,3 @@
+interface:
+  display_name: "Delegation Triage"
+  short_description: "Resolve ownership before specialist handoffs"

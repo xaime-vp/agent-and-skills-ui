@@ -1,13 +1,15 @@
 ---
 name: pr-repair
-description: Repair existing GitHub pull requests by resolving merge conflicts, fixing failing checks, or addressing requested corrections on their current branches. Use for requests such as fix the test conflict in a PR or fix several PRs. Does not merge PRs or deploy changes.
+description: Review existing GitHub pull requests and carry authorized corrections through verification on their current branches. Use for review PR, review and implement PR, fix PR, merge conflicts, failing checks or review feedback. Review-only requests remain read-only; this skill does not authorize merging or deployment.
 ---
 
-# PR repair
+# PR review and repair
 
-Carry the requested repairs through publication and verification on each existing
-PR branch. A passing local snapshot is intermediate evidence; establish what
-actually reached GitHub before reporting a repair complete.
+Coordinate review, scoped remediation and final verification on each existing PR
+branch. For review-only requests, inspect and report without modifying source,
+creating issues, updating PR metadata or publishing review comments unless requested.
+For review-and-implement or repair requests, carry authorized corrections through
+publication and verification. A local pass alone does not establish delivery.
 
 ## Recover the current state
 
@@ -31,39 +33,44 @@ repair when its state is understood instead of starting over.
 
 ## Choose the smallest complete repair
 
+Choose review depth from the diff and risk, respecting the user's requested depth:
+
+- **Quick:** prose-only or localized low-risk changes; inspect the changed content
+  and directly affected references and run relevant required checks.
+- **Standard:** ordinary implementation changes; review surrounding behavior,
+  assertions, affected callers, documentation and required validation.
+- **Deep:** concurrency, security, deployment or architecture changes; trace
+  cross-component contracts and failure paths, including defaults and limits.
+
+Depth limits exploratory work; it never waives repository-required validation.
+Use [change-impact-analysis](../change-impact-analysis/SKILL.md) when the diff
+changes defaults, configuration, concurrency or public/runtime contracts. Load
+other supporting skills at the decision that needs them, not all at startup.
+
+Classify findings as blockers, scoped corrections, unrelated follow-ups or optional
+improvements. State the affected location, failure mechanism, user impact and a
+way to verify each actionable finding. Distinguish a regression introduced by this
+diff from an existing limitation. Implement authorized application corrections;
+report unrelated limitations without opening additional work unless requested.
+
 Distinguish merge conflicts, application defects, failing test expectations,
 environment failures and unfinished worker contributions. For an ambiguous
 "fix PR", use its conflict state, failed check logs and actionable review feedback
 to identify the concrete problem. Ask if materially different outcomes remain.
 
-Inspect existing test/documentation issues before dispatching anything. Follow
+Use [delegation-triage](../delegation-triage/SKILL.md) when independent specialist
+work is identified, before dispatching anything. Follow
 repository ownership rules: repairing application behavior and mechanically
 integrating unchanged contributions differ from authoring new assertions,
 fixtures or documentation. Delegate new test/documentation content when required;
 do not weaken assertions to obtain a green check. Even mechanical test integration
 must respect stricter repository rules.
 
-In the agent-and-skills-ui workspace, use its `bonsai-ci` skill for required worker
-handoffs and `pr-submission` for delivery evidence. Reuse the parent PR and its
-exact branch, serialize assignments targeting it, and verify delivered commits.
-An actually missing revision-bound owner approval is a blocker; never post it
-on the owner's behalf. Do not open duplicate issues or spawn duplicate local
-workers for the same assignment. These workspace details are conditional; use
-another repository's own workflow when working elsewhere.
-
-Current source handoffs use `agent:test-specialist` for tests/fixtures/test
-configuration and `agent:documentation` for documentation; verify sealed support
-and matching labels before preparation. Application repairs stay with the root
-developer. Test-specialist work has embedded read-only review; documentation does
-not. A separate automatic PR Reviewer emits advisory `COMMENT` reviews and cannot
-repair code or grant execution approval. Do not reset its attempts, publication
-markers or unknown-state reservations to obtain another review.
-
-Workspace handoffs support free-form preparation as well as legacy envelopes.
-Prepared issues select the existing parent with operator `--target-pr` and need
-digest-bound owner approval. A repaired PR head can invalidate a sealed proposal;
-refresh its context and prepare/approve a replacement before execution. See
-[free-form guidance](../../docs/free-form-issues.md).
+In the agent-and-skills-ui workspace, load [bonsai-ci](../bonsai-ci/SKILL.md) only
+for an authorized handoff or active delivery tracking. It owns installed-route
+selection, preparation and release-specific admission; do not infer approval
+requirements from historical transcripts. Use [pr-submission](../pr-submission/SKILL.md)
+when publishing or updating the PR. Use another repository's own workflow elsewhere.
 
 ## Resolve conflicts without losing behavior
 
@@ -112,33 +119,34 @@ competing writer instead of repeatedly rebuilding and overwriting work.
 
 ## Validate and finish each PR
 
-Read the repository's required commands, tool versions and CI environment. Run
-focused checks for the repair and the required combined checks. Use the repository's
-supported Linux/container environment when host differences matter. Reuse suitable
-existing tooling; do not upgrade the worker, start paid tasks or expose runtime
-secrets just to run tests. Retry infrastructure failures only after identifying
-a transient cause or changing the relevant condition.
-
-For a container snapshot, record its source tree SHA, command, exit status and
-environment. Confirm the published commit has that tested tree. Separate this
-evidence from GitHub CI and worker claims. Review the final diff against the base
-for lost tests, unrelated changes and unintended behavior, including files that
-merged automatically.
+Use [pr-validation](../pr-validation/SKILL.md) to choose checks and reconcile local,
+worker and GitHub evidence. Review the combined diff against the actual base for
+lost tests, unrelated changes and unintended behavior, including automatic merges.
 
 After publication, fetch the PR again and inspect checks at its exact head SHA.
 Confirm mergeability after GitHub finishes calculating it; unknown is not success.
 For a request to fix failing CI, follow the affected runs to a terminal result or
-a concrete blocker. Poll running checks with bounded waits and give meaningful
-progress updates. Do not endlessly rerun a deterministic failure or infer success
-from an older revision. Unrelated pending checks should be reported accurately.
+a concrete blocker. For required worker delivery, follow the contribution through
+its actual branch commit. Use bounded waits with backoff when nothing changes;
+batch independent status reads and avoid repeatedly fetching the same full diff.
+A pending run is not itself a blocker. If progress stalls, inspect the relevant
+failure or missing prerequisite rather than spinning on status requests.
 
 Keep incomplete work in draft when required by the repository. Do not mark a PR
 ready while required worker contributions, checks or repairs remain outstanding.
 Update its description with the final behavior, contribution provenance and
-validation evidence. Finish independent PRs even if another PR is blocked.
+validation evidence when updates are authorized. Mark it ready once required work
+and checks are complete under the root workflow. Review-only work reports readiness
+without changing draft status. Finish independent PRs even if another PR is blocked.
 
-Report each PR's link and branch, actual repair, published commit, validation
-outcome and concrete remaining blocker. Link worker issues when used. If an
+Stop expanding the investigation once the requested behavior, substantive findings,
+required checks and handoffs are resolved or have concrete blockers. Optional
+improvements and unrelated legacy limitations do not keep the PR workflow open.
+Report review-only work as reviewed with findings and validation limits; report
+writable work as ready, blocked or incomplete according to the observed evidence.
+
+Report each PR's link and branch, findings or repairs, reviewed/published commit,
+validation outcome and concrete remaining blocker. Link worker issues when used. If an
 interruption prevents completion, preserve the current merge/tree/commit state,
 running check identifiers and exact next action so the repair can resume.
 Leave merge into the base and deployment to the user unless separately authorized.

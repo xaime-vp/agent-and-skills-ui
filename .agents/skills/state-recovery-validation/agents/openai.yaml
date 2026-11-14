@@ -1,0 +1,4 @@
+interface:
+  display_name: "State Recovery Validation"
+  short_description: "Check interrupted writes, retries and delivery"
+  default_prompt: "Use $state-recovery-validation to verify checkpoint and retry consistency."

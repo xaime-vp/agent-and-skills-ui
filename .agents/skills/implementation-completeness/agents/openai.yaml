@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implementation Completeness"
+  short_description: "Compare promised behavior with delivered code"
+  default_prompt: "Use $implementation-completeness to compare this PR with its promised behavior."

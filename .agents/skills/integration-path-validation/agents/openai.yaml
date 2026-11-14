@@ -1,0 +1,4 @@
+interface:
+  display_name: "Integration Path Validation"
+  short_description: "Check startup, imports and CI dependency paths"
+  default_prompt: "Use $integration-path-validation to check the runtime and CI paths changed by this PR."

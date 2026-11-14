@@ -221,24 +221,60 @@ def cmd_stop(args: argparse.Namespace) -> int:
     return 0
 
 
+def find_worker_volume(info: dict) -> str | None:
+    for m in info.get("Mounts", []):
+        if m.get("Destination") == "/var/lib/bonsaiworker":
+            return m.get("Name") or m.get("Source")
+    return None
+
+
+def build_mount_flags(info: dict, export_dir: str | None) -> list[str]:
+    vol_src = find_worker_volume(info)
+    if not vol_src:
+        raise SystemExit("Container has no /var/lib/bonsaiworker mount")
+    flags: list[str] = ["-v", f"{vol_src}:/var/lib/bonsaiworker"]
+    for m in info.get("Mounts", []):
+        dest = m.get("Destination")
+        if not dest or dest == "/var/lib/bonsaiworker":
+            continue
+        if export_dir and dest == "/export":
+            continue
+        src = m.get("Name") or m.get("Source")
+        if src:
+            rw = "rw" if m.get("RW", True) else "ro"
+            flags.extend(["-v", f"{src}:{dest}:{rw}"])
+    if export_dir:
+        wsl_export = to_wsl_path(Path(export_dir))
+        flags.extend(["-v", f"{wsl_export}:/export:rw"])
+    return flags
+
+
+def apply_safe_env_overrides(safe_env: dict[str, str], env_args: list[str] | None) -> dict[str, str]:
+    updated = dict(safe_env)
+    for item in env_args or []:
+        if "=" not in item:
+            raise SystemExit(f"Invalid --env format (expected KEY=VALUE): {item!r}")
+        k, v = item.split("=", 1)
+        if k not in SAFE_BONSAI_KEYS:
+            raise SystemExit(f"Unsupported --env key {k!r}; allowed: {', '.join(SAFE_BONSAI_KEYS)}")
+        updated[k] = v
+    return updated
+
+
 def cmd_relaunch(args: argparse.Namespace) -> int:
     container = validate_name(args.container, "container")
     info = podman_inspect(args.machine, [container])[0]
     safe_env = extract_safe_env(info.get("Config", {}).get("Env", []))
+    if args.export_dir:
+        safe_env["BONSAI_EXPORT_DIR"] = "/export"
+    safe_env = apply_safe_env_overrides(safe_env, args.env)
     target_repo = safe_env.get("BONSAI_TARGET_REPOSITORY")
     if not target_repo:
         raise SystemExit(f"Container {container} has no BONSAI_TARGET_REPOSITORY")
-    mounts = info.get("Mounts", [])
-    vol_mounts = [m for m in mounts if m.get("Destination") == "/var/lib/bonsaiworker"]
-    if not vol_mounts:
-        raise SystemExit(f"Container {container} has no /var/lib/bonsaiworker mount")
-    vol_src = vol_mounts[0].get("Name") or vol_mounts[0].get("Source")
-    if not vol_src:
-        raise SystemExit(f"Could not determine volume source for {container}")
+    mount_flags = build_mount_flags(info, args.export_dir)
     restart_policy = (
         info.get("HostConfig", {}).get("RestartPolicy", {}).get("Name") or "unless-stopped"
     )
-    max_tasks = safe_env.get("BONSAI_MAX_CONCURRENT_TASKS", "2")
 
     if args.image:
         image = validate_name(args.image, "image")
@@ -252,7 +288,7 @@ def cmd_relaunch(args: argparse.Namespace) -> int:
     suffix = validate_suffix(args.backup_suffix) if args.backup_suffix else image.split(":")[-1].replace("main-", "")
     stop_container(args.machine, container, suffix, args.force)
 
-    print(f"Launching {container} with {image} (target={target_repo}, volume={vol_src})...")
+    print(f"Launching {container} with {image} (target={target_repo})...")
     env_flags: list[str] = []
     for k, v in sorted(safe_env.items()):
         env_flags.extend(["-e", f"{k}={v}"])
@@ -266,8 +302,7 @@ def cmd_relaunch(args: argparse.Namespace) -> int:
             container,
             "--restart",
             restart_policy,
-            "-v",
-            f"{vol_src}:/var/lib/bonsaiworker",
+            *mount_flags,
             *env_flags,
             image,
             "run",
@@ -280,12 +315,13 @@ def cmd_upgrade(args: argparse.Namespace) -> int:
     container = validate_name(args.container, "container")
     info = podman_inspect(args.machine, [container])[0]
     safe_env = extract_safe_env(info.get("Config", {}).get("Env", []))
+    if args.export_dir:
+        safe_env["BONSAI_EXPORT_DIR"] = "/export"
+    safe_env = apply_safe_env_overrides(safe_env, args.env)
     target_repo = safe_env.get("BONSAI_TARGET_REPOSITORY")
     if not target_repo:
         raise SystemExit(f"Container {container} has no BONSAI_TARGET_REPOSITORY")
-    vol_src = find_worker_volume(info)
-    if not vol_src:
-        raise SystemExit(f"Container {container} has no /var/lib/bonsaiworker mount")
+    mount_flags = build_mount_flags(info, args.export_dir)
     restart_policy = (
         info.get("HostConfig", {}).get("RestartPolicy", {}).get("Name") or "unless-stopped"
     )
@@ -357,8 +393,7 @@ def cmd_upgrade(args: argparse.Namespace) -> int:
             container,
             "--restart",
             restart_policy,
-            "-v",
-            f"{vol_src}:/var/lib/bonsaiworker",
+            *mount_flags,
             *env_flags,
             image,
             "run",
@@ -539,6 +574,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_relaunch.add_argument("--repo", default="constant-integration", help="Checkout path for default tag")
     p_relaunch.add_argument("--image", help="Explicit image tag")
     p_relaunch.add_argument("--backup-suffix", help="Backup suffix (default: tag short SHA)")
+    p_relaunch.add_argument("--export-dir", help="Host directory to mount at /export and set BONSAI_EXPORT_DIR=/export")
+    p_relaunch.add_argument("--env", action="append", help="Override non-secret BONSAI_* env var (KEY=VALUE)")
     p_relaunch.add_argument("--force", action="store_true", help="Stop even if active tasks exist")
     p_relaunch.set_defaults(func=cmd_relaunch)
 
@@ -547,6 +584,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_upgrade.add_argument("--repo", default="constant-integration", help="Checkout path for default tag")
     p_upgrade.add_argument("--image", help="Explicit image tag")
     p_upgrade.add_argument("--backup-suffix", help="Backup suffix (default: tag short SHA)")
+    p_upgrade.add_argument("--export-dir", help="Host directory to mount at /export and set BONSAI_EXPORT_DIR=/export")
+    p_upgrade.add_argument("--env", action="append", help="Override non-secret BONSAI_* env var (KEY=VALUE)")
     p_upgrade.add_argument("--force", action="store_true", help="Stop even if active tasks exist")
     p_upgrade.add_argument("--start", action="store_true", help="Start the recreated container after upgrade (default: leave stopped)")
     p_upgrade.set_defaults(func=cmd_upgrade)

@@ -28,8 +28,8 @@ For a human using ChatGPT subscription benefits, select **Sign in with ChatGPT**
 Start interactive mode in the MCP-connected `./codex` folder (which holds `./codex/.mcp.json` for GitHub PR/issue write access) using [scripts/run_codex.py](scripts/run_codex.py):
 
 ```sh
-py -3 .agents/skills/codex-cli-mcp/scripts/run_codex.py check
-py -3 .agents/skills/codex-cli-mcp/scripts/run_codex.py interactive
+py -3 .pi/skills/codex-cli-mcp/scripts/run_codex.py check
+py -3 .pi/skills/codex-cli-mcp/scripts/run_codex.py interactive
 ```
 
 Or launch directly from `codex/`:
@@ -41,12 +41,12 @@ codex -C codex
 For a bounded non-interactive code task targeting a checkout while keeping `./codex`'s MCP connection:
 
 ```sh
-py -3 .agents/skills/codex-cli-mcp/scripts/run_codex.py exec --repo constant-integration --full-auto "Read the applicable AGENTS.md, make only the requested scoped implementation changes, run existing relevant checks, and report changed files and test results. Do not merge or deploy."
+py -3 .pi/skills/codex-cli-mcp/scripts/run_codex.py exec --repo constant-integration --full-auto "Read the applicable AGENTS.md, make only the requested scoped implementation changes, run existing relevant checks, and report changed files and test results. Do not merge or deploy."
 ```
 
 `--full-auto` permits workspace writes under Codex's sandbox; it is **not** a blanket grant to change unrelated paths or publish to GitHub. Use a controlled working directory/worktree, inspect the diff, and keep commit/push/PR operations in the responsible publisher's workflow. Avoid `--dangerously-bypass-approvals-and-sandbox`. If `codex exec` cannot access a tool because of a sandbox or approval boundary, surface the blocker rather than silently loosening permissions.
 
-For instruction reuse in a fresh Codex session, ask for `$codex-cli-mcp` by name or describe a task matching its description. Codex discovers project skills in `.agents/skills/`; start from the workspace root when using this workspace skill, and explicitly point Codex to the external checkout.
+For instruction reuse in a fresh session, ask for `$codex-cli-mcp` by name or describe a task matching its description. Pi discovers project skills in `.pi/skills/` (while standalone Codex CLI looks in `.agents/skills/`); start from the workspace root when using this workspace skill, and explicitly point the client to the external checkout.
 
 ## Connect existing `mcp.json`
 

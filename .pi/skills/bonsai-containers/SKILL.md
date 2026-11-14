@@ -5,12 +5,12 @@ description: "Inspect, verify, restart or upgrade a Bonsai container installatio
 
 Support the [root developer](../../../AGENTS.md) for requested installation work.
 Keep `references/` alongside `SKILL.md`. The source checkout is
-`constant-integration/`; the workspace `.agents/tools/containers.py` launcher delegates
+`constant-integration/`; the workspace `.pi/tools/containers.py` launcher delegates
 to its original CLI. Reading this skill does not start or install a worker.
 
 # Bonsai container lifecycle
 
-Use `python .agents/tools/containers.py --json --installation NAME ...` from Linux or
+Use `python .pi/tools/containers.py --json --installation NAME ...` from Linux or
 WSL, with a private registry on the Linux filesystem. See
 [CLI operations](https://github.com/xaime-vp/constant-integration/blob/main/docs/CONTAINER_LIFECYCLE.md) for registration,
 supported engines, outputs and recovery.
@@ -19,14 +19,14 @@ On Windows with Podman running inside WSL (`podman-machine-default`), use
 [scripts/podman_wsl.py](scripts/podman_wsl.py) from the workspace root:
 
 ```sh
-py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py inspect
-py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py task-status bonsai-ui-worker --issue 204
-py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py logs bonsai-ui-worker --controller --tail 50
-py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py build --check
-py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py stop bonsai-ui-worker --backup-suffix 20f8bf5
-py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py relaunch bonsai-ui-worker
-py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py upgrade bonsai-ui-worker --start
-py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py action bonsai-ui-worker inspect-preparation KEY
+py -3 .pi/skills/bonsai-containers/scripts/podman_wsl.py inspect
+py -3 .pi/skills/bonsai-containers/scripts/podman_wsl.py task-status bonsai-ui-worker --issue 204
+py -3 .pi/skills/bonsai-containers/scripts/podman_wsl.py logs bonsai-ui-worker --controller --tail 50
+py -3 .pi/skills/bonsai-containers/scripts/podman_wsl.py build --check
+py -3 .pi/skills/bonsai-containers/scripts/podman_wsl.py stop bonsai-ui-worker --backup-suffix 20f8bf5
+py -3 .pi/skills/bonsai-containers/scripts/podman_wsl.py relaunch bonsai-ui-worker
+py -3 .pi/skills/bonsai-containers/scripts/podman_wsl.py upgrade bonsai-ui-worker --start
+py -3 .pi/skills/bonsai-containers/scripts/podman_wsl.py action bonsai-ui-worker inspect-preparation KEY
 ```
 
 - `podman_wsl.py` checks `/proc` for active `task_process`/`pi`/`check.py` work before stopping (`--force` overrides), backs up the previous container as `<container>-before-<suffix>`, preserves `/var/lib/bonsaiworker` volume mounts and `BONSAI_*` settings without exposing secrets, and refuses `prepare-issue` while the target worker is still running.

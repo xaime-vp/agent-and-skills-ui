@@ -19,8 +19,8 @@ Windows host. Prefix commands with:
 wsl -d podman-machine-default -e sh -c 'export PODMAN_IGNORE_CGROUPSV1_WARNING=1; ...'
 ```
 
-The lifecycle CLI (`.agents/tools/containers.py`) rejects Podman hosts, so it cannot
-be used here — use `py -3 .agents/skills/bonsai-containers/scripts/podman_wsl.py task-status <container> --issue <N>`
+The lifecycle CLI (`.pi/tools/containers.py`) rejects Podman hosts, so it cannot
+be used here — use `py -3 .pi/skills/bonsai-containers/scripts/podman_wsl.py task-status <container> --issue <N>`
 and `logs <container> --controller` or manual inspection via `podman`.
 
 ## 1. Container health
@@ -82,12 +82,12 @@ Read only needed configuration fields, including enabled profiles and the
 
 ## 3. Cheap host-level count (optional)
 
-`.agents/tools/bonsai_process_count.py` in the workspace root counts launcher processes on any
+`.pi/tools/bonsai_process_count.py` in the workspace root counts launcher processes on any
 host (psutil, PowerShell or pgrep fallback). Run it inside the distro from the workspace root:
 
 ```bash
 wsl -d podman-machine-default -e sh -c \
-  'python3 .agents/tools/bonsai_process_count.py --verbose'
+  'python3 .pi/tools/bonsai_process_count.py --verbose'
 ```
 
 Compare counts against the current inventory, not a historical expected total.

@@ -27,7 +27,7 @@ checkout happens to be active.
 5. For a legacy envelope, validate the finalized body from the workspace root (works in both PowerShell and Git Bash on Windows):
 
    ```sh
-   py -3 .agents/tools/validate_task.py --repository xaime-vp/constant-integration-ui --body-file path/to/issue.md
+   py -3 .pi/tools/validate_task.py --repository xaime-vp/constant-integration-ui --body-file path/to/issue.md
    ```
 
    Substitute the actual target repository and select `--platform-root` when the default checkout is stale. Parsing is offline source-schema evidence, not approval, protected-check verification or installed compatibility. This tool parses legacy envelopes only; free-form proposals are validated and sealed by preparation.

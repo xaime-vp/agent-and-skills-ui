@@ -9,7 +9,7 @@ For every new development task without an existing parent PR:
 1. **Create a task branch** from `main` in `xaime-vp/constant-integration-ui`.
 2. **Open a draft PR** into `main` before implementing application code.
 3. **Implement and commit the application code** on that branch.
-4. **Delegate tests and documentation** through focused repository issues on the same PR when meaningful independent test or documentation work exists, using the `.agents/skills/bonsai-ci/` skill.
+4. **Delegate tests and documentation** through focused repository issues on the same PR when meaningful independent test or documentation work exists, using the `.pi/skills/bonsai-ci/` skill.
 5. **Validate and report** combined results before marking the PR ready for review.
 
 Meaningful independent test and documentation work is delegated through issues rather than silently folded into the application PR. For trivial or one-line application fixes where no independent test or documentation work is warranted, do not spawn unnecessary agent tasks—record a concrete reason in the parent PR instead.
@@ -24,7 +24,7 @@ Use GitHub MCP via `codemode` (`searchTools` and `tools.mcp__github__*`) as the 
 ## Skill routing for existing pull requests
 
 Continue the requested PR and its current branch; skip new-task branch/PR creation.
-Load [pr-repair](.agents/skills/pr-repair/SKILL.md) for "review PR", "review and
+Load [pr-repair](.pi/skills/pr-repair/SKILL.md) for "review PR", "review and
 implement PR", "fix PR", conflicts, failing CI and requested review corrections.
 Review first. A review-only request authorizes inspection and appropriate checks;
 report findings without changing files, issues or PR metadata or posting a review
@@ -35,17 +35,17 @@ Load supporting skills only when their condition applies:
 
 | Condition | Skill |
 | --- | --- |
-| User names multiple PRs; preserve independent worktrees and evidence | [multi-pr-review](.agents/skills/multi-pr-review/SKILL.md) |
-| Every substantive PR review; compare promised behavior with actual implementation | [implementation-completeness](.agents/skills/implementation-completeness/SKILL.md) |
-| A potential bug is found; verify it with a minimal isolated scenario | [bug-reproduction](.agents/skills/bug-reproduction/SKILL.md) |
-| Changes affect runtime startup, imports, packaging or CI dependency boundaries | [integration-path-validation](.agents/skills/integration-path-validation/SKILL.md) |
-| Changes affect persistence, queues, checkpoints or incremental exports | [state-recovery-validation](.agents/skills/state-recovery-validation/SKILL.md) |
-| Changed configuration/defaults, concurrency, public contracts, security boundaries, deployment or architecture | [change-impact-analysis](.agents/skills/change-impact-analysis/SKILL.md) |
-| Executable verification or assessment of existing check evidence is needed | [pr-validation](.agents/skills/pr-validation/SKILL.md) |
-| Local backend/contract/frontend verification in `constant-integration-ui/` | [ui-verification](.agents/skills/ui-verification/SKILL.md) |
-| Independent test/documentation work is identified; check existing ownership before issuing work | [delegation-triage](.agents/skills/delegation-triage/SKILL.md) |
-| An authorized specialist handoff or active delivery needs execution/tracking | [bonsai-ci](.agents/skills/bonsai-ci/SKILL.md) |
-| Publishing scoped changes or updating the parent PR | [pr-submission](.agents/skills/pr-submission/SKILL.md) |
+| User names multiple PRs; preserve independent worktrees and evidence | [multi-pr-review](.pi/skills/multi-pr-review/SKILL.md) |
+| Every substantive PR review; compare promised behavior with actual implementation | [implementation-completeness](.pi/skills/implementation-completeness/SKILL.md) |
+| A potential bug is found; verify it with a minimal isolated scenario | [bug-reproduction](.pi/skills/bug-reproduction/SKILL.md) |
+| Changes affect runtime startup, imports, packaging or CI dependency boundaries | [integration-path-validation](.pi/skills/integration-path-validation/SKILL.md) |
+| Changes affect persistence, queues, checkpoints or incremental exports | [state-recovery-validation](.pi/skills/state-recovery-validation/SKILL.md) |
+| Changed configuration/defaults, concurrency, public contracts, security boundaries, deployment or architecture | [change-impact-analysis](.pi/skills/change-impact-analysis/SKILL.md) |
+| Executable verification or assessment of existing check evidence is needed | [pr-validation](.pi/skills/pr-validation/SKILL.md) |
+| Local backend/contract/frontend verification in `constant-integration-ui/` | [ui-verification](.pi/skills/ui-verification/SKILL.md) |
+| Independent test/documentation work is identified; check existing ownership before issuing work | [delegation-triage](.pi/skills/delegation-triage/SKILL.md) |
+| An authorized specialist handoff or active delivery needs execution/tracking | [bonsai-ci](.pi/skills/bonsai-ci/SKILL.md) |
+| Publishing scoped changes or updating the parent PR | [pr-submission](.pi/skills/pr-submission/SKILL.md) |
 
 Select `quick` depth for prose-only/localized low-risk changes, `standard` for ordinary
 implementation changes, and `deep` for concurrency, security, deployment or
@@ -71,9 +71,9 @@ aliases. Verify the UI-bound installation's sealed release and enabled profiles
 before selecting an executable route.
 
 For the client invocation, request template and owner/operator sequence, follow
-[calling an agent](.agents/docs/calling-agents.md). Use `$bonsai-ci` where the
+[calling an agent](.pi/docs/calling-agents.md). Use `$bonsai-ci` where the
 client supports it, or read its `SKILL.md`; the supervisor launches runtime roles
-only after issue admission. When writing an executable issue, include **one** fenced `agent-task` JSON block in the issue body and validate it offline with `py -3 .agents/tools/validate_task.py --repository <owner/repo> --body-file <file>`:
+only after issue admission. When writing an executable issue, include **one** fenced `agent-task` JSON block in the issue body and validate it offline with `py -3 .pi/tools/validate_task.py --repository <owner/repo> --body-file <file>`:
 
 ````markdown
 ```agent-task
@@ -101,14 +101,14 @@ On current source (`admission_mode: ready`), verified proposals and legacy
 envelopes are admitted by removing `blocked`, adding `ready`, and retaining the
 single matching `agent:*` label (older sealed releases still require
 `/approve-agent`). For safe workspace updates and release-specific compatibility
-checks, follow [compatibility](.agents/docs/compatibility.md).
+checks, follow [compatibility](.pi/docs/compatibility.md).
 
 Test-specialist contributions receive embedded read-only review. Documentation
 contributions publish without a model reviewer. Both retain protected checks,
 exact scope and route-specific owner approval. Keep assignments to one parent PR
 sequential and verify their actual delivered commits. See the
-[handoff guide](.agents/docs/handoff.md) and
-[issue preparation](.agents/docs/free-form-issues.md).
+[handoff guide](.pi/docs/handoff.md) and
+[issue preparation](.pi/docs/free-form-issues.md).
 
 Source supports 1/2/3 shared slots; a missing configuration setting retains one.
 The separate trusted-opt-in automatic PR Reviewer shares that capacity and emits
@@ -130,9 +130,9 @@ or complete export/UI capture of a capability.
 | Path | Purpose |
 | --- | --- |
 | `AGENTS.md` | This operating contract |
-| `.agents/skills/` | Agent skills for CI delegation, containers, status, Codex CLI, PR repair, PR submission and UI verification |
-| `.agents/tools/` | Offline validators and process counters |
-| `.agents/docs/` | Prompting, handoff and free-form issue guidance |
+| `.pi/skills/` | Agent skills for CI delegation, containers, status, Codex CLI, PR repair, PR submission and UI verification |
+| `.pi/tools/` | Offline validators and process counters |
+| `.pi/docs/` | Prompting, handoff and free-form issue guidance |
 | `constant-integration-ui/` | Application checkout (separate repository, ignored here) |
 
 Use the skills and tools from the workspace root. Do not commit credentials, local MCP config or worker state.

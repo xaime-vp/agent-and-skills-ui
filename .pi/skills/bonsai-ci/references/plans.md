@@ -65,7 +65,7 @@ test/documentation issues that reserve the same PR branch.
    the starting checkpoint. Both get bounded redacted failure logs/outcomes.
    Omitted/empty modes mean no automatic repair. Never infer fallback model
    routing: all attempts use the configured model and original scope/checks.
-8. Validate the body offline using `.agents/tools/validate_task.py` at the workspace root.
+8. Validate the body offline using `.pi/tools/validate_task.py` at the workspace root.
    That checks schema against the selected platform checkout; it does **not**
    establish installed compatibility, check configuration or approval.
 9. Create one issue in the target repository. For a proposal use `blocked` and
@@ -129,7 +129,7 @@ permission to dispatch an import-coverage task or change trusted configuration.
 Offline validation from a trusted Linux/Python 3.12+ environment:
 
 ```bash
-python /absolute/workspace/.agents/tools/validate_task.py \
+python /absolute/workspace/.pi/tools/validate_task.py \
   --platform-root /absolute/constant-integration \
   --repository owner/target --body-file /absolute/proposed-issue.md
 ```

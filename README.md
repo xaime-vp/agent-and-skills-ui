@@ -35,16 +35,16 @@ npm run build
 | Path | Purpose |
 | --- | --- |
 | `AGENTS.md` | Root developer operating contract |
-| `.agents/skills/` | Agent skills for CI delegation, containers, status, Codex CLI, PR repair, PR submission and UI verification |
-| `.agents/tools/` | Workspace utilities: offline validation, process counters |
-| `.agents/docs/` | Prompting, handoff and free-form issue templates |
+| `.pi/skills/` | Agent skills for CI delegation, containers, status, Codex CLI, PR repair, PR submission and UI verification |
+| `.pi/tools/` | Workspace utilities: offline validation, process counters |
+| `.pi/docs/` | Prompting, handoff and free-form issue templates |
 | `constant-integration-ui/` | Application source checkout (separate repo; ignored here) |
 
 ## Agent workflow
 
 See [`AGENTS.md`](AGENTS.md).
 
-Start with [calling an agent](.agents/docs/calling-agents.md) for the skill
+Start with [calling an agent](.pi/docs/calling-agents.md) for the skill
 invocation, a copyable test/documentation request and the execution sequence.
 
 Use `agent:test-specialist` for tests/fixtures/test configuration and
@@ -53,10 +53,10 @@ installation supports them. The developer owns application code. Test-specialist
 work has embedded read-only review; documentation does not. Select the matching
 label before preparation and keep contributions to the same PR sequential.
 
-The [handoff guide](.agents/docs/handoff.md),
-[preparation workflow](.agents/docs/free-form-issues.md),
-[compatibility guide](.agents/docs/compatibility.md) and
-[runtime reference](.agents/skills/bonsai-ci/references/runtime-and-issue.md)
+The [handoff guide](.pi/docs/handoff.md),
+[preparation workflow](.pi/docs/free-form-issues.md),
+[compatibility guide](.pi/docs/compatibility.md) and
+[runtime reference](.pi/skills/bonsai-ci/references/runtime-and-issue.md)
 cover parent-PR selection, `admission_mode: ready` vs legacy `/approve-agent`,
 and evidence. New source supports 1/2/3 shared slots and a separate opt-in
 automatic PR Reviewer. Check installed settings; neither source support nor

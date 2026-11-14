@@ -72,7 +72,7 @@ not authorize an upgrade.
 For legacy schema validation, explicitly select the source revision under review:
 
 ```powershell
-py -3 .agents/tools/validate_task.py --platform-root ../../constant-integration-compat --repository xaime-vp/constant-integration-ui --body-file path/to/issue.md
+py -3 .pi/tools/validate_task.py --platform-root ../../constant-integration-compat --repository xaime-vp/constant-integration-ui --body-file path/to/issue.md
 ```
 
 The isolated latest source checkout proves only latest-source parsing. For an

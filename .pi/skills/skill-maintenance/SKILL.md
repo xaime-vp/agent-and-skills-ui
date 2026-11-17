@@ -10,10 +10,9 @@ Identify the owning repository, client, application target and delivery policy
 before adapting guidance. Requested harness instructions can be edited directly;
 product test and documentation ownership still follows the root contract.
 
-This Pi UI harness keeps skills under `.pi/skills/` and targets
-`constant-integration-ui/`. Preserve the read-only operations-console boundary:
-use sanitized exports, keep worker private state separate and never introduce
-worker control endpoints. Browser evidence supplements contract and backend checks.
+This Pi harness keeps skills under `.pi/skills/`, targets Constant Integration
+by default, and owns implementation plus any explicitly selected issue-worker follow-through.
+Keep application code in its separate checkout and use Pi-native capabilities.
 
 ## Make the smallest useful addition
 
@@ -35,9 +34,29 @@ role, nested-tool API, credentials or MCP configuration is available. Use an
 authorized fallback and report missing capabilities. Skill activation alone does
 not authorize external messages, live workers, paid services, merge or deployment.
 
+## Promote recurring friction into the harness
+
+A correction you make twice is a harness defect, not a one-off. Capture it, surface
+it, then distill it into the cheapest durable form:
+
+- **Capture** at the point of friction: record the request, the file and the exact
+  wrong behavior. Keep it outside the skill until you know it recurs.
+- **Surface** the pattern when the same correction appears in a second session or
+  from a reviewer finding, and check whether an existing skill already owns it.
+- **Distill** into the narrowest mechanism that prevents the mistake: a single
+  instruction line, an executable helper, a link check, or a `harness_check.py`
+  assertion. Prefer an executable check over a reminder when the rule is
+  mechanical, and delete the superseded prose once the check exists.
+
+Do not accumulate rules that no longer change a decision. A check that cannot fail
+is a comment; a rule that duplicates an existing one adds instruction budget
+without adding behavior.
+
 ## Verify the result
 
 - Check YAML frontmatter, unique names, narrow descriptions and unfinished placeholders.
+- Run `python3 tools/harness_check.py` for metadata, link, MCP and parity regressions,
+  and treat its warnings about weak routing descriptions as real routing risk.
 - Resolve relative links from their containing file. Distinguish harness-owned
   files from optional application checkouts and required runtime source assets.
 - Check AGENTS.md, README and invocation routes agree with actual skill locations.

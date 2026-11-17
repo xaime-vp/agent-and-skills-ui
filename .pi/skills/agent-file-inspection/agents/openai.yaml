@@ -1,0 +1,3 @@
+interface:
+  display_name: "Agent File Inspection"
+  short_description: "Read AGENTS.md and SKILL.md scope with bounded output"

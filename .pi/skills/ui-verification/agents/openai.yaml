@@ -1,0 +1,3 @@
+interface:
+  display_name: "UI verification"
+  short_description: "Verify FastAPI backend, export contracts, and React/TS frontend"

@@ -3,29 +3,33 @@ name: pr-submission
 description: Prepare, submit or update a GitHub pull request with concise change and validation evidence, including function-level attribution for delegated implementation, review and checks. Use for PR delivery; this skill does not dispatch workers or authorize merging or deployment.
 ---
 
-Keep `references/` alongside `SKILL.md` (see the workspace `README.md`; this skill guides PR prep and grants no GitHub credentials, approval, or merge authority).
+Keep `references/` alongside `SKILL.md` (see `README.md` for skill installation; this skill guides PR prep and grants no GitHub credentials, approval, or merge authority).
 
 # PR submission
 
 Support the [root Git developer](../../../AGENTS.md). Source changes live in
-`constant-integration-ui/`; GitHub MCP owns remote branch, commit, PR and issue
-operations. Open the parent draft before application implementation, then
-maintain that PR throughout the task. Use workspace `bonsai-ci` for required
-test/documentation handoffs to its existing branch. This submission skill
+`constant-integration/`; GitHub MCP owns remote branch, commit, PR and issue
+operations. Create a task branch, implement and commit a meaningful initial
+change, then open the draft PR before any specialist dispatch targeting it.
+Write tightly coupled tests/docs with the change; use `bonsai-ci` only for
+substantial independent or explicitly requested specialist work. This submission skill
 does not independently create another worker task or another PR.
 
 Handoffs can use free-form preparation with operator-selected `--target-pr` and
-digest-bound proposal approval, or legacy envelopes with numeric `pull_request`
-and standalone approval. Follow `bonsai-ci` for the selected route; issue creation
+sealed-proposal inspection, or legacy envelopes with numeric `pull_request`.
+Current source admits verified work through `ready` without `blocked` and one
+matching role label; older installed releases may require digest/standalone
+`/approve-agent` comments. Follow `bonsai-ci` for the selected route; issue creation
 does not require a hand-written envelope in the free-form workflow. Record the
 actual sealed proposal/approval and delivery evidence when used.
 
-The UI harness lives on the `main` branch of
-`xaime-vp/agent-and-skills-ui`, with skills, tools and guides under `.pi/`.
-UI application changes belong in `xaime-vp/constant-integration-ui`. Keep
-harness and application changes in separate scoped PRs against their
-respective bases. Runtime changes belong in `xaime-vp/constant-integration`.
-Select exact task paths and preserve unrelated local work.
+A target checkout may have optional sparse-checkout exclusions for old
+external skills or `AGENTS.md`; preserve existing local exclusions on ordinary
+branch changes. Target root `AGENTS.md` is optional to current Bonsai preflight.
+Developer setup lives in `xaime-vp/agent-and-skills`, while the platform retains
+operational contracts and sealed runtime assets. Keep each repository's changes
+in its own PR, select exact task paths and review the remote diff. Do not assume
+a historic extraction dependency remains open.
 
 Produce a reviewable PR against the intended repository and base, with an honest
 account of behavior, validation and delegated contributions. Follow the target
@@ -49,6 +53,14 @@ to delegate, publish, approve worker execution, merge or deploy.
    tests you ran from worker check records, advisory model review and target CI.
    Keep failed, skipped and unrun checks visible. Do not run live workers, paid
    models, installations or external mutations as incidental validation.
+
+5. **Post-commit branch verification**: After committing, verify that the active
+   branch still matches the initial working branch (and descends from the
+   initial commit) before pushing or updating the PR:
+   ```sh
+   py -3 .pi/skills/pr-submission/scripts/verify_branch.py --repo <checkout> --expected-branch <initial-branch> --initial-sha <initial-sha>
+   ```
+   (Or use the `verify_commit_branch` Pi tool when running inside Pi.)
 
 ## Attribute delegated functions
 

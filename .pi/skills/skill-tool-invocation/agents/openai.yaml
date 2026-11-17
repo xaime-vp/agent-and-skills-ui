@@ -1,0 +1,3 @@
+interface:
+  display_name: "Skill Tool Invocation"
+  short_description: "Discover and call tools named by an activated skill"

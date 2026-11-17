@@ -1,8 +1,9 @@
 # Submit one approved plan for one PR
 
 This is the legacy schema-3 route. A multi-step request can also start as prose
-through [free-form preparation](../../../docs/free-form-issues.md);
-the resulting proposal must pass preparation validation before digest approval.
+through [free-form preparation](../../../../docs/agent-setup/free-form-issues.md);
+the resulting proposal must pass preparation validation before the installed
+admission path is used (current source: verified readiness labels).
 Do not require an author-written plan envelope for that route.
 
 Use this when the user wants multiple implementation subsections to form one
@@ -11,8 +12,10 @@ run as fresh sessions in one worktree and branch. The supervisor checkpoints
 successful steps, runs combined checks and applicable whole-diff review, then opens or
 updates one draft PR. Do not create one issue/PR per subsection.
 
-For this workspace, application implementation remains with the root developer.
-Use these plan mechanics only for the assigned contribution scope. Set numeric
+For developer-led tasks, the root developer implements application code and plans
+here apply to scoped specialist contributions. A separately authorized
+`agent:coder` plan can implement application changes within its explicit scope,
+without a competing root developer writer. Set numeric
 `pull_request` to the existing parent PR in its envelope; the example below is
 a general schema example and must be adapted before use. Serialize separate
 test/documentation issues that reserve the same PR branch.
@@ -27,12 +30,14 @@ test/documentation issues that reserve the same PR branch.
    of authoring a plan.
 2. Write a human-readable goal, concrete acceptance criteria and prerequisites,
    followed by exactly one fenced `agent-task` JSON block. Use the selected
-   `agent:test-specialist` or `agent:documentation` route supported by the sealed
-   installation and `provider: openrouter`; the installation selects the model.
+   `agent:coder`, `agent:test-specialist` or `agent:documentation` route supported
+   by the sealed installation and `provider: openrouter`; the installation selects
+   the model.
 3. Choose one or more ordered, independently checkable **steps of this same change**.
    Each step should leave the approved check set passing and stay within the
-   selected tests/fixtures or documentation scope. Report source defects to the
-   root developer instead of adding application-code paths to a worker plan.
+   chosen role's scope. Test/documentation specialists must report application
+   defects rather than adding out-of-scope code paths; a coder may edit only
+   explicitly approved related code/tests/docs.
 4. Set exact project-relative editable paths for each step and their union in
    parent `allowed_files` (up to the profile's 100-file limit). Use `workspace`
    for explicit repository-relative paths across components. Never use globs.
@@ -65,7 +70,7 @@ test/documentation issues that reserve the same PR branch.
    the starting checkpoint. Both get bounded redacted failure logs/outcomes.
    Omitted/empty modes mean no automatic repair. Never infer fallback model
    routing: all attempts use the configured model and original scope/checks.
-8. Validate the body offline using `.pi/tools/validate_task.py` at the workspace root.
+8. Validate the body offline using `tools/validate_task.py` at the workspace root.
    That checks schema against the selected platform checkout; it does **not**
    establish installed compatibility, check configuration or approval.
 9. Create one issue in the target repository. For a proposal use `blocked` and
@@ -74,15 +79,17 @@ test/documentation issues that reserve the same PR branch.
    developer handoffs, `pull_request` must select the existing parent PR.
    Omit it only for an explicitly requested independent new draft. Do not invent
    a PR number.
-10. Return the issue link and prerequisites. Once the plan is final and executable,
-    the configured owner posts a standalone `/approve-agent` **after the final
-    issue edit**. Never post that comment for them. After approval, report progress
-    through comments/state instead of editing the approved issue body.
+10. Return the issue link and prerequisites. Once the plan is verified and
+    executable, current source admits the final revision via `ready`, no `blocked`,
+    and exactly one matching role label. Older installed releases may require
+    standalone owner `/approve-agent` after the final issue edit; never impersonate
+    the owner. Report progress through comments/state rather than editing an
+    approved issue body.
 
 ## Example envelope
 
 Replace every example with the actual scope and installed checks. This is not
-permission to dispatch an import-coverage task or change trusted configuration.
+permission to dispatch a parser task or change trusted configuration.
 
 ```agent-task
 {
@@ -93,32 +100,26 @@ permission to dispatch an import-coverage task or change trusted configuration.
   "capabilities": ["tests"],
   "complexity": 2,
   "risk": "low",
-  "goal": "Extend UI import regression coverage for contract validation and replay behavior.",
-  "allowed_files": ["tests/test_contract_check.py", "tests/test_ingestion.py"],
-  "acceptance_commands": [
-    ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
-  ],
+  "goal": "Cover existing empty-input and whitespace parser behavior.",
+  "allowed_files": ["tests/test_parser.py", "tests/fixtures/empty-input.txt", "tests/fixtures/whitespace-input.txt"],
+  "acceptance_commands": [["python", "-m", "unittest", "discover", "-s", "tests", "-v"]],
   "verification_plan": "Run the protected suite after each coverage step and inspect final-head target CI separately.",
   "provider": "openrouter",
   "timeout_seconds": 1800,
   "steps": [
     {
-      "id": "contract-validation",
-      "goal": "Cover accepted and rejected contract inputs using existing fixture conventions.",
-      "allowed_files": ["tests/test_contract_check.py"],
-      "acceptance_commands": [
-        ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
-      ],
+      "id": "empty-input",
+      "goal": "Add empty-input coverage and its fixture.",
+      "allowed_files": ["tests/test_parser.py", "tests/fixtures/empty-input.txt"],
+      "acceptance_commands": [["python", "-m", "unittest", "discover", "-s", "tests", "-v"]],
       "timeout_seconds": 600,
       "retry_modes": ["continue", "restart"]
     },
     {
-      "id": "import-replay",
-      "goal": "Cover replay and conflict handling using existing ingestion test fixtures.",
-      "allowed_files": ["tests/test_ingestion.py"],
-      "acceptance_commands": [
-        ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
-      ],
+      "id": "whitespace-input",
+      "goal": "Extend coverage to whitespace with a deterministic fixture.",
+      "allowed_files": ["tests/test_parser.py", "tests/fixtures/whitespace-input.txt"],
+      "acceptance_commands": [["python", "-m", "unittest", "discover", "-s", "tests", "-v"]],
       "timeout_seconds": 600,
       "retry_modes": ["continue"]
     }
@@ -129,7 +130,7 @@ permission to dispatch an import-coverage task or change trusted configuration.
 Offline validation from a trusted Linux/Python 3.12+ environment:
 
 ```bash
-python /absolute/workspace/.pi/tools/validate_task.py \
+python /absolute/workspace/tools/validate_task.py \
   --platform-root /absolute/constant-integration \
   --repository owner/target --body-file /absolute/proposed-issue.md
 ```
@@ -139,8 +140,8 @@ python /absolute/workspace/.pi/tools/validate_task.py \
 Report parent task key, step ID, attempt number/mode, observed check failures,
 checkpoint commits and final PR/CI. A check pass is implementation workspace evidence,
 not independent verification or owner acceptance. Keep all failed attempts visible.
-Test-specialist plans have a final embedded read-only review; documentation plans
-publish without an embedded model verdict.
+Coder and test-specialist plans have a final embedded read-only review;
+documentation plans publish without an embedded model verdict.
 
 Known stopped ordinary failures can consume approved automatic retries. Unknown
 process stops never auto-retry. With explicit recovery authorization, confirm all

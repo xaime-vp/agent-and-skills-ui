@@ -46,7 +46,9 @@ py -3 .pi/skills/codex-cli-mcp/scripts/run_codex.py exec --repo constant-integra
 
 `--full-auto` permits workspace writes under Codex's sandbox; it is **not** a blanket grant to change unrelated paths or publish to GitHub. Use a controlled working directory/worktree, inspect the diff, and keep commit/push/PR operations in the responsible publisher's workflow. Avoid `--dangerously-bypass-approvals-and-sandbox`. If `codex exec` cannot access a tool because of a sandbox or approval boundary, surface the blocker rather than silently loosening permissions.
 
-For instruction reuse in a fresh session, ask for `$codex-cli-mcp` by name or describe a task matching its description. Pi discovers project skills in `.pi/skills/` (while standalone Codex CLI looks in `.agents/skills/`); start from the workspace root when using this workspace skill, and explicitly point the client to the external checkout.
+Pi discovers this workspace skill in `.pi/skills/`. Standalone Codex uses
+`.agents/skills/`; invoke it from a Codex-compatible harness or explicitly supply
+this skill file. Do not assume a child CLI inherits Pi skills or MCP connections.
 
 ## Connect existing `mcp.json`
 
@@ -63,9 +65,9 @@ Do **not** modify a user's `mcp.json` just to satisfy Codex. Treat it as an exis
 
 ## GitHub issue and PR workflow
 
-1. Identify `owner/repo`, base, existing task branch/PR, scope and applicable target instructions. The current default external target is `xaime-vp/constant-integration-ui` unless the user selects another. Use the target repo's checkout, not the `agent-and-skills-ui` root, for product code.
+1. Identify `owner/repo`, base, existing task branch/PR, scope and applicable target instructions. The current default external target is `xaime-vp/constant-integration` unless the user selects another. Use the target repo's checkout, not the `agent-and-skills` root, for product code.
 2. Read the relevant issue/PR, inspect related work and labels, and establish permission for the requested mutation. Do not infer that an MCP token's capabilities imply user authorization.
-3. For a new code change, create a branch, then a **draft PR before implementation**, per root `AGENTS.md`. If GitHub requires a diff, use an acceptable minimal planning file; never silently implement before opening the draft. For ongoing work, reuse the existing branch/PR.
+3. Create a task branch, implement and commit a meaningful initial change, then open its draft PR. Open it before specialist dispatch targeting that PR. Never create a planning-only file to manufacture a branch difference. Reuse existing branches/PRs for ongoing work.
 4. Implement in scope, commit to the **explicit working branch**, verify the actual final diff, then run targeted checks. Codex may author code locally, while connected GitHub MCP or an authorized publisher performs remote actions.
 5. Search for duplicate issues. When explicitly asked to write issues, follow the repository issue template and routing/approval rules. Issue creation does not automatically dispatch an agent. Link issues to the exact parent PR and branch, and use known labels only.
 6. For delegated test/documentation work in this workspace, read the `bonsai-ci` skill. Request contributions targeting the **same parent PR branch**; do not invent automatic merge or approvals.

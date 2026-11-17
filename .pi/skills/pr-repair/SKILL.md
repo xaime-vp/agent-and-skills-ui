@@ -62,11 +62,12 @@ Use [delegation-triage](../delegation-triage/SKILL.md) when independent speciali
 work is identified, before dispatching anything. Follow
 repository ownership rules: repairing application behavior and mechanically
 integrating unchanged contributions differ from authoring new assertions,
-fixtures or documentation. Delegate new test/documentation content when required;
-do not weaken assertions to obtain a green check. Even mechanical test integration
+fixtures or documentation. The developer may author tightly coupled tests/docs;
+delegate substantial independent work or an explicit specialist assignment.
+Do not weaken assertions to obtain a green check. Even mechanical test integration
 must respect stricter repository rules.
 
-In the agent-and-skills-ui workspace, load [bonsai-ci](../bonsai-ci/SKILL.md) only
+In the agent-and-skills workspace, load [bonsai-ci](../bonsai-ci/SKILL.md) only
 for an authorized handoff or active delivery tracking. It owns installed-route
 selection, preparation and release-specific admission; do not infer approval
 requirements from historical transcripts. Use [pr-submission](../pr-submission/SKILL.md)

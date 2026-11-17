@@ -1,0 +1,3 @@
+interface:
+  display_name: "UI-bound worker status"
+  short_description: "Inspect a selected registered worker installation"

@@ -4,20 +4,22 @@ Use the target repository's own issue template and instructions. These links
 provide the authoritative Constant Integration formats:
 
 For workspace handoffs, follow the root developer contract. Free-form issues
-need no executable envelope: use [preparation and digest approval](../../../docs/free-form-issues.md)
+need no executable envelope: use [preparation and readiness](../../../../docs/agent-setup/free-form-issues.md)
 with operator-selected `--target-pr NUMBER`. For legacy envelopes, set numeric
-`pull_request` to the existing parent PR and validate with `.pi/tools/validate_task.py`
+`pull_request` to the existing parent PR and validate with `tools/validate_task.py`
 from the workspace root. Test and documentation issues remain separate,
 sequential assignments delivered to that PR.
 
-Select `agent:test-specialist` for tests/fixtures/test configuration or
-`agent:documentation` for documentation, with the matching issue label and
-verified sealed support. Generalist/tests are retired source routes. Application
-code stays with the root developer; Reviewer is not an issue implementation
-route. Documentation has no embedded model review and cannot opt into schema-4
+Select `agent:coder` only for intentionally delegated application changes,
+`agent:test-specialist` for tests/fixtures/test configuration, or
+`agent:documentation` for documentation, with matching label and verified sealed
+support. The root developer owns code in developer-led tasks; a supervised coder
+is an alternative writer, not a duplicate. Coder and test-specialist have
+embedded review; documentation does not. Generalist/tests are retired source
+routes. Reviewer and supervisor are not issue implementation routes. Documentation has no embedded model review and cannot opt into schema-4
 post-publication repair.
 
-- [Prompt cookbook](../../../docs/prompting.md)
+- [Prompt cookbook](../../../../docs/agent-setup/prompting.md)
 - [Free-form operator contract](https://github.com/xaime-vp/constant-integration/blob/main/docs/submitting-tasks/free-form.md)
 - [Task submission](https://github.com/xaime-vp/constant-integration/blob/main/docs/SUBMITTING_TASKS.md)
 - [Single-task envelope](https://github.com/xaime-vp/constant-integration/blob/main/docs/submitting-tasks/envelope.md)
@@ -71,7 +73,9 @@ revision used for validation separately from the installed sealed release.
 
 Unknown installed support, target binding, protected checks or dependencies means
 blocked and without `ready`. A generated envelope is only a proposal; the
-configured owner must verify and approve the final issue or sealed proposal using
-the selected route's command. Free-form research may resolve missing scope/check
+configured operator/owner must verify the final issue or sealed proposal and use
+the **installed** route's admission method. Current source requires verified
+`ready` plus one matching role label without `blocked`; older releases may require
+an owner `/approve-agent` comment. Free-form research may resolve missing scope/check
 details before sealing; unresolved gaps prevent a proposal. Do not post owner
 request/approval commands on their behalf.

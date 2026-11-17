@@ -1,0 +1,3 @@
+interface:
+  display_name: "PR Code Growth Audit"
+  short_description: "Find avoidable insertions and duplicate implementations"

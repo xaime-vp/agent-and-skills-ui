@@ -1,0 +1,478 @@
+{
+  "files": [
+    {
+      "path": ".pi/extensions/agent-file-reader-core.mjs",
+      "sha256": "1ac5bf3df055dcc55acf1f8b7933494a575d5e2e2dd8cc08f4fab69446218a0c",
+      "source_path": ".pi/extensions/agent-file-reader-core.mjs"
+    },
+    {
+      "path": ".pi/extensions/agent-file-reader-core.test.mjs",
+      "sha256": "32a4b1264cbca439a9df5013bed9c02dd90921dec55af1ee0c2cee1e533ccf7b",
+      "source_path": ".pi/extensions/agent-file-reader-core.test.mjs"
+    },
+    {
+      "path": ".pi/extensions/agent-file-reader.ts",
+      "sha256": "833bafbe64d0e6b2b3e9741c404675d0f6c8c05c9d7bb0ffb6038204bfb145e2",
+      "source_path": ".pi/extensions/agent-file-reader.ts"
+    },
+    {
+      "path": ".pi/extensions/bonsai-docker-tools-core.mjs",
+      "sha256": "ba3aaa3021f7be4ae7b740da88492bad3fac7e93ff899aa093f7cc22d146e93e",
+      "source_path": ".pi/extensions/bonsai-docker-tools-core.mjs"
+    },
+    {
+      "path": ".pi/extensions/bonsai-docker-tools-core.test.mjs",
+      "sha256": "65990536d44eb858fdc175177de017274cc4a0ea774064abd82f1338714a493c",
+      "source_path": ".pi/extensions/bonsai-docker-tools-core.test.mjs"
+    },
+    {
+      "path": ".pi/extensions/bonsai-docker-tools.ts",
+      "sha256": "dfe05c8c3ea5f4b6caf152b047acc4735addcdfc6042137bbdd5b7142250badd",
+      "source_path": ".pi/extensions/bonsai-docker-tools.ts"
+    },
+    {
+      "path": ".pi/extensions/github-batch-core.mjs",
+      "sha256": "46333d5624f152db8d15a2aca13595b77abf84a7c7f3298657273481d0d3eaf2",
+      "source_path": ".pi/extensions/github-batch-core.mjs"
+    },
+    {
+      "path": ".pi/extensions/github-batch-core.test.mjs",
+      "sha256": "410bb94c95eea92dae8965822f523d6fa8dc18e197c5593e3dee644f57074d21",
+      "source_path": ".pi/extensions/github-batch-core.test.mjs"
+    },
+    {
+      "path": ".pi/extensions/github-batch-publish.ts",
+      "sha256": "49b650dfbcf8dd5aa5ad3aca7ec9fc99f8dd7c616c8fe52d95d7a86ce793c5f4",
+      "source_path": ".pi/extensions/github-batch-publish.ts"
+    },
+    {
+      "path": ".pi/prompts/check.md",
+      "sha256": "bc8b609e5e52789a022b69496950ff5f27bf7df26741a856faf67631c3fdae09",
+      "source_path": ".pi/prompts/check.md"
+    },
+    {
+      "path": ".pi/skills/agent-file-inspection/SKILL.md",
+      "sha256": "45335cbef2fceb5015c1bed99807cdd428a3b992dd8f56747f6209a75f620424",
+      "source_path": ".pi/skills/agent-file-inspection/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/agent-file-inspection/agents/openai.yaml",
+      "sha256": "b429e5c785dca669dbe4f51b4c9b991bdef453f7f7cee66be38d252817865b0d",
+      "source_path": ".pi/skills/agent-file-inspection/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/bonsai-ci/SKILL.md",
+      "sha256": "fc8314fc31325bad7e6061f5455c776fd193a04404519663c50099cf2cfaf5ac",
+      "source_path": ".pi/skills/bonsai-ci/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/bonsai-ci/agents/openai.yaml",
+      "sha256": "ba830ee1f0a196501cb61e89c0b92bb8d2aba24f33273ca46690703adb1504da",
+      "source_path": ".pi/skills/bonsai-ci/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/bonsai-ci/references/plans.md",
+      "sha256": "59a884590a13f2203a866fb4a991849fffcbdce5dd03b29b450a5feb3b3c7437",
+      "source_path": ".pi/skills/bonsai-ci/references/plans.md"
+    },
+    {
+      "path": ".pi/skills/bonsai-ci/references/runtime-and-issue.md",
+      "sha256": "6db0a1f4bd364064a12dc8f5eeabf21e5491197f243979b65258a43e85399ccf",
+      "source_path": ".pi/skills/bonsai-ci/references/runtime-and-issue.md"
+    },
+    {
+      "path": ".pi/skills/bonsai-ci/references/task-preparation.md",
+      "sha256": "a32941ea4e97edea20e884debcf0070c92294765df386302637ff6ae774eb3ce",
+      "source_path": ".pi/skills/bonsai-ci/references/task-preparation.md"
+    },
+    {
+      "path": ".pi/skills/bonsai-containers/SKILL.md",
+      "sha256": "9df078d519379af7da2538a0a6a334652512670603e90d170674c6219ae514cf",
+      "source_path": ".pi/skills/bonsai-containers/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/bonsai-containers/agents/openai.yaml",
+      "sha256": "e5ea75d82916c4bb8ca6ec71b8f538779fe14565bce96052bf04d5ec634a891c",
+      "source_path": ".pi/skills/bonsai-containers/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/bonsai-containers/references/deployment.md",
+      "sha256": "1252466189c6fb386865e03d0497268fc2a03fa64edd616fd4eecc64fed527a3",
+      "source_path": ".pi/skills/bonsai-containers/references/deployment.md"
+    },
+    {
+      "path": ".pi/skills/bonsai-containers/scripts/docker_worker.py",
+      "sha256": "831c3eb152662af4dfb44952dad1205362e27d6adfe845f818a7971c14a59dfc",
+      "source_path": ".pi/skills/bonsai-containers/scripts/docker_worker.py"
+    },
+    {
+      "path": ".pi/skills/bug-reproduction/SKILL.md",
+      "sha256": "f266f0d2fb31b08b9105302bd73690f9924b750eb78a6b4d813e3293ced18a89",
+      "source_path": ".pi/skills/bug-reproduction/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/bug-reproduction/agents/openai.yaml",
+      "sha256": "8de39fd6867c5bb57d0d05c971fe708f640f4f3793adbbc3a3ebf442af2ff548",
+      "source_path": ".pi/skills/bug-reproduction/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/bug-reproduction/scripts/run_probe.py",
+      "sha256": "4e482ce5718e4b2e9015eafcd9e7abd3dbde359e242bc74aa5169856ce39c14e",
+      "source_path": ".pi/skills/bug-reproduction/scripts/run_probe.py"
+    },
+    {
+      "path": ".pi/skills/change-impact-analysis/SKILL.md",
+      "sha256": "20dd75735bbda8796ed83d59ba2202f894999f3cd3cf943aa154e858d7b16b0f",
+      "source_path": ".pi/skills/change-impact-analysis/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/change-impact-analysis/agents/openai.yaml",
+      "sha256": "d44dcbd032d6891c9474de147913cc3e0a437923731dba1eae0bd5e1846cd8f5",
+      "source_path": ".pi/skills/change-impact-analysis/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/codex-cli-mcp/SKILL.md",
+      "sha256": "24ca3d54de170d46d2098d03067e77511aa0e7b7a105f5793cd533c5d5813f10",
+      "source_path": ".pi/skills/codex-cli-mcp/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/codex-cli-mcp/agents/openai.yaml",
+      "sha256": "ecf867862d9305df61bb084f3f420d1f780d7cd6a6ae4646c4d8eef5b849431a",
+      "source_path": ".pi/skills/codex-cli-mcp/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/codex-cli-mcp/references/mcp-and-github.md",
+      "sha256": "bcce83c6c1ac7b89b3495dbe8496713642582135197a0ba707f8381294d98fd2",
+      "source_path": ".pi/skills/codex-cli-mcp/references/mcp-and-github.md"
+    },
+    {
+      "path": ".pi/skills/codex-cli-mcp/scripts/run_codex.py",
+      "sha256": "fc2c414568dcfd8d81d3d3539d60e987f9c618cdb34e2b924408300796cabfa2",
+      "source_path": ".pi/skills/codex-cli-mcp/scripts/run_codex.py"
+    },
+    {
+      "path": ".pi/skills/delegation-triage/SKILL.md",
+      "sha256": "6736e975b1b759c232cc47071ce07f2f96a0b01ff3dcb31ed8f6c05a048ea546",
+      "source_path": ".pi/skills/delegation-triage/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/delegation-triage/agents/openai.yaml",
+      "sha256": "adfafe71a967078065cb88585edf12fd6e367f32b980f8922eff72ce54933ecb",
+      "source_path": ".pi/skills/delegation-triage/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/github-batch-publish/SKILL.md",
+      "sha256": "56e3c055be2dbe0d16577a8242dbf5e830bae9f97152309349a809f0c76efa83",
+      "source_path": ".pi/skills/github-batch-publish/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/github-batch-publish/agents/openai.yaml",
+      "sha256": "abed35d4f89b8ec923d025d68345966b31ea6f96144df5eefa8bfe16240b6e21",
+      "source_path": ".pi/skills/github-batch-publish/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/implementation-completeness/SKILL.md",
+      "sha256": "5489d5cc6f10c9e8f62dd58423c8d5b33caa85e1a395173ec66032c7fec3fc53",
+      "source_path": ".pi/skills/implementation-completeness/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/implementation-completeness/agents/openai.yaml",
+      "sha256": "aca059f78ced2d9508f738e432fc1689e613a2aef5005cb6b12898189d85a26f",
+      "source_path": ".pi/skills/implementation-completeness/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/implementation-completeness/scripts/inventory.py",
+      "sha256": "375d0106537114f7d391bd9218976aac9f7ef949d65c494cfcb33132d6ff7f5f",
+      "source_path": ".pi/skills/implementation-completeness/scripts/inventory.py"
+    },
+    {
+      "path": ".pi/skills/integration-path-validation/SKILL.md",
+      "sha256": "5de0a5dabd7f12d7b54e5046f598e9af49ca73834b75c1d3d07169027774928e",
+      "source_path": ".pi/skills/integration-path-validation/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/integration-path-validation/agents/openai.yaml",
+      "sha256": "03daf2b9e3e0ab81622db8c4869934245e4e33308050109efc88282cb0aa6c3c",
+      "source_path": ".pi/skills/integration-path-validation/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/multi-pr-review/SKILL.md",
+      "sha256": "b096c355943052b1998939cbe8c89495ebb02abd90bbcc68e024354497d6465b",
+      "source_path": ".pi/skills/multi-pr-review/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/multi-pr-review/agents/openai.yaml",
+      "sha256": "72d8366bc6cea7753e520cbfb0664846850be708525d079f8c203a38f7d94a95",
+      "source_path": ".pi/skills/multi-pr-review/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/multi-pr-review/scripts/prepare_reviews.py",
+      "sha256": "f07ef6aa3eeb39acda00fb955e65f35a6cb1975759d90bf7ce0c897dc2e43f9e",
+      "source_path": ".pi/skills/multi-pr-review/scripts/prepare_reviews.py"
+    },
+    {
+      "path": ".pi/skills/pr-code-growth-audit/SKILL.md",
+      "sha256": "e4b69f104647cebb658a8ce511503782573c500a14fd635fe444ef686f397088",
+      "source_path": ".pi/skills/pr-code-growth-audit/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/pr-code-growth-audit/agents/openai.yaml",
+      "sha256": "1e06bbe7a41a515066881d567cc377dc504c6d33c6f42ff3a5efd815673896fa",
+      "source_path": ".pi/skills/pr-code-growth-audit/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/pr-completion/SKILL.md",
+      "sha256": "f51a45d20a824c02022baf43c88b1a02137248fcb11e21f0916e0bb221a8064e",
+      "source_path": ".pi/skills/pr-completion/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/pr-completion/agents/openai.yaml",
+      "sha256": "b90ad9a5bb7a0b0cec0d5b4e9291daad21932be4c41306eab32b6684720c76f3",
+      "source_path": ".pi/skills/pr-completion/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/pr-repair/SKILL.md",
+      "sha256": "bca93cad19371f472c6db13cd885c11f2bc4c29ccd24a524f47b3564bf9ac8ee",
+      "source_path": ".pi/skills/pr-repair/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/pr-repair/agents/openai.yaml",
+      "sha256": "0141ee6d4c1561f99ea2fbc3e1be2be937f5b30b01d3382f0c48178fa7548c2c",
+      "source_path": ".pi/skills/pr-repair/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/pr-submission/SKILL.md",
+      "sha256": "f776b99ecb4a45dd54c05180a12329bd909d1d95357be054a0027d4ccb98ba4e",
+      "source_path": ".pi/skills/pr-submission/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/pr-submission/agents/openai.yaml",
+      "sha256": "8136b13c834321d3756f6116db31afc4a5d9db09b1a06974c9927551675bd3a2",
+      "source_path": ".pi/skills/pr-submission/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/pr-submission/references/attribution.md",
+      "sha256": "bd4fead4321403866f2361b1c278f956d3413dee85d9457a6a46ced118982ffc",
+      "source_path": ".pi/skills/pr-submission/references/attribution.md"
+    },
+    {
+      "path": ".pi/skills/pr-submission/scripts/verify_branch.py",
+      "sha256": "a9f18e6e150f8d6c9a5cb5e239e15df524989fe063ea53a7f04f8ce260019dda",
+      "source_path": ".pi/skills/pr-submission/scripts/verify_branch.py"
+    },
+    {
+      "path": ".pi/skills/pr-validation/SKILL.md",
+      "sha256": "3b50d3cfb603c31dca68d68546704740653ff3113c5de4a754b5eeca8c03e3c4",
+      "source_path": ".pi/skills/pr-validation/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/pr-validation/agents/openai.yaml",
+      "sha256": "316b5c55aae2775a2af070a7be47502fce13e5fd7512c278292812c98407be35",
+      "source_path": ".pi/skills/pr-validation/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/skill-maintenance/SKILL.md",
+      "sha256": "4e29268dc816192ea3f29b2885903aad75ac893667e84334ff9ba18b51c1acde",
+      "source_path": ".pi/skills/skill-maintenance/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/skill-maintenance/agents/openai.yaml",
+      "sha256": "4c7446341666c3742d963d74a7dc0efa079e1826a342eb629c83a303ac10af5f",
+      "source_path": ".pi/skills/skill-maintenance/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/skill-tool-invocation/SKILL.md",
+      "sha256": "bc41c1ab4d657c6f892f736c064da6c77e7db9de7867d43ec8f74a95b3481b86",
+      "source_path": ".pi/skills/skill-tool-invocation/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/skill-tool-invocation/agents/openai.yaml",
+      "sha256": "3401651e5babba2a0709c9861495e403851a46e0c13a6643b4ff7e744bd30fed",
+      "source_path": ".pi/skills/skill-tool-invocation/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/state-recovery-validation/SKILL.md",
+      "sha256": "3d24d969dc3da41962cd8977c79f9758ecb6a970f68573ef7ae9d51177684dbc",
+      "source_path": ".pi/skills/state-recovery-validation/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/state-recovery-validation/agents/openai.yaml",
+      "sha256": "6bc61cccab7fce0718daa4a6307f7ee39e0e687b5f58908d0d69da329d1850e2",
+      "source_path": ".pi/skills/state-recovery-validation/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/state-recovery-validation/scripts/audit_delivery.py",
+      "sha256": "89df1e528a2fab3860937ff934305e4a8d2680b9a1b953e56c6dd45577161579",
+      "source_path": ".pi/skills/state-recovery-validation/scripts/audit_delivery.py"
+    },
+    {
+      "path": ".pi/skills/ui-browser-verification/SKILL.md",
+      "sha256": "6f5d5093518c47d9bbf55a4f9136750d0dd5dc2ec8374b9329af98f02754c8e0",
+      "source_path": ".pi/skills/ui-browser-verification/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/ui-browser-verification/agents/openai.yaml",
+      "sha256": "417b4d949ef130681d8a41f9e8d60cc811ad40633afb4208949a6cdb0d556809",
+      "source_path": ".pi/skills/ui-browser-verification/agents/openai.yaml"
+    },
+    {
+      "path": ".pi/skills/ui-verification/SKILL.md",
+      "sha256": "3b642b2439a6baa98257d72dba70dc1cbace7cfe3b7d35d2f0f62c07da4c64c7",
+      "source_path": ".pi/skills/ui-verification/SKILL.md"
+    },
+    {
+      "path": ".pi/skills/ui-verification/agents/openai.yaml",
+      "sha256": "65ef0bca6d3ef2d1215a66158378be2e8d312e98a4daaa1033567ae46aed1a2c",
+      "source_path": ".pi/skills/ui-verification/agents/openai.yaml"
+    },
+    {
+      "path": "agents/coding/AGENTS.md",
+      "sha256": "ca4f3192277839b813225788553f90065a39ac64a56a5272ab5ab968826ec43e",
+      "source_path": "agents/coding/AGENTS.md"
+    },
+    {
+      "path": "agents/constant-integration-ui/AGENTS.md",
+      "sha256": "c418705f0d6b18e8537769c7aa43d77ccd1afa2a47cfddc39df55f85a0a0bf3c",
+      "source_path": "agents/constant-integration-ui/AGENTS.md"
+    },
+    {
+      "path": "agents/constant-integration/AGENTS.md",
+      "sha256": "4655bf33ac8c36a6a6b426f617387147372a1784bdcf6615a60f261df15f5d9c",
+      "source_path": "agents/constant-integration/AGENTS.md"
+    },
+    {
+      "path": "agents/documentation/AGENTS.md",
+      "sha256": "4f6a88f7c41da5bb897c29be26d60f945a64113270583db5873f96e734999f49",
+      "source_path": "agents/documentation/AGENTS.md"
+    },
+    {
+      "path": "agents/review/AGENTS.md",
+      "sha256": "27e844d0cfa973a8ea1e2a969714121d8832a56b6f8637194c8395cd46558d0a",
+      "source_path": "agents/review/AGENTS.md"
+    },
+    {
+      "path": "agents/testing/AGENTS.md",
+      "sha256": "f8f25099f8419f05c7aac33beb0d1f70df80842a01dee26d9f7f0a2f1b3b42b1",
+      "source_path": "agents/testing/AGENTS.md"
+    },
+    {
+      "path": "docs/agent-setup/agent-file-tool.md",
+      "sha256": "d6c5d8d0dc725d3e3c19a4e316764ce810ea0393e2a5971f880a2cfd6920829b",
+      "source_path": "docs/agent-setup/agent-file-tool.md"
+    },
+    {
+      "path": "docs/agent-setup/bonsai-bundle-release.md",
+      "sha256": "a89ff446d2f411686acb504a81e72c2611a64d9551d7e274da50f73315a59390",
+      "source_path": "docs/agent-setup/bonsai-bundle-release.md"
+    },
+    {
+      "path": "docs/agent-setup/calling-agents.md",
+      "sha256": "03e4210c8c2ce77a8cd29d8e4f9b94e2479b3369af1c70b163f7ac3e3bf2ca7c",
+      "source_path": "docs/agent-setup/calling-agents.md"
+    },
+    {
+      "path": "docs/agent-setup/ci-pi-harnesses.md",
+      "sha256": "ba7dc8bc3eeb3f645675ea66e045cdeecebe3de3d4fee7205dd07b78b6671874",
+      "source_path": "docs/agent-setup/ci-pi-harnesses.md"
+    },
+    {
+      "path": "docs/agent-setup/compatibility.md",
+      "sha256": "f5a685a17102d1060b16376609aed2bb79d5791d3eadc4adcea7fa2fe7c22685",
+      "source_path": "docs/agent-setup/compatibility.md"
+    },
+    {
+      "path": "docs/agent-setup/developer-workflow.md",
+      "sha256": "7db19c271160691b90f0317733941690816214cd49d80251d199ba227c3c6b52",
+      "source_path": "docs/agent-setup/developer-workflow.md"
+    },
+    {
+      "path": "docs/agent-setup/free-form-issues.md",
+      "sha256": "ee9e6f48252a23ddb63dde7d4eb2799692478d1e3ca6129d99e0bb199e69bde6",
+      "source_path": "docs/agent-setup/free-form-issues.md"
+    },
+    {
+      "path": "docs/agent-setup/github-batch-publish.md",
+      "sha256": "8d2ab225ba0d4e19ac9c5c130fc708df628a661e209c865d52cd0bc3ea6fa51a",
+      "source_path": "docs/agent-setup/github-batch-publish.md"
+    },
+    {
+      "path": "docs/agent-setup/handoff.md",
+      "sha256": "a3c58ee33b8b2b0adc50dce29cedf159d73da97a2b94d1d37970f6e1727049e0",
+      "source_path": "docs/agent-setup/handoff.md"
+    },
+    {
+      "path": "docs/agent-setup/harness-checks.md",
+      "sha256": "f92922532f43bba0bce3d4a160b56a8f5d63c12b8bbc37b99a72a3f5526b53b8",
+      "source_path": "docs/agent-setup/harness-checks.md"
+    },
+    {
+      "path": "docs/agent-setup/maintenance-scope.md",
+      "sha256": "10dd26930ea35201e9a3f1eca96ae8c18492b47c6bbbe1da05fdcea9991f64c7",
+      "source_path": "docs/agent-setup/maintenance-scope.md"
+    },
+    {
+      "path": "docs/agent-setup/platform-capabilities.md",
+      "sha256": "c0223c88d0779c33517c20a6241188038f2e9ea0bfd5f84132e9a5371f8b2ee9",
+      "source_path": "docs/agent-setup/platform-capabilities.md"
+    },
+    {
+      "path": "docs/agent-setup/prompting.md",
+      "sha256": "f21dd94c4c9706554869a30264086c6651ed5ee1b68f8c51a58b3da2361fb125",
+      "source_path": "docs/agent-setup/prompting.md"
+    },
+    {
+      "path": "docs/agent-setup/repository-consultation.md",
+      "sha256": "02dd53dd12e6e2994cab88efa106dd0762bea4e2662acf0ebe9936353c044770",
+      "source_path": "docs/agent-setup/repository-consultation.md"
+    },
+    {
+      "path": "docs/agent-setup/shared-exports.md",
+      "sha256": "0d36f654d5efdf4aa717deab7681109bd310bffc3025992009d6ab33cd94ee40",
+      "source_path": "docs/agent-setup/shared-exports.md"
+    },
+    {
+      "path": "tools/bonsai_process_count.py",
+      "sha256": "2a84bd084e0644a08a28b0264b286adbbc860e03dd4fe508f8dd00d0c01e97f6",
+      "source_path": "tools/bonsai_process_count.py"
+    },
+    {
+      "path": "tools/check.py",
+      "sha256": "43e08e20c7b510c791faa8b93d8bb2ed21d6313f70d935b2b5247935a75e9d71",
+      "source_path": "tools/check.py"
+    },
+    {
+      "path": "tools/check_harness_export.py",
+      "sha256": "27e1806c92f827658cf3de4e466df9529f1ba3f2cf3b61c39225a66fca88cb5c",
+      "source_path": "tools/check_harness_export.py"
+    },
+    {
+      "path": "tools/containers.py",
+      "sha256": "487a0db74a296bb968403defb658cca068c6d7f5a09fc04658c9b4f3aea32e24",
+      "source_path": "tools/containers.py"
+    },
+    {
+      "path": "tools/docker_worker.py",
+      "sha256": "7a8e0c1b7955bbd26df9a95a8f1c512e6583d0afa60d0362274485c9817318eb",
+      "source_path": "tools/docker_worker.py"
+    },
+    {
+      "path": "tools/harness_check.py",
+      "sha256": "8a41149aab29c3841928f5b0366f3ac7a15008fa8823af207e931ea624b37ed3",
+      "source_path": "tools/harness_check.py"
+    },
+    {
+      "path": "tools/requirements-harness.txt",
+      "sha256": "0969da99a0bc2a1b71ed50584560f4588a37567ac63af3ddbaf3c4617ca5621a",
+      "source_path": "tools/requirements-harness.txt"
+    },
+    {
+      "path": "tools/validate_task.py",
+      "sha256": "57205c68914b401fb907969bc11810cd1d8bb3214e95a3c2293534b793ba76a5",
+      "source_path": "tools/validate_task.py"
+    }
+  ],
+  "profile": "ui",
+  "schema_version": 1,
+  "source_repository": "xaime-vp/agent-and-skills",
+  "source_revision": "a701dcf2de332cce285b49c0b7c609f2d75d4328"
+}

@@ -19,6 +19,10 @@ GitHub CI. A model review is not test execution.
 Start with focused checks that exercise changed behavior or reproduce a failure.
 Add integration or boundary cases where the diff crosses components; run the
 repository-required complete validation before declaring the combined change ready.
+For constant-integration worker accounting or export changes, focused suites are
+`workers.bonsai.tests.test_token_accounting`, `test_intermediate_calls`,
+`test_export`, `test_incremental_export` and `test_listener`, followed by
+`python tools/check.py --component worker` and `python -m ruff check .`.
 Use existing assertions when adequate. Independent new tests follow ownership rules
 through [delegation-triage](../delegation-triage/SKILL.md); do not weaken tests for green CI.
 

@@ -5,7 +5,8 @@ description: Verify visible behavior and accessibility of Constant Integration U
 
 # Verify the UI in a browser
 
-Read the [root boundaries](../../../AGENTS.md), the application development guide
+Read the [root boundaries](../../../AGENTS.md), the
+[UI development guide](../../../agents/constant-integration-ui/AGENTS.md)
 and [ui-verification](../ui-verification/SKILL.md). Identify the changed user flow,
 expected behavior and source revision. Browser observations complement backend,
 contract, type and build checks; they do not replace them.

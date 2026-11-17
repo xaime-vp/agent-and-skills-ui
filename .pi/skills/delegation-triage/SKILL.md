@@ -12,8 +12,9 @@ For review-only requests, report the proposed handoff without creating it.
 Identify the parent PR, exact head branch/revision, concrete acceptance gap and
 candidate editable paths. Read the repository's ownership rules: application repair,
 running existing tests and authoring independent tests/documentation can have
-different owners. Delegate meaningful independent work where required; record why
-no handoff is warranted when existing coverage/content already satisfies the change.
+different owners. The developer handles tightly coupled tests/docs by default.
+Delegate substantial independent work, specialist expertise or an explicit user
+assignment. No issue or justification is required just because file types differ.
 
 Inspect linked issues and PR discussion first, then search the selected repository
 for matching scope/branch. Check available worker status and delivered commits for

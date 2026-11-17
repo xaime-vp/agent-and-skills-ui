@@ -42,8 +42,6 @@ codex mcp add github -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.
 codex mcp list
 ```
 
-On Windows with Podman in WSL (`podman-machine-default`), `wsl -d podman-machine-default -e podman run -i --rm ...` is the equivalent when `docker` is not installed.
-
 Use the inherited `GITHUB_PERSONAL_ACCESS_TOKEN` environment variable only if it is already configured securely on the local machine. Do not paste its value into any `codex mcp add --env NAME=VALUE` command; shell history, process arguments or config files may expose it. A documented `env_vars` passthrough entry in local `config.toml`, if supported by the installed Codex version, can be reviewed with the operator. Never store inline secrets in this repository.
 
 Verify by requesting a **read-only** repository lookup first. `codex mcp list` demonstrates registration, not successful authentication or adequate GitHub permissions.

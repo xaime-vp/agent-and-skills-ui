@@ -1,0 +1,3 @@
+interface:
+  display_name: "GitHub Batch Publish"
+  short_description: "Publish staged files to an existing PR as one commit"

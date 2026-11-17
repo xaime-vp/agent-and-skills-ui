@@ -1,0 +1,68 @@
+# Free-form issues and legacy envelopes
+
+Issues can start as ordinary prose. The merged [free-form preparation contract](https://github.com/xaime-vp/constant-integration/blob/main/docs/submitting-tasks/free-form.md) supports bounded read-only research, a privately sealed executable proposal, and integrity-bound sealing (admitted via `admission_mode: ready` on current source, or digest approval on older sealed releases). Legacy `agent-task` envelopes remain supported. Verify the reviewed image and sealed installation support the selected route; a source checkout or merged PR does not prove activation.
+
+For the [developer-led workflow](../../AGENTS.md), both routes contribute tests or documentation to the existing parent PR. When implementation is explicitly delegated instead, `agent:coder` can own a scoped new draft or an authorized existing-PR update; do not create a duplicate root-developer writer. Create/reuse a scoped issue with repository, desired outcome, examples, acceptance criteria and boundaries. For an existing-PR contribution, also include parent PR, exact delivery branch and implementation SHA; for a coder-owned new draft, omit parent-PR selectors and verify the intended new destination. Human-readable headings are a useful template, not parser syntax. Free-form issues need no envelope, exact writable paths or token calculations at creation; identify questions rather than inventing those details.
+
+| Decision | Free-form preparation | Legacy executable envelope |
+| --- | --- | --- |
+| Issue body | Clear prose and assignment context | Context plus exactly one complete fenced `agent-task` JSON block |
+| Parent PR destination | Operator selects `--target-pr NUMBER` during preparation | Numeric `pull_request` in schema 2/3 JSON |
+| Executable scope/checks | Supervisor validates and seals the proposal using selected evidence and installed protected checks | Author supplies exact paths and protected acceptance-command argv arrays |
+| Owner action to request research | `/prepare-agent`; assessment-only uses `/prepare-agent review` | None |
+| Admission / owner approval | Current source (`admission_mode: ready`): remove `blocked`, add `ready`, keep single `agent:*` label; older releases: `/approve-agent <full-digest>` | Current source (`admission_mode: ready`): remove `blocked`, add `ready`, keep single `agent:*` label; older releases: standalone `/approve-agent` |
+| Validation | Preparation validates/seals the internal envelope and entire context | Workspace `tools/validate_task.py` parses the body against selected source |
+
+A PR mention supplies context only. Omitting `--target-pr` or legacy `pull_request` selects a **new draft**; this is appropriate for an independently authorized coder task but wrong for a developer-led contribution to an existing parent PR. Schema 4 cannot target an existing PR. Standalone legacy approval cannot approve a saved proposal. Do not post owner request/approval commands on their behalf.
+
+## Prepare and review a prose issue
+
+1. Finalize the issue and keep it blocked/unready. Select exactly one matching label before preparation: `agent:coder` for separately authorized implementation, `agent:test-specialist` for tests/fixtures/test configuration, or `agent:documentation` for documentation, after verifying sealed support. Source preparation binds that selected role; Generalist/tests are retired source routes. The configured owner posts standalone `/prepare-agent` after the final title/body edit; record the numeric comment ID. Assessment-only work instead requires `/prepare-agent review` and `--assessment-only`; it produces no executable proposal.
+2. An operator selects committed research files, the parent PR and explicit low/medium execution risk. Use the installed entrypoint with its normal target/environment arguments.
+
+   On a Docker Compose host, from the platform checkout:
+
+   ```sh
+   docker compose -f workers/bonsai/compose.yaml run --rm worker prepare-issue 17 \
+     --request-comment 70 --target-pr 42 \
+     --research-file app/src/parser.py --research-file app/tests/test_parser.py \
+     --execution-risk medium
+   ```
+
+   With a standalone Docker container, follow the current [container skill](../../.pi/skills/bonsai-containers/SKILL.md) for separately authorized inspection and stopped-state preparation. Verify the selected container's sealed release/configuration, confirm role processes stopped, then run against its existing state volume:
+
+   ```sh
+   docker run --rm --volumes-from bonsai-worker \
+     -e BONSAI_TARGET_REPOSITORY=xaime-vp/constant-integration \
+     localhost/bonsai-worker:<tag> prepare-issue 17 \
+     --request-comment 70 --target-pr 42 \
+     --research-file app/src/parser.py --research-file app/tests/test_parser.py \
+     --execution-risk medium
+   ```
+
+   Only run preparation after the listener is stopped and all role processes are confirmed stopped. Preparation takes the listener lock, refuses active/unknown tasks or publication reservations and does not stop the service itself. It is exclusive regardless of configured 1–10 capacity. Lifecycle changes follow the separately authorized container workflow.
+3. Inspect the returned preparation record using `inspect-preparation KEY`:
+
+   ```sh
+   # Docker Compose
+   docker compose -f workers/bonsai/compose.yaml run --rm worker inspect-preparation KEY
+
+   # Standalone Docker container
+   docker run --rm --volumes-from bonsai-worker \
+     -e BONSAI_TARGET_REPOSITORY=xaime-vp/constant-integration \
+     localhost/bonsai-worker:<tag> inspect-preparation KEY
+   ```
+
+   Review original requirements, assessment, questions/gaps, exact files, protected checks, limits and pinned source/PR destination. Research reads an operator-selected committed corpus and saved same-repository PR evidence; it does not run repository commands or browse arbitrary URLs. Missing evidence must become a gap/question. Any gap/question prevents an executable proposal; request another pass with appropriate evidence.
+4. On current source (`admission_mode: ready`), a validated non-null proposal records `approval_command: null`: once inspected, admit it by removing `blocked`, adding `ready`, and retaining exactly the proposal's matching implementation label (`agent:coder`, `agent:test-specialist` or `agent:documentation`). On older installed releases that return a SHA-256 `approval_command`, the owner must post that exact `/approve-agent <full-digest>` strictly after sealing and the final issue edit before setting `ready`. Use the normal listener once prerequisites and startup authorization are satisfied. Coder and test-specialist work include embedded read-only review; documentation does not. Research requests, assessments and chat authorization do not authorize worker implementation.
+5. Track the delivered commit and actual selected PR diff, then inspect exact-head target CI. Serialize tests and documentation for one PR. Prepare the second contribution after the first releases reservations; a head change requires fresh preparation of any stale proposal.
+
+Preparation does not publish or implement. Requests are single-use even after failure; another bounded pass needs a new owner request. The supervisor saves immutable context/proposal evidence. Issue edits, changed source, captured PR head/base or bound check/resource policy require fresh preparation and verification under the installed admission mechanism (current source: `ready` without `blocked`, older releases may require digest approval). Ordinary status comments do not rewrite the assignment; changing requirements requires an issue edit and replacement preparation/approval, with revocation to stop active work. Preserve unknown-stop evidence and use supported reconciliation rather than retrying or deleting state.
+
+## Keep legacy support precise
+
+Free-form intake does not relax the legacy JSON parser. Use the [schema reference](../../.pi/skills/bonsai-ci/references/task-preparation.md) and installed release's rules. Identity/extra fields and duplicate keys remain invalid; repository/issue identity comes from trusted policy and GitHub.
+
+On releases with optional token budgets, omit `input_tokens` and `output_tokens` for automatic model context and no per-task response cap; provider/model limits still apply. Explicit positive limits remain supported. Omitted or null plan-step values inherit parent token values and cannot erase an explicit parent cap. Other required legacy fields remain required. Older releases may require explicit token fields: select a compatible source with `--platform-root` for offline validation, and verify installed compatibility separately. The workspace validator cannot validate prose or inspect saved proposals.
+
+See the product [submission guide](https://github.com/xaime-vp/constant-integration/blob/main/docs/SUBMITTING_TASKS.md), [legacy envelope contract](https://github.com/xaime-vp/constant-integration/blob/main/docs/submitting-tasks/envelope.md) and [free-form operator contract](https://github.com/xaime-vp/constant-integration/blob/main/docs/submitting-tasks/free-form.md) for operational limits and recovery. This guide authorizes no upgrade, owner impersonation, merge or deployment.

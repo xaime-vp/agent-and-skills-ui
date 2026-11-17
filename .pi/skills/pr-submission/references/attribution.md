@@ -30,9 +30,6 @@ Use a locator such as `docs/setup.md — Linux setup section` or
 `.github/workflows/check.yml — test job` instead of inventing a code symbol.
 An executor running a formatter, reviewer inspecting the result, and integrator
 publishing the PR are distinct contributions when those distinctions matter.
-For a Bonsai documentation contribution, record the writer and protected check
-evidence without inventing an embedded reviewer. A separately observed automatic
-PR review belongs to its exact commit and is advisory; it ran no checks.
 
 ## Revision updates
 
